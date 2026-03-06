@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Refresh — Pamela Gatto Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --white: #f5f3ef;
+    --accent: #c8ff3e;
+    --gray: #5a5a5a;
+    --light: #e8e4dc;
+    --border: #d0cbc0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: var(--black);
+    z-index: 100;
+  }
+  nav .logo {
+    font-family: 'DM Serif Display', serif;
+    color: var(--white);
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  nav .back:hover { text-decoration: underline; }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px;
+    background: var(--black);
+    color: var(--white);
+    padding: 5rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,255,62,0.08) 0%, transparent 70%);
+  }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 28px; height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.1;
+    max-width: 700px;
+    margin-bottom: 2rem;
+  }
+  .hero-meta {
+    display: flex; gap: 2.5rem; flex-wrap: wrap;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245,243,239,0.15);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,243,239,0.4);
+  }
+  .meta-value { font-size: 0.9rem; color: var(--white); font-weight: 400; }
+
+  /* MAIN CONTENT */
+  main { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--gray);
+    background: var(--light);
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--black);
+  }
+
+  section { margin-bottom: 4.5rem; }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #2a2a2a;
+    max-width: 680px;
+  }
+
+  /* CONTEXT BLOCK */
+  .context-block {
+    background: var(--black);
+    color: var(--white);
+    padding: 2.5rem;
+    border-radius: 4px;
+    margin-top: 1.5rem;
+    position: relative;
+  }
+  .context-block p { color: rgba(245,243,239,0.8); max-width: 100%; }
+  .context-accent {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  /* PHASE CARDS */
+  .phases { display: flex; flex-direction: column; gap: 0; margin-top: 1.5rem; }
+
+  .phase {
+    border: 1px solid var(--border);
+    border-bottom: none;
+    padding: 2rem 2.5rem;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .phase:first-child { border-radius: 4px 4px 0 0; }
+  .phase:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 4px 4px; }
+  .phase:hover { background: var(--light); }
+
+  .phase-indicator {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem;
+  }
+  .phase-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--black);
+    flex-shrink: 0;
+  }
+  .phase-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .phase h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .phase p { font-size: 0.95rem; }
+
+  /* TASKS LIST */
+  .tasks {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .task {
+    display: flex; align-items: flex-start; gap: 0.8rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #3a3a3a;
+  }
+  .task::before {
+    content: '→';
+    font-family: 'DM Mono', monospace;
+    color: var(--gray);
+    flex-shrink: 0;
+    margin-top: 0.05em;
+    font-size: 0.8rem;
+  }
+
+  /* TECH TAGS */
+  .tech-grid {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+  .tech-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--gray);
+    background: var(--white);
+    text-transform: uppercase;
+  }
+
+  /* ROLE HIGHLIGHT */
+  .role-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 1.5rem;
+  }
+  .role-item {
+    background: var(--white);
+    padding: 1.8rem 2rem;
+  }
+  .role-item:hover { background: var(--light); }
+  .role-item-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 0.6rem;
+  }
+  .role-item-value {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--black);
+  }
+
+  /* OUTCOME */
+  .outcome-list {
+    display: flex; flex-direction: column; gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .outcome-item {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+    padding: 1.2rem 1.5rem;
+    border-left: 3px solid var(--accent);
+    background: var(--light);
+  }
+  .outcome-item p { font-size: 0.95rem; max-width: 100%; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+  }
+  .footer-contact {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,243,239,0.5);
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    main { padding: 3rem 1.5rem; }
+    .role-block { grid-template-columns: 1fr; }
+    .phase { padding: 1.5rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="#" class="back">← Volver al portfolio</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Caso de estudio</div>
+  <h1>Dual AVPN Network Refresh — Modernización de infraestructura corporativa</h1>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">Empresa</span>
+      <span class="meta-value">AT&T Inc.</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Rol</span>
+      <span class="meta-value">IT Project Coordinator / Jr. PM</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Tipo</span>
+      <span class="meta-value">Network Upgrade — LAN/WAN/WiFi</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Alcance</span>
+      <span class="meta-value">Infraestructura completa de sitio</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- CONTEXTO -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2 class="section-title">Contexto del negocio</h2>
+    </div>
+    <div class="context-block">
+      <div class="context-accent">"La red existente era EOL. El sitio no podía escalar."</div>
+      <p>Los sitios corporativos de AT&T operan con infraestructura de red crítica que conecta sistemas de control, seguridad, dispositivos IoT y usuarios finales. Cuando la red llega a fin de vida útil, no es solo un problema técnico: impacta la capacidad operativa, la visibilidad en tiempo real y la resiliencia del negocio. Este proyecto formó parte de un programa de modernización a gran escala, cuyo objetivo fue migrar sitios legacy a una arquitectura AVPN dual con nuevo hardware LAN/WiFi de última generación.</p>
+    </div>
+  </section>
+
+  <!-- DESAFÍO -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2 class="section-title">Desafío técnico</h2>
+    </div>
+    <p>El sitio contaba con una red funcional pero obsoleta — circuitos legacy, switches fuera de soporte, cableado sin estándar uniforme y sin capacidad de monitoreo centralizado. El desafío no era solo reemplazar hardware: era ejecutar una migración completa sin interrumpir la operación del sitio, coordinando múltiples equipos simultáneamente (planificación física, circuitos, hardware, configuración lógica, testing y decommission).</p>
+    <div class="tech-grid">
+      <span class="tech-tag">Dual AVPN</span>
+      <span class="tech-tag">LAN / WAN</span>
+      <span class="tech-tag">WiFi 802.11</span>
+      <span class="tech-tag">Cisco 9300L</span>
+      <span class="tech-tag">Cisco AP 9166</span>
+      <span class="tech-tag">Cat 6A / Cat 5e</span>
+      <span class="tech-tag">DHCP / Subnets</span>
+      <span class="tech-tag">TFTP</span>
+      <span class="tech-tag">Cisco Catalyst Center</span>
+      <span class="tech-tag">Change Management</span>
+    </div>
+  </section>
+
+  <!-- FASES -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Proceso y ejecución</h2>
+    </div>
+    <div class="phases">
+
+      <div class="phase">
+        <div class="phase-indicator">
+          <div class="phase-dot"></div>
+          <span class="phase-label">Fase 1</span>
+        </div>
+        <h3>Relevamiento físico del sitio</h3>
+        <p>Antes de planificar cualquier cosa, coordino un relevamiento presencial con un técnico. El objetivo es tener un mapa real de lo que existe — no lo que dice la documentación anterior.</p>
+        <div class="tasks">
+          <div class="task">Relevamiento de rack existente: espacio disponible, altura de montaje, ventilación</div>
+          <div class="task">Evaluación de cableado: tipos de cable instalados, longitudes, estado y necesidad de reemplazo o nuevas tiradas</div>
+          <div class="task">Mapeo de workstations, jacks de red, boxes e impresoras por piso</div>
+          <div class="task">Relevamiento eléctrico: ubicación de tomacorrientes y planificación de alimentación para switches y APs</div>
+          <div class="task">Evaluación de altura de instalación de APs (para determinar si se necesita elevador o técnico asistente)</div>
+          <div class="task">Inventario de dispositivos especiales: controladores de acceso, monitores de presión, sensores IoT</div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-indicator">
+          <div class="phase-dot"></div>
+          <span class="phase-label">Fase 2</span>
+        </div>
+        <h3>Planificación lógica y pedido de recursos</h3>
+        <p>Con el relevamiento en mano, arranca la planificación lógica: circuitos, hardware y documentación previa a la ejecución.</p>
+        <div class="tasks">
+          <div class="task">Creación de órdenes de circuitos AVPN (800 Mbps para datos corporativos + 200 Mbps para WiFi) vía sistema de tickets interno</div>
+          <div class="task">Coordinación con MDSI para despacho de hardware: switches Cisco 9300L y Access Points 9166</div>
+          <div class="task">Diseño de heat maps de cobertura WiFi para determinar cantidad y ubicación óptima de APs</div>
+          <div class="task">Definición de subnets, VLANs y reservas DHCP para todos los dispositivos del sitio</div>
+          <div class="task">Evaluación de necesidad de controladores según cantidad de switches a desplegar</div>
+          <div class="task">Cotización de materiales de cableado: rollos de 1000 pies para tiradas largas, patch cords cortos para rack</div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-indicator">
+          <div class="phase-dot"></div>
+          <span class="phase-label">Fase 3</span>
+        </div>
+        <h3>Configuración y documentación técnica</h3>
+        <p>Con circuitos confirmados y equipos en sitio, genero la documentación que habilita la ejecución del equipo técnico. Esta es la fase donde más valor agrego como coordinadora: traduzco el diseño en instrucciones precisas.</p>
+        <div class="tasks">
+          <div class="task">Generación de Change Record (AOTS CR) — aviso administrativo formal para evitar falsas alarmas durante la intervención de red</div>
+          <div class="task">Documentación de configuración por Access Point: puerto asignado en switch, nombre de dispositivo, número de serie y nombre de sitio para monitoreo en Cisco Catalyst Center</div>
+          <div class="task">Creación de archivos TFTP con la configuración de los nuevos equipos Cisco</div>
+          <div class="task">Spreadsheet de dispositivos con IP estática y reservas DHCP, para actualización del plano de red del sitio</div>
+          <div class="task">Emisión de PPM para turnup de WiFi con coordinación al LAN Planner</div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-indicator">
+          <div class="phase-dot"></div>
+          <span class="phase-label">Fase 4</span>
+        </div>
+        <h3>Migración y validación en producción</h3>
+        <p>La red nueva está lista. Se ejecuta la migración con el sitio operativo — el margen de error es mínimo.</p>
+        <div class="tasks">
+          <div class="task">Migración de usuarios y dispositivos a la nueva red</div>
+          <div class="task">Validación de conectividad en todos los dispositivos críticos: controladores, sensores, impresoras, monitores IoT</div>
+          <div class="task">Verificación de visibilidad en Cisco Catalyst Center para cada AP registrado</div>
+          <div class="task">Testing de redundancia: validación del comportamiento con ambos circuitos AVPN activos</div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-indicator">
+          <div class="phase-dot"></div>
+          <span class="phase-label">Fase 5</span>
+        </div>
+        <h3>Decommission y cierre</h3>
+        <p>La migración exitosa no termina el proyecto. El decommission ordenado es parte del trabajo — y tiene impacto directo en costos y disponibilidad de recursos para otros sitios.</p>
+        <div class="tasks">
+          <div class="task">Desactivación controlada de red legacy: creación de CR y SIT request para baja de equipos</div>
+          <div class="task">Clasificación de hardware retirado: equipos funcionales a Investment Recovery, equipos obsoletos a e-waste</div>
+          <div class="task">Eliminación de archivos TFTP legacy del servidor</div>
+          <div class="task">Liberación de subnets y circuitos antiguos para reutilización en otros sitios del programa</div>
+          <div class="task">Notificación al LAN Planner para actualización de dibujo de red y cierre formal del proyecto</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MI ROL -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2 class="section-title">Mi rol en el proyecto</h2>
+    </div>
+    <p>Como IT Project Coordinator, fui el punto de coordinación central entre todos los equipos involucrados. Mi background en Business Analysis me permitió anticipar dependencias, identificar riesgos antes de que se conviertan en problemas y comunicar con claridad tanto hacia el equipo técnico como hacia stakeholders no técnicos.</p>
+    <div class="role-block">
+      <div class="role-item">
+        <div class="role-item-label">Equipos coordinados</div>
+        <div class="role-item-value">SIT (configuración), BCS (instalación física), LAN Planner, OCS (cableado), MDSI (hardware), equipo de circuitos</div>
+      </div>
+      <div class="role-item">
+        <div class="role-item-label">Gestión de dependencias</div>
+        <div class="role-item-value">Circuitos → Hardware → Configuración → Migración → Decommission. Cada fase depende de la anterior — sin seguimiento activo, el proyecto se detiene.</div>
+      </div>
+      <div class="role-item">
+        <div class="role-item-label">Documentación generada</div>
+        <div class="role-item-value">Change Records, PPMs, TFTP files, spreadsheets de IP/DHCP, configuración de APs, heat maps WiFi</div>
+      </div>
+      <div class="role-item">
+        <div class="role-item-label">Visión de negocio aplicada</div>
+        <div class="role-item-value">Cada decisión técnica (qué cableado pedir, cuántos APs, qué decommisionar primero) se tomó considerando impacto operativo y costo para el negocio</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS -->
+  <section>
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2 class="section-title">Resultados</h2>
+    </div>
+    <div class="outcome-list">
+      <div class="outcome-item">
+        <p>Migración completada sin interrupciones de servicio — el sitio operó con normalidad durante toda la transición gracias a la arquitectura dual AVPN y la planificación por fases.</p>
+      </div>
+      <div class="outcome-item">
+        <p>Infraestructura de red completamente renovada: nuevo estándar de cableado, switches de última generación y cobertura WiFi optimizada por heat map.</p>
+      </div>
+      <div class="outcome-item">
+        <p>Todos los dispositivos del sitio visibles y monitoreados en tiempo real desde Cisco Catalyst Center, lo que habilita respuesta proactiva ante incidentes.</p>
+      </div>
+      <div class="outcome-item">
+        <p>Decommission limpio: recursos liberados (subnets, circuitos, hardware) disponibles para otros sitios del programa de modernización.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-name">Pamela Gatto — IT Project Coordinator</span>
+  <span class="footer-contact">pame.gatto@gmail.com · linkedin.com/pame-gatto</span>
+</footer>
+
+</body>
+</html>
