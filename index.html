@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pamela Gatto — IT Project Coordinator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; letter-spacing: 0.01em; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px;
+    min-height: 92vh;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 50%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(247,244,238,0.015) 40px,
+      rgba(247,244,238,0.015) 41px
+    );
+    pointer-events: none;
+  }
+  .hero-left {
+    padding: 6rem 4rem 5rem 3rem;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid rgba(247,244,238,0.1);
+  }
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 2rem; display: flex; align-items: center; gap: 0.8rem;
+    opacity: 0; animation: fadeUp 0.8s 0.1s forwards;
+  }
+  .hero-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--accent); }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.0; font-weight: 400;
+    margin-bottom: 1rem;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(247,244,238,0.5); margin-bottom: 2.5rem;
+    opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .hero-desc {
+    font-size: 1rem; line-height: 1.85;
+    color: rgba(247,244,238,0.65); max-width: 480px;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-cta {
+    margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
+  }
+  .btn-primary {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.9rem 1.8rem;
+    background: var(--accent); color: var(--paper);
+    text-decoration: none; transition: all 0.2s;
+    border: 1px solid var(--accent);
+  }
+  .btn-primary:hover { background: transparent; color: var(--accent); }
+  .btn-secondary {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.9rem 1.8rem;
+    background: transparent; color: rgba(247,244,238,0.6);
+    text-decoration: none; transition: all 0.2s;
+    border: 1px solid rgba(247,244,238,0.2);
+  }
+  .btn-secondary:hover { border-color: rgba(247,244,238,0.6); color: var(--paper); }
+
+  .hero-right {
+    padding: 6rem 3rem 5rem 4rem;
+    display: flex; flex-direction: column; justify-content: center; gap: 0;
+    opacity: 0; animation: fadeIn 1s 0.6s forwards;
+  }
+  .hero-stat {
+    padding: 1.8rem 0;
+    border-bottom: 1px solid rgba(247,244,238,0.08);
+  }
+  .hero-stat:first-child { border-top: 1px solid rgba(247,244,238,0.08); }
+  .hero-stat-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(247,244,238,0.3); margin-bottom: 0.5rem;
+  }
+  .hero-stat-value { font-size: 0.92rem; color: var(--paper); line-height: 1.5; }
+  .hero-stat-value strong { color: var(--accent); font-weight: 400; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* SECTIONS */
+  main { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  .section { padding: 6rem 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+
+  .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.15em; color: var(--gray);
+    background: var(--warm); padding: 0.25rem 0.6rem;
+  }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 400; }
+
+  p { font-size: 0.96rem; line-height: 1.85; color: #2e2a26; max-width: 680px; }
+
+  /* SOBRE MÍ */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text { display: flex; flex-direction: column; gap: 1.2rem; }
+  .about-text p { max-width: 100%; }
+  .about-aside { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .aside-item { background: var(--paper); padding: 1.4rem 1.6rem; transition: background 0.2s; }
+  .aside-item:hover { background: var(--warm); }
+  .aside-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.4rem;
+  }
+  .aside-value { font-size: 0.88rem; line-height: 1.5; color: var(--ink); }
+
+  /* PROYECTOS */
+  .projects-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .project-card {
+    background: var(--paper);
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 2rem;
+    padding: 2.5rem 3rem;
+    text-decoration: none; color: inherit;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .project-card:hover { background: var(--warm); }
+  .project-card:hover .card-arrow { transform: translateX(4px); }
+  .card-meta {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray);
+    margin-bottom: 0.6rem; display: flex; gap: 1.5rem; align-items: center;
+  }
+  .card-type {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.56rem; letter-spacing: 0.1em;
+    border: 1px solid var(--border); border-radius: 2px;
+  }
+  .card-type.upgrade { color: var(--accent); border-color: rgba(232,93,47,0.3); }
+  .card-type.wifi { color: var(--blue); border-color: rgba(47,122,232,0.3); }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 0.6rem; }
+  .card-desc { font-size: 0.88rem; line-height: 1.6; color: var(--gray); max-width: 560px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .card-tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    padding: 0.2rem 0.5rem; border: 1px solid var(--border);
+    color: var(--gray); text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .card-arrow {
+    font-family: 'IBM Plex Mono', monospace; font-size: 1.2rem;
+    color: var(--accent); transition: transform 0.2s; flex-shrink: 0;
+  }
+
+  /* HABILIDADES */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .skill-group { background: var(--paper); padding: 2rem; transition: background 0.2s; }
+  .skill-group:hover { background: var(--warm); }
+  .skill-group-title {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.2rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border);
+  }
+  .skill-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .skill-item { font-size: 0.88rem; line-height: 1.4; color: #2e2a26; display: flex; align-items: flex-start; gap: 0.6rem; }
+  .skill-item::before { content: '–'; font-family: 'IBM Plex Mono', monospace; color: var(--border); flex-shrink: 0; }
+
+  /* FORMACIÓN */
+  .edu-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .edu-item { background: var(--paper); padding: 2rem 2.5rem; display: grid; grid-template-columns: 180px 1fr; gap: 2rem; transition: background 0.2s; }
+  .edu-item:hover { background: var(--warm); }
+  .edu-org { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); line-height: 1.4; }
+  .edu-detail { display: flex; flex-direction: column; gap: 0.4rem; }
+  .edu-title { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
+  .edu-status {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.5rem; border-radius: 2px; width: fit-content;
+  }
+  .edu-status.ongoing { background: rgba(47,122,232,0.08); color: var(--blue); border: 1px solid rgba(47,122,232,0.2); }
+  .edu-status.done { background: rgba(45,106,79,0.08); color: var(--green); border: 1px solid rgba(45,106,79,0.2); }
+  .edu-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  /* IDIOMAS */
+  .lang-row { display: flex; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-top: 0; }
+  .lang-item { flex: 1; background: var(--paper); padding: 1.8rem 2rem; transition: background 0.2s; }
+  .lang-item:hover { background: var(--warm); }
+  .lang-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.3rem; }
+  .lang-level { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); }
+
+  /* CONTACTO */
+  .contact-block {
+    background: var(--ink); color: var(--paper);
+    padding: 4rem 3rem; border-radius: 4px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .contact-left {}
+  .contact-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 400; margin-bottom: 1rem; }
+  .contact-desc { font-size: 0.93rem; line-height: 1.75; color: rgba(247,244,238,0.6); max-width: 380px; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1.2rem;
+    text-decoration: none; color: var(--paper);
+    padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(247,244,238,0.1);
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); background: rgba(232,93,47,0.06); }
+  .contact-link-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(247,244,238,0.4); margin-bottom: 0.2rem; }
+  .contact-link-value { font-size: 0.9rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: var(--paper);
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(247,244,238,0.08);
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; }
+  .footer-note { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.3); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 4rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid rgba(247,244,238,0.1); }
+    .hero-right { padding: 2rem 1.5rem 4rem; }
+    main { padding: 0 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .edu-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .contact-block { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.5rem; }
+    .project-card { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .card-arrow { display: none; }
+    .lang-row { flex-direction: column; }
+    footer { padding: 1.5rem; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Pamela Gatto</span>
+  <div class="nav-links">
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#formacion">Formación</a>
+    <a href="credenciales.html">Credenciales</a>
+    <a href="notas.html">Notas</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Portfolio profesional</div>
+    <div class="hero-name">Pamela<br>Gatto</div>
+    <div class="hero-title">IT Project Coordinator · Networking & Infrastructure</div>
+    <p class="hero-desc">Coordinación de proyectos de infraestructura de red con visión de negocio. Cada obra que llevo adelante combina ejecución técnica, gestión de equipos y comprensión del impacto real en el cliente final.</p>
+    <div class="hero-cta">
+      <a href="#proyectos" class="btn-primary">Ver proyectos</a>
+      <a href="#contacto" class="btn-secondary">Contacto</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat">
+      <div class="hero-stat-label">Empresa actual</div>
+      <div class="hero-stat-value"><strong>AT&T Inc.</strong> · IT Project Coordinator / Jr. PM</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-label">Especialización</div>
+      <div class="hero-stat-value">Network Infrastructure · LAN / WAN · WiFi · 5G</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-label">Background</div>
+      <div class="hero-stat-value">Business Analyst + formación técnica en redes</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-label">Certificaciones en curso</div>
+      <div class="hero-stat-value">Cisco CCST · CCNA · AWS Generative AI</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-label">Ubicación</div>
+      <div class="hero-stat-value">La Plata, Buenos Aires · Trabajo remoto global</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- SOBRE MÍ -->
+  <section class="section" id="sobre-mi">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Sobre mí</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Trabajo en infraestructura de red con la misma mentalidad con la que alguna vez analicé negocios: entendiendo primero el por qué antes de resolver el cómo. Mi paso por Business Analysis me dio una mirada crítica y analítica que aplico en cada proyecto — no solo ejecuto, también entiendo el impacto de cada decisión técnica en la operación y en el negocio.</p>
+        <p>En AT&T no me limité a aprender redes. Estudié el negocio de las telecomunicaciones, la posición competitiva de la empresa, sus perspectivas en el mercado estadounidense y las oportunidades que se abren con la expansión de fibra óptica hacia estados con poca infraestructura. Entender que cada nuevo cliente en una zona "oscura" es un paso hacia dominar ese mercado en los próximos años le da sentido estratégico a cada obra que coordino.</p>
+        <p>Me formé también en los fundamentos técnicos del negocio: tipos de frecuencia de onda, diferencias entre redes 5G y 6G, aplicaciones de microondas e infrarrojos, y cómo cada tecnología impacta directamente en la experiencia del cliente final.</p>
+        <p>Soy tenaz, comprometida con mi equipo y me gusta transmitirles tranquilidad — aunque por dentro a veces me muera de nervios. Creo que un equipo que trabaja con confianza trabaja mejor. Y no hay un día en que no haga algo para ser mejor profesional: leo, estudio, pregunto, busco. La rutina me da estructura y las biografías de científicos me recuerdan que los grandes avances siempre empezaron con muchas preguntas y ninguna respuesta garantizada.</p>
+        <p style="color: var(--gray); font-style: italic; font-size: 0.88rem;">También juego al tutti frutti. Con mucha convicción.</p>
+      </div>
+      <div class="about-aside">
+        <div class="aside-item">
+          <div class="aside-label">Fortalezas</div>
+          <div class="aside-value">Tenacidad · Visión de negocio · Trabajo en equipo · Comunicación clara bajo presión</div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-label">Formación base</div>
+          <div class="aside-value">Ciencias + Tecnología · Business Analysis · Técnico en Redes (en curso)</div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-label">Contexto técnico AT&T</div>
+          <div class="aside-value">Banda 3.45 GHz en zonas urbanas · Banda 600 MHz en zonas rurales · Expansión 5G y fibra óptica</div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-label">Intereses fuera del trabajo</div>
+          <div class="aside-value">Biografías de científicos · Tutti frutti · Rutina como herramienta de crecimiento</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section class="section" id="proyectos">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Proyectos</h2>
+    </div>
+    <div class="projects-grid">
+
+      <a href="proyecto-network-refresh.html" class="project-card">
+        <div>
+          <div class="card-meta">
+            <span>AT&T Inc. · 2025</span>
+            <span class="card-type upgrade">Network Upgrade</span>
+          </div>
+          <div class="card-title">Dual AVPN Network Refresh — Modernización de infraestructura corporativa</div>
+          <p class="card-desc">Planificación y ejecución de upgrade completo de red en sitio corporativo: nuevos circuitos AVPN duales, switches, cableado Cat 6A, WiFi y migración de usuarios — con decommission controlado de red legacy.</p>
+          <div class="card-tags">
+            <span class="card-tag">AVPN</span>
+            <span class="card-tag">LAN/WAN</span>
+            <span class="card-tag">Cisco 9300L</span>
+            <span class="card-tag">Cat 6A</span>
+            <span class="card-tag">Change Mgmt</span>
+          </div>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a href="proyecto-wifi-turnup-oakbrook.html" class="project-card">
+        <div>
+          <div class="card-meta">
+            <span>AT&T Inc. · 2025</span>
+            <span class="card-type wifi">Network Upgrade · WiFi</span>
+          </div>
+          <div class="card-title">Network Upgrade Completo — Oakbrook, Illinois</div>
+          <p class="card-desc">Modernización total de infraestructura en edificio de 3 niveles: switches C9500 de core, fibra, transceivers, controladores 9800, nuevas VLANs y 15 Access Points WiFi 6E registrados en Cisco Catalyst Center. Proyecto tomado con demora preexistente y múltiples bloqueos técnicos resueltos en ejecución.</p>
+          <div class="card-tags">
+            <span class="card-tag">C9500</span>
+            <span class="card-tag">WiFi 6E</span>
+            <span class="card-tag">Cisco 9800</span>
+            <span class="card-tag">DNAC</span>
+            <span class="card-tag">DHCP Opt 43</span>
+          </div>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- HABILIDADES -->
+  <section class="section" id="habilidades">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Habilidades</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Gestión de proyectos</div>
+        <div class="skill-list">
+          <div class="skill-item">IT Project Coordination</div>
+          <div class="skill-item">Change Management</div>
+          <div class="skill-item">Gestión de dependencias y bloqueos</div>
+          <div class="skill-item">Coordinación multiteam</div>
+          <div class="skill-item">Documentación técnica</div>
+          <div class="skill-item">Planificación física y lógica de red</div>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Infraestructura de red</div>
+        <div class="skill-list">
+          <div class="skill-item">LAN / WAN / MAN</div>
+          <div class="skill-item">DHCP · ARP · TCP/IP</div>
+          <div class="skill-item">Cableado estructurado Cat 6A / 5e</div>
+          <div class="skill-item">WiFi 6E · Access Points · WLC</div>
+          <div class="skill-item">Redes 5G privadas</div>
+          <div class="skill-item">Fibra óptica · Transceivers SFP/QSFP</div>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Plataformas y herramientas</div>
+        <div class="skill-list">
+          <div class="skill-item">Cisco Catalyst Center (DNAC)</div>
+          <div class="skill-item">Cisco ISE</div>
+          <div class="skill-item">TFTP · Templates de configuración</div>
+          <div class="skill-item">VLANs · Subredes · DHCP Options</div>
+          <div class="skill-item">Sistemas de tickets y AOTS CR</div>
+          <div class="skill-item">AWS · IA Generativa</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMACIÓN -->
+  <section class="section" id="formacion">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Formación</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-item">
+        <div class="edu-org">Cisco Networking Academy</div>
+        <div class="edu-detail">
+          <div class="edu-title">Carrera Profesional de Técnico en Redes</div>
+          <span class="edu-status ongoing">En curso</span>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-org">Cisco</div>
+        <div class="edu-detail">
+          <div class="edu-title">Cisco Certified Support Technician (CCST)</div>
+          <span class="edu-status ongoing">En curso</span>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-org">Cisco</div>
+        <div class="edu-detail">
+          <div class="edu-title">CCNA — Cisco Certified Network Associate</div>
+          <span class="edu-status ongoing">En curso</span>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-org">Amazon Web Services</div>
+        <div class="edu-detail">
+          <div class="edu-title">Security and Cost Management for Generative AI Applications on AWS</div>
+          <span class="edu-status done">Completado</span>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-org">Amazon Web Services</div>
+        <div class="edu-detail">
+          <div class="edu-title">Planning a Generative AI Project</div>
+          <span class="edu-status done">Completado</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 2.5rem;">
+      <a href="credenciales.html" style="display:inline-flex; align-items:center; gap:0.6rem; font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.9rem 1.8rem; background:var(--ink); color:var(--paper); text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Ver todos los badges y certificados →</a>
+    </div>
+
+    <div style="margin-top: 3rem;">
+      <div class="section-header" style="margin-bottom: 1.5rem;">
+        <span class="section-num">05</span>
+        <h2 class="section-title">Idiomas</h2>
+      </div>
+      <div class="lang-row">
+        <div class="lang-item">
+          <div class="lang-name">Español</div>
+          <div class="lang-level">Nativo</div>
+        </div>
+        <div class="lang-item">
+          <div class="lang-name">Inglés</div>
+          <div class="lang-level">B2 — Upper Intermediate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="section" id="contacto">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Contacto</h2>
+    </div>
+    <div class="contact-block">
+      <div class="contact-left">
+        <div class="contact-title">Hablemos.</div>
+        <p class="contact-desc">Si estás buscando una IT Project Coordinator con visión de negocio, capacidad técnica y las ganas de seguir creciendo todos los días — estoy disponible.</p>
+      </div>
+      <div class="contact-links">
+        <a href="/cdn-cgi/l/email-protection#3a4a5b575f145d5b4e4e557a5d575b535614595557" class="contact-link">
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-value"><span class="__cf_email__" data-cfemail="fb8b9a969ed59c9a8f8f94bb9c969a9297d5989496">[email&#160;protected]</span></div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/pame-gatto" target="_blank" class="contact-link">
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-value">linkedin.com/in/pame-gatto</div>
+          </div>
+        </a>
+        <a href="tel:+5492213587439" class="contact-link">
+          <div>
+            <div class="contact-link-label">Teléfono</div>
+            <div class="contact-link-value">+549 221 358-7439</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-name">Pamela 
