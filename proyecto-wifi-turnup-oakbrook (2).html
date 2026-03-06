@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Upgrade Oakbrook — Pamela Gatto Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+    color: var(--accent); text-decoration: none; letter-spacing: 0.12em;
+    text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s;
+  }
+  .back:hover { border-color: var(--accent); }
+
+  .hero {
+    margin-top: 60px;
+    background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem;
+    display: grid; grid-template-columns: 1fr 300px; gap: 4rem; align-items: end;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;
+  }
+  .eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.15; font-weight: 400; margin-bottom: 1.2rem; }
+  .hero h1 em { font-style: italic; color: rgba(247,244,238,0.45); }
+  .hero-desc { font-size: 0.93rem; line-height: 1.8; color: rgba(247,244,238,0.6); max-width: 520px; margin-bottom: 1.5rem; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.4rem 0.9rem; border-radius: 2px;
+    background: rgba(232,93,47,0.12); color: var(--accent);
+    border: 1px solid rgba(232,93,47,0.25);
+  }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .hero-stats { display: flex; flex-direction: column; gap: 0; border-left: 1px solid rgba(247,244,238,0.12); padding-left: 2.5rem; }
+  .stat { padding: 1.2rem 0; border-bottom: 1px solid rgba(247,244,238,0.08); }
+  .stat:last-child { border-bottom: none; }
+  .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,244,238,0.3); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; color: var(--paper); }
+  .stat-value.big { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--accent); }
+
+  main { max-width: 980px; margin: 0 auto; padding: 5rem 2rem; }
+  section { margin-bottom: 5rem; }
+  .sec-label { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
+  .sec-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; color: var(--gray); background: var(--warm); padding: 0.25rem 0.6rem; }
+  .sec-title { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 400; }
+  p { font-size: 0.96rem; line-height: 1.85; color: #2e2a26; max-width: 680px; }
+
+  .hw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 1.5rem; }
+  .hw-item { background: var(--paper); padding: 1.5rem 1.8rem; transition: background 0.2s; }
+  .hw-item:hover { background: var(--warm); }
+  .hw-qty { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent); margin-bottom: 0.4rem; }
+  .hw-name { font-size: 0.88rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
+  .hw-desc { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; color: var(--gray); line-height: 1.5; }
+
+  .floor-map { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .floor-row { background: var(--paper); display: grid; grid-template-columns: 140px 1fr; transition: background 0.2s; }
+  .floor-row:hover { background: var(--warm); }
+  .floor-label { padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--border); }
+  .floor-name { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
+  .floor-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+  .floor-detail { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem; justify-content: center; }
+  .floor-switch { display: flex; gap: 0.8rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.5; color: #2e2a26; }
+  .sw-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; padding: 0.2rem 0.5rem; white-space: nowrap; flex-shrink: 0; margin-top: 0.1rem; }
+  .sw-tag.bss { background: #5c4a30; color: #f7f4ee; }
+  .sw-tag.f1a { background: #1a4a7a; color: #f7f4ee; }
+  .sw-tag.f1b { background: #2f6090; color: #f7f4ee; }
+  .sw-tag.f2 { background: var(--green); color: #f7f4ee; }
+  .sw-tag.ctrl { background: var(--accent); color: #f7f4ee; }
+
+  .timeline { margin-top: 2rem; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 18px; top: 10px; bottom: 10px; width: 1px; background: var(--border); }
+  .tl-item { display: flex; gap: 2rem; }
+  .tl-dot-wrap { flex-shrink: 0; width: 37px; display: flex; flex-direction: column; align-items: center; padding-top: 1.8rem; }
+  .tl-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); z-index: 1; }
+  .tl-dot.warn { background: var(--accent); border-color: var(--accent); }
+  .tl-dot.ok { background: var(--green); border-color: var(--green); }
+  .tl-dot.wip { background: var(--blue); border-color: var(--blue); }
+  .tl-card { flex: 1; border: 1px solid var(--border); border-bottom: none; padding: 1.8rem 2rem; transition: background 0.2s; }
+  .tl-item:first-child .tl-card { border-radius: 4px 4px 0 0; }
+  .tl-item:last-child .tl-card { border-bottom: 1px solid var(--border); border-radius: 0 0 4px 4px; }
+  .tl-card:hover { background: var(--warm); }
+  .tl-phase { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.4rem; }
+  .tl-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 0.9rem; }
+  .tl-body { font-size: 0.92rem; line-height: 1.75; color: #2e2a26; max-width: 100%; margin-bottom: 0.8rem; }
+
+  .task-list { display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.6rem; }
+  .task { display: flex; gap: 0.8rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.5; color: #3a3530; }
+  .task::before { content: '–'; font-family: 'IBM Plex Mono', monospace; color: var(--gray); flex-shrink: 0; }
+
+  .note-block { margin-top: 1rem; padding: 1rem 1.4rem; border-left: 3px solid var(--blue); background: rgba(47,122,232,0.04); }
+  .note-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.4rem; }
+  .note-block p { font-size: 0.86rem; max-width: 100%; font-style: italic; color: #3a3530; }
+
+  .incident { margin-top: 1rem; padding: 1rem 1.4rem; border-left: 3px solid var(--accent); background: rgba(232,93,47,0.04); }
+  .incident-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+  .incident p { font-size: 0.86rem; max-width: 100%; color: #2e2a26; }
+  .resolution { margin-top: 0.6rem; padding: 1rem 1.4rem; border-left: 3px solid var(--green); background: rgba(45,106,79,0.04); }
+  .resolution-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 0.4rem; }
+  .resolution p { font-size: 0.86rem; max-width: 100%; color: #2e2a26; }
+
+  .ap-wrap { margin-top: 1.5rem; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .ap-head { display: grid; grid-template-columns: 90px 50px 140px 1fr 110px; background: var(--ink); padding: 0.8rem 1.2rem; gap: 1rem; }
+  .ap-head span { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(247,244,238,0.4); }
+  .ap-row { display: grid; grid-template-columns: 90px 50px 140px 1fr 110px; padding: 0.6rem 1.2rem; gap: 1rem; border-bottom: 1px solid var(--border); font-size: 0.78rem; font-family: 'IBM Plex Mono', monospace; color: #3a3530; transition: background 0.15s; }
+  .ap-row:last-child { border-bottom: none; }
+  .ap-row:hover { background: var(--warm); }
+  .ap-row.bss { border-left: 4px solid #8b6a3e; }
+  .ap-row.f1a { border-left: 4px solid #1a4a7a; }
+  .ap-row.f1b { border-left: 4px solid #2f6090; }
+  .ap-row.f2 { border-left: 4px solid var(--green); }
+  .ap-status { font-size: 0.63rem; padding: 0.15rem 0.4rem; border-radius: 2px; display: inline-block; background: rgba(45,106,79,0.1); color: var(--green); }
+
+  .tech-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tech { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.35rem 0.8rem; border: 1px solid var(--border); color: var(--gray); background: var(--paper); }
+
+  .outcomes { display: flex; flex-direction: column; gap: 1px; background: var(--border); margin-top: 1.5rem; border-radius: 4px; overflow: hidden; }
+  .outcome { background: var(--paper); padding: 1.4rem 2rem; display: flex; gap: 1.2rem; align-items: flex-start; transition: background 0.2s; }
+  .outcome:hover { background: var(--warm); }
+  .outcome-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--accent); flex-shrink: 0; margin-top: 0.1rem; }
+  .outcome p { font-size: 0.92rem; max-width: 100%; }
+
+  footer { background: var(--ink); color: var(--paper); padding: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+  .footer-contact { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.4); }
+
+  @media (max-width: 720px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 4rem 1.5rem 3rem; }
+    .hero-stats { border-left: none; border-top: 1px solid rgba(247,244,238,0.12); padding-left: 0; padding-top: 1.5rem; flex-direction: row; flex-wrap: wrap; gap: 1rem; }
+    .stat { padding: 0; border-bottom: none; min-width: 130px; }
+    main { padding: 3rem 1.5rem; }
+    .ap-head, .ap-row { grid-template-columns: 70px 40px 1fr; }
+    .ap-head span:nth-child(4), .ap-head span:nth-child(5), .ap-row span:nth-child(4), .ap-row span:nth-child(5) { display: none; }
+    .floor-row { grid-template-columns: 1fr; }
+    .floor-label { border-right: none; border-bottom: 1px solid var(--border); }
+    footer { flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="index.html" class="back">← Volver al portfolio</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">Caso de estudio</div>
+    <h1>Network Upgrade<br><em>Completo —</em><br>Oakbrook, Illinois</h1>
+    <p class="hero-desc">Modernización total de infraestructura de red en edificio corporativo de 3 niveles: switches de core C9500, fibra, transceivers, controladores inalámbricos 9800, nuevas VLANs y subredes, y despliegue de 15 Access Points WiFi 6E registrados en Cisco Catalyst Center.</p>
+    <div class="badge">Proyecto entregado · Infraestructura completa</div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-label">Access Points</div><div class="stat-value big">15</div></div>
+    <div class="stat"><div class="stat-label">Niveles</div><div class="stat-value">Basement + Piso 1 + Piso 2</div></div>
+    <div class="stat"><div class="stat-label">Switches core</div><div class="stat-value">2× C9500 + 7× C9300L</div></div>
+    <div class="stat"><div class="stat-label">Controladores WiFi</div><div class="stat-value">2× Cisco 9800 WLC</div></div>
+    <div class="stat"><div class="stat-label">VLANs creadas</div><div class="stat-value">901 · 933 · 940</div></div>
+  </div>
+</div>
+
+<main>
+
+  <section>
+    <div class="sec-label"><span class="sec-num">01</span><h2 class="sec-title">Contexto del negocio</h2></div>
+    <p>Los sitios corporativos de AT&T requieren infraestructura de red actualizada para sostener operaciones críticas, conectividad de usuarios y dispositivos IoT. Este edificio en Oakbrook, Illinois, necesitaba una renovación completa: hardware EOL, sin gestión centralizada de WiFi y capacidad de enlace insuficiente para los requerimientos actuales.</p>
+    <p style="margin-top:1rem;">El proyecto implicó reemplazar toda la capa de switching, instalar fibra y transceivers para uplinks de alta velocidad, desplegar controladores inalámbricos 9800, crear nuevas VLANs y subredes, y registrar 15 Access Points WiFi 6E en Cisco Catalyst Center — sin interrumpir la operación del sitio durante la migración.</p>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="sec-num">02</span><h2 class="sec-title">Hardware coordinado con MDSI</h2></div>
+    <p>Coordiné el pedido y provisión de todos los equipos con MDSI. Cada ítem fue seleccionado según los requerimientos del diseño de red aprobado.</p>
+    <div class="hw-grid">
+      <div class="hw-item"><div class="hw-qty">×2</div><div class="hw-name">Cisco C9500-24Y4C-E</div><div class="hw-desc">Switch core · 24×1/10/25G + 4×40/100G · Network Advantage</div></div>
+      <div class="hw-item"><div class="hw-qty">×2</div><div class="hw-name">Cisco C9300L-24P-4X-A</div><div class="hw-desc">Switch PoE · 24 puertos · 4×10G uplink · Network Advantage</div></div>
+      <div class="hw-item"><div class="hw-qty">×5</div><div class="hw-name">Cisco C9300L-48PF-4X-A</div><div class="hw-desc">Switch Full PoE · 48 puertos · 4×10G uplink · Network Advantage</div></div>
+      <div class="hw-item"><div class="hw-qty">×15</div><div class="hw-name">Cisco CW9166I-B-BUN</div><div class="hw-desc">Access Point WiFi 6E · Triband 4×4 XOR · con bundle de accesorios</div></div>
+      <div class="hw-item"><div class="hw-qty">×2</div><div class="hw-name">Cisco 9800 WLC</div><div class="hw-desc">Wireless LAN Controller · Gestión centralizada vía Catalyst Center</div></div>
+      <div class="hw-item"><div class="hw-qty">×2</div><div class="hw-name">GLC-LH-SMD</div><div class="hw-desc">SFP 100BASE-LX/LH · MMF/SMF · 1310nm</div></div>
+      <div class="hw-item"><div class="hw-qty">×27</div><div class="hw-name">SFP-10G-SR-S</div><div class="hw-desc">Módulo SFP+ 10GBASE-SR · Enterprise class</div></div>
+      <div class="hw-item"><div class="hw-qty">×4</div><div class="hw-name">QSFP-40/100-SRBD</div><div class="hw-desc">Transceiver 100G/40G SR-BiDi · LC · 100m OM4 MMF</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="sec-num">03</span><h2 class="sec-title">Arquitectura por piso</h2></div>
+    <p>El diseño fue definido piso por piso, asignando switches, puertos y APs según la distribución física del edificio. Los controladores 9800 se instalaron en el piso 2 para gestionar toda la capa inalámbrica del sitio.</p>
+    <div class="floor-map">
+      <div class="floor-row">
+        <div class="floor-label"><div class="floor-name">Basement</div><div class="floor-sub">2 APs</div></div>
+        <div class="floor-detail">
+          <div class="floor-switch"><span class="sw-tag bss">Switch 24P</span>2 APs en puertos 23 y 24 — Cisco CW9166I-B-BUN</div>
+        </div>
+      </div>
+      <div class="floor-row">
+        <div class="floor-label"><div class="floor-name">Piso 1</div><div class="floor-sub">7 APs · 2 switches</div></div>
+        <div class="floor-detail">
+          <div class="floor-switch"><span class="sw-tag f1a">Switch A · 48P</span>4 APs conectados — puertos asignados según template DNAC</div>
+          <div class="floor-switch"><span class="sw-tag f1b">Switch B · 48P</span>3 APs conectados — puertos asignados según template DNAC</div>
+        </div>
+      </div>
+      <div class="floor-row">
+        <div class="floor-label"><div class="floor-name">Piso 2</div><div class="floor-sub">6 APs · 3 switches + WLC</div></div>
+        <div class="floor-detail">
+          <div class="floor-switch"><span class="sw-tag f2">3× Switch 48P</span>2 APs por switch · puertos 47 y 48 en cada uno</div>
+          <div class="floor-switch"><span class="sw-tag ctrl">2× Cisco 9800</span>Wireless LAN Controllers · gestionan todos los APs del edificio vía Catalyst Center</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="sec-num">04</span><h2 class="sec-title">Proceso de ejecución</h2></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-phase">Fase 1</div>
+          <div class="tl-title">Planificación lógica y documentación</div>
+          <p class="tl-body">Antes de la ejecución en campo, preparé toda la documentación técnica: template DNAC, jerarquía en Catalyst Center, archivos TFTP y definición de VLANs y subredes.</p>
+          <div class="task-list">
+            <div class="task">Creación de VLANs 901, 933 y 940 y nuevas subredes para el sitio</div>
+            <div class="task">Armado del template DNAC: puerto de switch, serial, MAC, subred, piso y número de AP por dispositivo</div>
+            <div class="task">Creación de jerarquía en Catalyst Center: Global/Illinois/Oakbrook/OKBRILOA</div>
+            <div class="task">Generación de archivos TFTP con configuración de nuevos equipos</div>
+            <div class="task">Configuración de RF Profile CNX_FC_RF_TYPICAL para todos los APs del sitio</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot wip"></div></div>
+        <div class="tl-card">
+          <div class="tl-phase">Fase 2</div>
+          <div class="tl-title">Instalación de hardware y configuración de controladores</div>
+          <p class="tl-body">Con el hardware en sitio, coordiné la instalación de switches, fibra y transceivers, y la configuración de los controladores 9800 con el equipo WiFi.</p>
+          <div class="task-list">
+            <div class="task">Instalación de switches C9500 de core y C9300L por piso</div>
+            <div class="task">Instalación de fibra y habilitación de transceivers SFP/QSFP — habilitación manual vía router</div>
+            <div class="task">Coordinación con equipo WiFi (Martín Eusebio) para configuración de los 9800</div>
+            <div class="task">Creación de Change Record para los controladores 9800</div>
+            <div class="task">Registro de los 9800 en ISE · migración de usuarios de pisos 1 y 2 a la nueva red</div>
+          </div>
+          <div class="note-block">
+            <div class="note-label">Nota de trabajo · en progreso</div>
+            <p>"9800 wireless controller has been added to ISE. All users from 1° and 2° floor has been migrated. Hay que configurar los dos controller PPM at wifi team. Probablemente la semana que viene tengamos el turnup."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot warn"></div></div>
+        <div class="tl-card">
+          <div class="tl-phase">Fase 3 — Bloqueo crítico</div>
+          <div class="tl-title">Los APs no aparecían en Catalyst Center</div>
+          <p class="tl-body">Con los APs instalados y conectados a los switches, Catalyst Center no los reconocía. El problema requería diagnóstico de configuración lógica — no era visible desde la capa física.</p>
+          <div class="incident">
+            <div class="incident-label">Causa raíz</div>
+            <p>Los switches no tenían configurado el <strong>DHCP Option 43</strong> ni la string de discovery del WLC. Los APs obtenían IP pero no podían localizar el controlador para registrarse. Adicionalmente, las VLANs de los controladores no estaban disponibles al inicio del turnup.</p>
+          </div>
+          <div class="resolution">
+            <div class="resolution-label">Resolución</div>
+            <p>Coordiné con Tharun (equipo de switches) para agregar el Option 43 y la string correcta en todos los switches del sitio. Una vez aplicado el cambio, los APs comenzaron a aparecer progresivamente en Catalyst Center.</p>
+          </div>
+          <div class="note-block">
+            <div class="note-label">Nota de trabajo · durante el incidente</div>
+            <p>"NO TENEMOS LAS VLANS DE LOS CONTROLLERS. Hay que revisar la configuración de los switches porque no aparecen los AP. Faltaba el option y la string, no se veían los WAPs. Ahora se ven los WAPs. Podemos reclamar los 13 WAPs que faltan."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot warn"></div></div>
+        <div class="tl-card">
+          <div class="tl-phase">Fase 4 — Segundo bloqueo</div>
+          <div class="tl-title">Problema de firewall</div>
+          <p class="tl-body">Con los APs visibles en Catalyst Center, reglas de firewall bloqueaban el tráfico necesario para completar la configuración remota de los dispositivos.</p>
+          <div class="incident">
+            <div class="incident-label">Impacto</div>
+            <p>APs registrados en Catalyst Center pero sin completar su configuración — tráfico bloqueado entre el WLC y los dispositivos a nivel de políticas perimetrales.</p>
+          </div>
+          <div class="resolution">
+            <div class="resolution-label">Resolución</div>
+            <p>Escalé al equipo de seguridad para apertura de puertos requeridos. Una vez liberadas las reglas, la configuración de los APs restantes se completó sin inconvenientes adicionales.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot ok"></div></div>
+        <div class="tl-card">
+          <div class="tl-phase">Fase 5</div>
+          <div class="tl-title">Validación y cierre</div>
+          <p class="tl-body">Con los 15 APs operativos y la infraestructura de switching funcionando, se realizó la validación final y el cierre del proyecto.</p>
+          <div class="task-list">
+            <div class="task">Verificación de los 15 APs visibles y activos en Cisco Catalyst Center</div>
+            <div class="task">Confirmación de device name, serial, site path y RF Profile correctos por dispositivo</div>
+            <div class="task">Envío de spreadsheet DNAC al LAN Planner para actualización del plano del sitio</div>
+            <div class="task">Cierre formal del proyecto</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="sec-num">05</span><h2 class="sec-title">Template DNAC — registro de APs</h2></div>
+    <p>El template DNAC es el documento que habilita el registro masivo de Access Points en Cisco Catalyst Center. Cada fila define un AP con su serial, device name, site path y RF profile. Los device names del basement estaban completos al inicio del turnup; los de pisos 1 y 2 se completaron durante la ejecución a medida que los APs se hacían visibles.</p>
+    <div class="ap-wrap">
+      <div class="ap-head"><span>Piso</span><span>AP#</span><span>Serial</span><span>Device Name</span><span>Estado</span></div>
+      <div class="ap-row bss"><span>Basement</span><span>1</span><span>FJC29091SDE</span><span>OKBRILOAPN01BB043A</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row bss"><span>Basement</span><span>2</span><span>FJC29091SCJ</span><span>OKBRILOAPN01BB043B</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f1a"><span>Piso 1</span><span>3</span><span>FJC29091SCS</span><span>OKBRILOAPN01V142A</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f1a"><span>Piso 1</span><span>4</span><span>FJC29091SCL</span><span>OKBRILOAPN01V142B</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f1a"><span>Piso 1</span><span>5</span><span>FJC29091SD4</span><span>OKBRILOAPN01V142C</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f1a"><span>Piso 1</span><span>6</span><span>FJC29091SCT</span><span>OKBRILOAPN01V142D</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f1b"><span>Piso 1</span><span>7</span><span>FJC29091SD1</span><span>OKBRILOAPN01V142E</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f1b"><span>Piso 1</span><span>8</span><span>FJC29091SD2</span><span>OKBRILOAPN01V142F</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f1b"><span>Piso 1</span><span>9</span><span>FJC29091SCK</span><span>OKBRILOAPN01V142G</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f2"><span>Piso 2</span><span>10</span><span>FJC29091SCV</span><span>OKBRILOAPN02V141A</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f2"><span>Piso 2</span><span>11</span><span>FJC29091SCU</span><span>OKBRILOAPN02V141B</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f2"><span>Piso 2</span><span>12</span><span>FJC29091SDC</span><span>OKBRILOAPN02V141C</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f2"><span>Piso 2</span><span>13</span><span>FJC29091SCM</span><span>OKBRILOAPN02V141D</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f2"><span>Piso 2</span><span>14</span><span>FJC29091SDF</span><span>OKBRILOAPN02V141E</span><span><span class="ap-status">Completo</span></span></div>
+      <div class="ap-row f2"><span>Piso 2</span><span>15</span><span>FJC29091SD3</span><span>OKBRILOAPN02V141F</span><span><span class="ap-status">Completo</span></span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="sec-num">06</span><h2 class="sec-title">Tecnologías y herramientas</h2></div>
+    <div class="tech-wrap">
+      <span class="tech">Cisco C9500</span><span class="tech">Cisco C9300L</span><span class="tech">Cisco 9800 WLC</span>
+      <span class="tech">Cisco CW9166I WiFi 6E</span><span class="tech">Catalyst Center / DNAC</span>
+      <span class="tech">DHCP Option 43</span><span class="tech">SFP / QSFP Transceivers</span>
+      <span class="tech">Fibra óptica MMF</span><span class="tech">VLAN 901 · 933 · 940</span>
+      <span class="tech">TFTP</span><span class="tech">ISE</span><span class="tech">RF Profile</span>
+      <span class="tech">Change Management</span><span class="tech">Firewall Policy</span><span class="tech">Coordinación multiteam</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="sec-num">07</span><h2 class="sec-title">Resultados</h2></div>
+    <div class="outcomes">
+      <div class="outcome"><span class="outcome-arrow">→</span><p>Infraestructura de switching completamente renovada: switches de core C9500 con capacidad 100G y switches de acceso C9300L con PoE full en todos los pisos.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>15 Access Points WiFi 6E registrados y operativos en Cisco Catalyst Center, con gestión centralizada vía controladores 9800 y visibilidad en tiempo real.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>Diagnóstico y resolución de causa raíz en configuración de switches (DHCP Option 43) — bloqueo que impedía el registro de APs en el controlador.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>Migración de usuarios de pisos 1 y 2 completada a la nueva red sin interrupciones de servicio.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>Proyecto entregado a pesar de múltiples bloqueos encadenados — VLANs faltantes, DHCP Option 43, firewall — coordinando resolución con tres equipos distintos en paralelo.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-name">Pamela Gatto — IT Project Coordinator</span>
+  <span class="footer-contact">pame.gatto@gmail.com · linkedin.com/pame-gatto</span>
+</footer>
+
+</body>
+</html>
