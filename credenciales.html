@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credenciales — Pamela Gatto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gold: #b8860b;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+    --cisco: #1ba0d7;
+    --aws: #ff9900;
+    --bsas: #2d6a4f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem;
+    background: var(--paper); border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back:hover { border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px;
+    background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; top: 0; right: 0; width: 40%; height: 100%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(247,244,238,0.02) 30px, rgba(247,244,238,0.02) 31px);
+    pointer-events: none;
+  }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.1; font-weight: 400; margin-bottom: 1rem; }
+  .hero-desc { font-size: 0.95rem; line-height: 1.8; color: rgba(247,244,238,0.6); max-width: 560px; }
+  .hero-count {
+    margin-top: 2.5rem; padding-top: 2rem;
+    border-top: 1px solid rgba(247,244,238,0.1);
+    display: flex; gap: 3rem; flex-wrap: wrap;
+  }
+  .count-item { display: flex; flex-direction: column; gap: 0.3rem; }
+  .count-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent); }
+  .count-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,244,238,0.35); }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 5rem 2rem; }
+
+  /* ISSUER SECTION */
+  .issuer-block { margin-bottom: 4.5rem; }
+  .issuer-header {
+    display: flex; align-items: center; gap: 1.2rem;
+    margin-bottom: 2rem; padding-bottom: 1.2rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .issuer-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .issuer-dot.cisco { background: var(--cisco); }
+  .issuer-dot.aws { background: var(--aws); }
+  .issuer-dot.bsas { background: var(--bsas); }
+  .issuer-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 400; }
+  .issuer-count { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-left: auto; }
+
+  /* BADGE GRID */
+  .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+
+  .badge-card {
+    background: var(--paper);
+    padding: 1.8rem 2rem;
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column; gap: 0.8rem;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .badge-card:hover { background: var(--warm); }
+  .badge-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+  .badge-card.cisco::before { background: var(--cisco); }
+  .badge-card.aws::before { background: var(--aws); }
+  .badge-card.bsas::before { background: var(--bsas); }
+
+  .badge-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .badge-icon.cisco { background: rgba(27,160,215,0.1); color: var(--cisco); }
+  .badge-icon.aws { background: rgba(255,153,0,0.1); color: var(--aws); }
+  .badge-icon.bsas { background: rgba(45,106,79,0.1); color: var(--bsas); }
+
+  .badge-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; line-height: 1.3; }
+  .badge-issuer { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+  .badge-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--gray); }
+
+  .badge-status {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.5rem; border-radius: 2px; width: fit-content;
+    margin-top: auto;
+  }
+  .badge-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .badge-status.verified { background: rgba(45,106,79,0.08); color: var(--green); border: 1px solid rgba(45,106,79,0.2); }
+  .badge-status.certificate { background: rgba(255,153,0,0.08); color: #b36b00; border: 1px solid rgba(255,153,0,0.25); }
+  .badge-status.microcred { background: rgba(45,106,79,0.08); color: var(--green); border: 1px solid rgba(45,106,79,0.2); }
+
+  .badge-link {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    margin-top: 0.2rem; border-bottom: 1px solid transparent;
+    transition: border-color 0.2s; width: fit-content;
+  }
+  .badge-link:hover { border-color: var(--accent); }
+
+  /* CERT CARDS (PDF) */
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .cert-card {
+    background: var(--paper); padding: 2rem;
+    display: flex; flex-direction: column; gap: 0.7rem;
+    transition: background 0.2s; position: relative;
+  }
+  .cert-card:hover { background: var(--warm); }
+  .cert-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--aws); }
+  .cert-num { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: var(--gray); font-style: italic; }
+  .cert-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 400; line-height: 1.3; }
+  .cert-meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+
+  /* FOOTER */
+  footer { background: var(--ink); color: var(--paper); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; }
+  .footer-note { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.3); }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    main { padding: 3rem 1.5rem; }
+    .badge-grid, .cert-grid { grid-template-columns: 1fr; }
+    .hero-count { gap: 2rem; }
+    footer { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="index.html" class="back">← Volver al portfolio</a>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">Credenciales y certificaciones</div>
+  <h1>Badges,<br>medallitas<br>& diplomas.</h1>
+  <p class="hero-desc">Credenciales verificadas de Cisco, Amazon Web Services y el Ministerio de Educación de la Ciudad de Buenos Aires. Cada una representa algo que estudié, practiqué y terminé.</p>
+  <div class="hero-count">
+    <div class="count-item"><div class="count-num">5</div><div class="count-label">Badges Cisco</div></div>
+    <div class="count-item"><div class="count-num">3</div><div class="count-label">Certificados AWS</div></div>
+    <div class="count-item"><div class="count-num">2</div><div class="count-label">Microcredenciales CABA</div></div>
+  </div>
+</div>
+
+<main>
+
+  <!-- CISCO -->
+  <div class="issuer-block">
+    <div class="issuer-header">
+      <div class="issuer-dot cisco"></div>
+      <h2 class="issuer-name">Cisco Networking Academy</h2>
+      <span class="issuer-count">5 badges verificados · Credly</span>
+    </div>
+    <div class="badge-grid">
+
+      <a href="https://www.credly.com/badges/6ebecfbc-990f-4590-a1b6-f85ddccb37d1" target="_blank" class="badge-card cisco">
+        <div class="badge-icon cisco">⬡</div>
+        <div class="badge-title">Networking Basics</div>
+        <div class="badge-issuer">Cisco · Networking Academy</div>
+        <div class="badge-status verified">Badge verificado</div>
+        <span class="badge-link">Ver en Credly →</span>
+      </a>
+
+      <a href="https://www.credly.com/badges/aba2d093-aba5-4578-94be-80469995fec0" target="_blank" class="badge-card cisco">
+        <div class="badge-icon cisco">⬡</div>
+        <div class="badge-title">Networking Devices and Initial Configuration</div>
+        <div class="badge-issuer">Cisco · Networking Academy</div>
+        <div class="badge-status verified">Badge verificado</div>
+        <span class="badge-link">Ver en Credly →</span>
+      </a>
+
+      <a href="https://www.credly.com/badges/b33e9f6a-e9e4-4759-ab68-0c91a4d26145" target="_blank" class="badge-card cisco">
+        <div class="badge-icon cisco">⬡</div>
+        <div class="badge-title">Network Addressing and Basic Troubleshooting</div>
+        <div class="badge-issuer">Cisco · Networking Academy</div>
+        <div class="badge-status verified">Badge verificado</div>
+        <span class="badge-link">Ver en Credly →</span>
+      </a>
+
+      <a href="https://www.credly.com/badges/643bab97-308d-442e-9a61-b5bf04082a0f" target="_blank" class="badge-card cisco">
+        <div class="badge-icon cisco">⬡</div>
+        <div class="badge-title">Network Support and Security</div>
+        <div class="badge-issuer">Cisco · Networking Academy</div>
+        <div class="badge-status verified">Badge verificado</div>
+        <span class="badge-link">Ver en Credly →</span>
+      </a>
+
+      <a href="https://www.credly.com/badges/eb6b1e93-39c4-4050-a94f-69067ad8b076" target="_blank" class="badge-card cisco">
+        <div class="badge-icon cisco">⬡</div>
+        <div class="badge-title">Introduction to IoT</div>
+        <div class="badge-issuer">Cisco · Networking Academy</div>
+        <div class="badge-status verified">Badge verificado</div>
+        <span class="badge-link">Ver en Credly →</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- AWS -->
+  <div class="issuer-block">
+    <div class="issuer-header">
+      <div class="issuer-dot aws"></div>
+      <h2 class="issuer-name">Amazon Web Services</h2>
+      <span class="issuer-count">3 certificados de completación</span>
+    </div>
+    <div class="cert-grid">
+
+      <div class="cert-card">
+        <div class="cert-num">AWS Training & Certification</div>
+        <div class="cert-title">Planning a Generative AI Project</div>
+        <div class="cert-meta">Completado: 29 Sep 2025 · Español LATAM</div>
+        <div class="badge-status certificate">Certificado de completación</div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-num">AWS Training & Certification</div>
+        <div class="cert-title">Generative AI for Executives</div>
+        <div class="cert-meta">Completado: 12 Oct 2025 · Español LATAM</div>
+        <div class="badge-status certificate">Certificado de completación</div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-num">AWS Training & Certification</div>
+        <div class="cert-title">Seguridad y Costos en Aplicaciones de IA Generativa en AWS</div>
+        <div class="cert-meta">Completado: 25 Oct 2025 · Español LATAM</div>
+        <div class="badge-status certificate">Certificado de completación</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MINISTERIO CABA -->
+  <div class="issuer-block">
+    <div class="issuer-header">
+      <div class="issuer-dot bsas"></div>
+      <h2 class="issuer-name">Ministerio de Educación · CABA</h2>
+      <span class="issuer-count">2 microcredenciales verificadas</span>
+    </div>
+    <div class="badge-grid">
+
+      <a href="https://openbadgefactory.com/obv3/credentials/38c4fd1cf904d8f3a06c9d421d85dcaec9297d55" target="_blank" class="badge-card bsas">
+        <div class="badge-icon bsas">◈</div>
+        <div class="badge-title">Simulación Climática Aplicada a Decisiones Laborales y de Negocio</div>
+        <div class="badge-issuer">Agencia de Habilidades para el Futuro · CABA</div>
+        <div class="badge-date">Emitida: 3 Feb 2026</div>
+        <div class="badge-status microcred">Microcredencial verificada</div>
+        <span class="badge-link">Ver credencial →</span>
+      </a>
+
+      <a href="https://openbadgefactory.com/obv3/credentials/16fa8a8513f67cd400cbc3d29a5cf65504f33a1e" target="_blank" class="badge-card bsas">
+        <div class="badge-icon bsas">◈</div>
+        <div class="badge-title">Ciudades Calientes: Decisiones Empresariales Frente a Olas de Calor</div>
+        <div class="badge-issuer">Agencia de Habilidades para el Futuro · CABA</div>
+        <div class="badge-date">Emitida: 4 Feb 2026</div>
+        <div class="badge-status microcred">Microcredencial verificada</div>
+        <span class="badge-link">Ver credencial →</span>
+      </a>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span class="footer-name">Pamela Gatto</span>
+  <span class="footer-note">IT Project Coordinator · Networking & Infrastructure · 2025</span>
+</footer>
+
+</body>
+</html>
