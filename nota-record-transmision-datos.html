@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Récord mundial de transmisión de datos — Pamela Gatto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem; background: var(--paper); border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back:hover { border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px; background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(247,244,238,0.018) 30px, rgba(247,244,238,0.018) 31px);
+    pointer-events: none;
+  }
+  .hero-meta {
+    display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .hero-tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    border: 1px solid rgba(232,93,47,0.4); color: var(--accent);
+    border-radius: 2px;
+  }
+  .hero-date {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; color: rgba(247,244,238,0.35);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4.5vw, 3.8rem);
+    line-height: 1.1; font-weight: 400; margin-bottom: 1.2rem;
+    max-width: 780px;
+  }
+  .hero h1 em { font-style: italic; color: rgba(247,244,238,0.45); }
+  .hero-sub {
+    font-size: 1rem; line-height: 1.75;
+    color: rgba(247,244,238,0.55); max-width: 580px;
+  }
+
+  /* ARTICLE */
+  article {
+    max-width: 720px; margin: 0 auto; padding: 5rem 2rem 6rem;
+  }
+
+  .article-body p {
+    font-size: 1rem; line-height: 1.95;
+    color: #2a2520; margin-bottom: 1.6rem;
+    max-width: 100%;
+  }
+
+  .article-body p:first-child::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem; line-height: 0.85;
+    float: left; margin-right: 0.12em; margin-top: 0.08em;
+    color: var(--accent);
+  }
+
+  /* RESULTS BLOCK */
+  .results-block {
+    margin: 2.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .results-header {
+    background: var(--ink); color: var(--paper);
+    padding: 0.9rem 1.5rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,244,238,0.5);
+  }
+  .result-item {
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    padding: 1.3rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .result-item:last-child { border-bottom: none; }
+  .result-item:hover { background: var(--warm); }
+  .result-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; color: var(--accent);
+    flex-shrink: 0; line-height: 1; min-width: 2rem;
+    margin-top: 0.1rem;
+  }
+  .result-text {
+    font-size: 0.93rem; line-height: 1.6; color: #2a2520;
+  }
+  .result-text strong { font-weight: 500; color: var(--ink); }
+
+  /* PULLQUOTE */
+  .pullquote {
+    margin: 2.5rem 0;
+    padding: 2rem 2.5rem;
+    border-left: 4px solid var(--accent);
+    background: rgba(232,93,47,0.04);
+  }
+  .pullquote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; line-height: 1.6;
+    font-style: italic; color: var(--ink);
+    margin-bottom: 0 !important;
+  }
+
+  /* SOURCE */
+  .article-source {
+    margin-top: 3.5rem; padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .source-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray);
+  }
+  .source-link {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+    color: var(--accent); text-decoration: none;
+    border-bottom: 1px solid rgba(232,93,47,0.3);
+    transition: border-color 0.2s;
+  }
+  .source-link:hover { border-color: var(--accent); }
+
+  /* AUTHOR */
+  .author-block {
+    margin-top: 2.5rem; padding: 1.8rem 2rem;
+    border: 1px solid var(--border); border-radius: 4px;
+    display: flex; gap: 1.5rem; align-items: center;
+    background: var(--warm);
+  }
+  .author-initial {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    font-family: 'Playfair Display', serif; font-size: 1.3rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .author-name { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
+  .author-role { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+
+  /* BACK TO NOTES */
+  .back-notes {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    margin-top: 2.5rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.2s;
+  }
+  .back-notes:hover { border-color: var(--accent); }
+
+  footer { background: var(--ink); color: var(--paper); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; }
+  .footer-note { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.3); }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    article { padding: 3rem 1.5rem 4rem; }
+    .pullquote { padding: 1.5rem; }
+    .author-block { flex-direction: column; align-items: flex-start; }
+    footer { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="notas.html" class="back">← Volver a notas</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-meta">
+    <span class="hero-tag">Infraestructura · Fibra óptica</span>
+    <span class="hero-date">Marzo 2026</span>
+  </div>
+  <h1>El experimento que rompió <em>todos los récords</em> de transmisión de datos</h1>
+  <p class="hero-sub">Un equipo internacional logró transmitir más de un petabit por segundo a través de fibra óptica estándar. Esto es lo que significa — y por qué importa.</p>
+</div>
+
+<article>
+  <div class="article-body">
+
+    <p>Todos los días se incrementa la cantidad de fotos, videos, llamadas, archivos y documentos de todo tipo que enviamos. Este aumento de envio de datos impulsa la creación de infraestructura de información y comunicación a una mas avanzada. Es en este contexto que un equipo internacional de investigación dirigido por el Laboratorio de Redes Fotónicas del Instituto Nacional de Tecnologías de la Información y las Comunicaciones (NICT) realizó un experimento con una fibra óptica de 19 nucleos con un diámetro de revestimiento estándar de 0,125mm, compatible con la infraestructura de fibra existente. De esta manera se demuestra que la infraestructura actual es escalable en la capacidad de transmisión de la información, de modo que puede sostener, contener y mantener el creciente aumento de demanda mundial de red para envio y transmision de datos.</p>
+
+    <p>El experimento fue exitoso en varios modos. Se usaron las bandas de transmision L y C, que son las utilizadas comercialmente, combinando la baja atenuación y la capacidad de amplificarse de la banda C, con la atenuación baja de la onda L que es capaz de expandir la capacidad de transferencia. De esta manera, encontramos una fibra óptica de 19 nucleos que transmiten en longitudes de onda de entre 1530 y 1625 nanometros.</p>
+
+    <p>Estas bandas, a su vez permiten la multiplexacion, que fue fundamental en este experimento. El sistema de transmision diseñado por los investigadores hizo foco en la optimización de la estructura y la disposición de los nucleos. El sistema es capaz de amplificar las señales de los 19 nucleos en simultaneo. Como se trataba de fibras para bandas distintas, había amplificadores ópticos para cada banda. De esta manera se amplificaba la señal de la fibra y se compensaban las pérdidas en la transmision de datos. Todo muy lindo, pero son 19 señales ópticas en paralelo que transmiten información en simultaneo, con 180 longitudes de onda distintas, producto del uso de los amplificadores ópticos. Para la recepción un procesador de señales digitales eliminó la interferencia entre los núcleos, reordenó las bandas, y las señales, y mediante un sistema MIMO (multiple entrada, multiple salida) calculó la velocidad de datos disponible.</p>
+
+    <p>Los resultados fueron estos:</p>
+
+  </div>
+
+  <div class="results-block">
+    <div class="results-header">Resultados del experimento</div>
+    <div class="result-item">
+      <div class="result-num">1</div>
+      <div class="result-text"><strong>Más de un petabit por segundo</strong> — más de un millón de gigabits por segundo transmitidos de forma continua.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-num">2</div>
+      <div class="result-text"><strong>1808 km de distancia</strong> — casi como ir de Buenos Aires a Comodoro Rivadavia.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-num">3</div>
+      <div class="result-text"><strong>1,86 exabits por segundo por kilómetro.</strong> En criollo: un exabyte es algo así como un quintillón de bytes, o 32.000 años viendo películas 24/7 sin parar. Esta transmisión logró el doble.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-num">4</div>
+      <div class="result-text"><strong>Aproximadamente 6 millones de veces más rápida</strong> que la velocidad de navegación promedio de Argentina, si la tomamos en 200 Mbps.</div>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <p>¿Pero por qué nos interesa?</p>
+  </div>
+
+  <div class="article-body">
+    <p>Porque se hizo con fibras estandar, usando infraestructura existente y se demuestra que las redes pueden estar a la altura de las demandas actuales y futuras de la sociedad. Esto sienta un precedente: la próxima generación de redes va ser mas veloz, mas robusta, mas integrada, mas eficiente y que debería ser accesible para millones de personas en el mundo. En infraestructura de redes, esto importa.</p>
+  </div>
+
+  <div class="article-source">
+    <span class="source-label">Fuente</span>
+    <a href="https://www.nict.go.jp/en/press/2025/05/29-1.html" target="_blank" class="source-link">NICT — National Institute of Information and Communications Technology →</a>
+  </div>
+
+  <div class="author-block">
+    <div class="author-initial">P</div>
+    <div>
+      <div class="author-name">Pamela Gatto</div>
+      <div class="author-role">IT Project Coordinator · Networking & Infrastructure · AT&T</div>
+    </div>
+  </div>
+
+  <a href="notas.html" class="back-notes">← Ver todas las notas</a>
+
+</article>
+
+<footer>
+  <span class="footer-name">Pamela Gatto</span>
+  <span class="footer-note">IT Project Coordinator · Networking & Infrastructure · 2026</span>
+</footer>
+
+</body>
+</html>
