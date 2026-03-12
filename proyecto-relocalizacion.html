@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relocalización de Oficina — Pamela Gatto Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem; background: var(--paper); border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back:hover { border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px; background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem;
+    display: grid; grid-template-columns: 1fr 300px; gap: 4rem; align-items: end;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(247,244,238,0.018) 30px, rgba(247,244,238,0.018) 31px);
+    pointer-events: none;
+  }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.15; font-weight: 400; margin-bottom: 1.2rem; }
+  .hero h1 em { font-style: italic; color: rgba(247,244,238,0.45); }
+  .hero-desc { font-size: 0.93rem; line-height: 1.8; color: rgba(247,244,238,0.6); max-width: 520px; margin-bottom: 1.5rem; }
+  .badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 2px; background: rgba(232,93,47,0.12); color: var(--accent); border: 1px solid rgba(232,93,47,0.25); }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .hero-stats { display: flex; flex-direction: column; gap: 0; border-left: 1px solid rgba(247,244,238,0.12); padding-left: 2.5rem; }
+  .stat { padding: 1.2rem 0; border-bottom: 1px solid rgba(247,244,238,0.08); }
+  .stat:last-child { border-bottom: none; }
+  .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,244,238,0.3); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; color: var(--paper); }
+  .stat-value.big { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--accent); }
+
+  main { max-width: 980px; margin: 0 auto; padding: 5rem 2rem; }
+  section { margin-bottom: 5rem; }
+  .sec-label { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
+  .sec-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; color: var(--gray); background: var(--warm); padding: 0.25rem 0.6rem; }
+  .sec-title { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 400; }
+  p { font-size: 0.96rem; line-height: 1.85; color: #2e2a26; max-width: 680px; }
+
+  /* PARALLEL LAYOUT */
+  .parallel {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+    margin-top: 1.5rem;
+  }
+  .parallel-col { background: var(--paper); padding: 2rem; }
+  .parallel-col:hover { background: var(--warm); }
+  .parallel-col-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 1.2rem; padding-bottom: 0.8rem;
+    border-bottom: 2px solid var(--border);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .parallel-col-label.sitea { color: var(--accent); border-color: rgba(232,93,47,0.3); }
+  .parallel-col-label.siteb { color: var(--blue); border-color: rgba(47,122,232,0.3); }
+  .parallel-col-label::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .parallel-item { font-size: 0.88rem; line-height: 1.55; color: #2e2a26; padding: 0.5rem 0; border-bottom: 1px solid var(--border); display: flex; gap: 0.7rem; }
+  .parallel-item:last-child { border-bottom: none; }
+  .parallel-item::before { content: '–'; font-family: 'IBM Plex Mono', monospace; color: var(--gray); flex-shrink: 0; }
+
+  /* TIMELINE */
+  .timeline { margin-top: 2rem; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 18px; top: 10px; bottom: 10px; width: 1px; background: var(--border); }
+  .tl-item { display: flex; gap: 2rem; }
+  .tl-dot-wrap { flex-shrink: 0; width: 37px; display: flex; flex-direction: column; align-items: center; padding-top: 1.8rem; }
+  .tl-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); z-index: 1; }
+  .tl-dot.warn { background: var(--accent); border-color: var(--accent); }
+  .tl-dot.ok { background: var(--green); border-color: var(--green); }
+  .tl-dot.both { background: var(--blue); border-color: var(--blue); }
+  .tl-card { flex: 1; border: 1px solid var(--border); border-bottom: none; padding: 1.8rem 2rem; transition: background 0.2s; }
+  .tl-item:first-child .tl-card { border-radius: 4px 4px 0 0; }
+  .tl-item:last-child .tl-card { border-bottom: 1px solid var(--border); border-radius: 0 0 4px 4px; }
+  .tl-card:hover { background: var(--warm); }
+  .tl-phase { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.4rem; }
+  .tl-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 0.9rem; }
+  .tl-body { font-size: 0.92rem; line-height: 1.75; color: #2e2a26; max-width: 100%; margin-bottom: 0.8rem; }
+
+  .task-list { display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.6rem; }
+  .task { display: flex; gap: 0.8rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.5; color: #3a3530; }
+  .task::before { content: '–'; font-family: 'IBM Plex Mono', monospace; color: var(--gray); flex-shrink: 0; }
+
+  .note-block { margin-top: 1rem; padding: 1rem 1.4rem; border-left: 3px solid var(--blue); background: rgba(47,122,232,0.04); }
+  .note-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.4rem; }
+  .note-block p { font-size: 0.88rem; max-width: 100%; color: #3a3530; }
+
+  .incident { margin-top: 1rem; padding: 1rem 1.4rem; border-left: 3px solid var(--accent); background: rgba(232,93,47,0.04); }
+  .incident-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+  .incident p { font-size: 0.88rem; max-width: 100%; color: #2e2a26; }
+
+  .resolution { margin-top: 0.6rem; padding: 1rem 1.4rem; border-left: 3px solid var(--green); background: rgba(45,106,79,0.04); }
+  .resolution-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 0.4rem; }
+  .resolution p { font-size: 0.88rem; max-width: 100%; color: #2e2a26; }
+
+  /* TECH TAGS */
+  .tech-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tech { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.35rem 0.8rem; border: 1px solid var(--border); color: var(--gray); background: var(--paper); }
+
+  /* OUTCOMES */
+  .outcomes { display: flex; flex-direction: column; gap: 1px; background: var(--border); margin-top: 1.5rem; border-radius: 4px; overflow: hidden; }
+  .outcome { background: var(--paper); padding: 1.4rem 2rem; display: flex; gap: 1.2rem; align-items: flex-start; transition: background 0.2s; }
+  .outcome:hover { background: var(--warm); }
+  .outcome-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--accent); flex-shrink: 0; margin-top: 0.1rem; }
+  .outcome p { font-size: 0.92rem; max-width: 100%; }
+
+  footer { background: var(--ink); color: var(--paper); padding: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+  .footer-contact { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.4); }
+
+  @media (max-width: 720px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 4rem 1.5rem 3rem; }
+    .hero-stats { border-left: none; border-top: 1px solid rgba(247,244,238,0.12); padding-left: 0; padding-top: 1.5rem; flex-direction: row; flex-wrap: wrap; gap: 1rem; }
+    .stat { padding: 0; border-bottom: none; min-width: 130px; }
+    main { padding: 3rem 1.5rem; }
+    .parallel { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="index.html" class="back">← Volver al portfolio</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">Caso de estudio</div>
+    <h1>Relocalización<br><em>de oficina —</em><br>Migración de red en paralelo</h1>
+    <p class="hero-desc">Baja completa de infraestructura de red en un sitio y alta simultánea en otro, mientras 11 personas continuaban trabajando. La coordinación fue el proyecto.</p>
+    <div class="badge">Entregado · Sin interrupciones operativas</div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-label">Personas impactadas</div><div class="stat-value big">11</div></div>
+    <div class="stat"><div class="stat-label">Tipo de proyecto</div><div class="stat-value">Relocalización · Migración de red</div></div>
+    <div class="stat"><div class="stat-label">Hardware nuevo</div><div class="stat-value">Cisco C9300X-24</div></div>
+    <div class="stat"><div class="stat-label">Subred nueva</div><div class="stat-value">/26 · 62 hosts útiles</div></div>
+    <div class="stat"><div class="stat-label">Complejidad principal</div><div class="stat-value">Baja y alta corriendo en simultáneo</div></div>
+  </div>
+</div>
+
+<main>
+
+  <!-- 01 CONTEXTO -->
+  <section>
+    <div class="sec-label"><span class="sec-num">01</span><h2 class="sec-title">Contexto del negocio</h2></div>
+    <p>Una oficina con 11 personas en roles técnicos y de management dejó de operar en su ubicación original para trasladarse a una nueva localidad cercana. La red no era un detalle logístico — era infraestructura crítica para la operación diaria del equipo. El proyecto requería desmantelar ordenadamente el Sitio A mientras se construía simultáneamente el Sitio B, sin que los trabajadores perdieran conectividad ni continuidad operativa durante el proceso.</p>
+    <p style="margin-top:1rem;">Lo que hace complejo este proyecto no es la escala técnica sino la sincronización: cada acción de baja en el sitio viejo tenía una contraparte de alta en el sitio nuevo, y ambas debían coordinarse con precisión para que el traspaso fuera invisible para el equipo.</p>
+  </section>
+
+  <!-- 02 TRABAJO EN PARALELO -->
+  <section>
+    <div class="sec-label"><span class="sec-num">02</span><h2 class="sec-title">El desafío: dos sitios en simultáneo</h2></div>
+    <p>Este proyecto no tenía una sola línea de tiempo — tenía dos corriendo en paralelo y dependientes entre sí. Mientras se ejecutaban acciones de cierre en el Sitio A, se preparaba el alta en el Sitio B. Cada decisión en uno afectaba al otro.</p>
+    <div class="parallel">
+      <div class="parallel-col">
+        <div class="parallel-col-label sitea">Sitio A · Cierre</div>
+        <div class="parallel-item">Retiro de cableado de escritorios, preservando cables de red</div>
+        <div class="parallel-item">Escaneo de red para inventario completo de dispositivos</div>
+        <div class="parallel-item">Relevamiento de impresoras: ubicación, cantidad por piso, configuración</div>
+        <div class="parallel-item">Llenado de formularios DEFET para equipos a dar de baja</div>
+        <div class="parallel-item">Baja de redes y subredes antiguas una vez migradas</div>
+        <div class="parallel-item">Borrado de archivos TFTP de equipos legacy</div>
+        <div class="parallel-item">Decommission de routers, switches y APs no necesarios</div>
+      </div>
+      <div class="parallel-col">
+        <div class="parallel-col-label siteb">Sitio B · Alta</div>
+        <div class="parallel-item">Pedido y configuración de nuevas redes y subredes /26</div>
+        <div class="parallel-item">Instalación de switches Cisco C9300X-24</div>
+        <div class="parallel-item">Planificación de ubicación de impresoras en nueva planta</div>
+        <div class="parallel-item">Reserva de IPs estáticas para impresoras migradas</div>
+        <div class="parallel-item">Actualización de colas de impresión a la nueva red</div>
+        <div class="parallel-item">Configuración de puertos en disable hasta llegada del power injector</div>
+        <div class="parallel-item">Coordinación con ingeniero de WiFi para turnup de APs</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 PROCESO -->
+  <section>
+    <div class="sec-label"><span class="sec-num">03</span><h2 class="sec-title">Proceso de ejecución</h2></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-phase">Fase 1</div>
+          <div class="tl-title">Planificación y relevamiento</div>
+          <p class="tl-body">Antes de tocar nada, era necesario saber exactamente qué había en el Sitio A para poder replicarlo y mejorarlo en el Sitio B. El escaneo de red fue el punto de partida.</p>
+          <div class="task-list">
+            <div class="task">Escaneo completo de la red del Sitio A para inventariar todos los dispositivos activos</div>
+            <div class="task">Relevamiento de impresoras: ubicación física por piso, cantidad, modelo y configuración de IP</div>
+            <div class="task">Identificación de dispositivos a migrar, a dar de baja y a reemplazar</div>
+            <div class="task">Definición de nueva subred /26 para el Sitio B — 62 hosts útiles, dimensionado para small site</div>
+            <div class="task">Planificación de la ubicación de cada impresora en la nueva planta</div>
+            <div class="task">Acuerdo con el técnico asignado sobre el orden de desconexión: primero cableado de escritorios, preservando cables de red</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot both"></div></div>
+        <div class="tl-card">
+          <div class="tl-phase">Fase 2 · Ejecución en paralelo</div>
+          <div class="tl-title">Baja en Sitio A + Alta en Sitio B</div>
+          <p class="tl-body">La fase más compleja: ambos sitios activos al mismo tiempo, con acciones interdependientes. Cada paso de cierre en el Sitio A requería tener listo su equivalente en el Sitio B antes de ejecutarse.</p>
+          <div class="task-list">
+            <div class="task">Retiro de cableado de escritorios en Sitio A según lo acordado con el técnico</div>
+            <div class="task">Instalación y configuración de switches C9300X-24 en Sitio B</div>
+            <div class="task">Pedido de nuevas redes y subredes para Sitio B mientras se proyectaba la baja de las del Sitio A</div>
+            <div class="task">Reserva de IPs estáticas para cada impresora en la nueva red antes de moverlas físicamente</div>
+            <div class="task">Actualización de colas de impresión a la nueva red — previo al traslado físico de las máquinas</div>
+            <div class="task">Llenado de formularios DEFET para equipos legacy del Sitio A</div>
+          </div>
+          <div class="note-block">
+            <div class="note-label">Clave de coordinación</div>
+            <p>Las impresoras tenían IP estática, lo que requería reservar las nuevas IPs y actualizar las colas de impresión antes de mover los equipos físicamente. Si el orden se invertía, los usuarios perdían acceso a impresión durante el traslado.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot warn"></div></div>
+        <div class="tl-card">
+          <div class="tl-phase">Fase 3 · Bloqueo</div>
+          <div class="tl-title">Espera por power injector</div>
+          <p class="tl-body">El Sitio B debió pausar el turnup de WiFi por la demora en la llegada del power injector necesario para alimentar los APs.</p>
+          <div class="incident">
+            <div class="incident-label">Impacto</div>
+            <p>Los puertos de los switches correspondientes a los APs fueron configurados y dejados en estado <strong>disable</strong> hasta que el ingeniero de WiFi estuviera disponible y el hardware llegara al sitio. Esto evitó configuraciones parciales y posibles conflictos de red.</p>
+          </div>
+          <div class="resolution">
+            <div class="resolution-label">Decisión tomada</div>
+            <p>Continuar con todo el resto de la migración y dejar el turnup de WiFi como última tarea pendiente, con los puertos ya preparados para activarse en cuanto el ingeniero diera el OK.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot ok"></div></div>
+        <div class="tl-card">
+          <div class="tl-phase">Fase 4</div>
+          <div class="tl-title">Decommission del Sitio A y cierre</div>
+          <p class="tl-body">Con el Sitio B operativo y los usuarios migrados, se procedió al cierre ordenado del Sitio A.</p>
+          <div class="task-list">
+            <div class="task">Baja de redes y subredes antiguas del Sitio A una vez confirmada la operación en el Sitio B</div>
+            <div class="task">Borrado de archivos TFTP de equipos legacy</div>
+            <div class="task">Decommission de routers, switches y APs que no serían reutilizados</div>
+            <div class="task">Procesamiento de formularios DEFET completados durante la ejecución</div>
+            <div class="task">Cierre formal del proyecto</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 04 TECNOLOGÍAS -->
+  <section>
+    <div class="sec-label"><span class="sec-num">04</span><h2 class="sec-title">Tecnologías y herramientas</h2></div>
+    <div class="tech-wrap">
+      <span class="tech">Cisco C9300X-24</span>
+      <span class="tech">Subred /26</span>
+      <span class="tech">IP Estática</span>
+      <span class="tech">Colas de impresión</span>
+      <span class="tech">TFTP</span>
+      <span class="tech">DEFET</span>
+      <span class="tech">Escaneo de red</span>
+      <span class="tech">Power Injector</span>
+      <span class="tech">WiFi Turnup</span>
+      <span class="tech">Decommission</span>
+      <span class="tech">Change Management</span>
+      <span class="tech">Coordinación multiteam</span>
+    </div>
+  </section>
+
+  <!-- 05 RESULTADOS -->
+  <section>
+    <div class="sec-label"><span class="sec-num">05</span><h2 class="sec-title">Resultados</h2></div>
+    <div class="outcomes">
+      <div class="outcome"><span class="outcome-arrow">→</span><p>Relocalización completada sin interrupciones operativas para las 11 personas del equipo técnico y de management.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>Baja y alta de infraestructura ejecutadas en paralelo con dependencias correctamente secuenciadas — ninguna acción de cierre se ejecutó antes de tener su contraparte lista en el sitio nuevo.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>Impresoras con IP estática migradas con continuidad de servicio: reserva de IPs y actualización de colas de impresión completadas antes del traslado físico.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>Bloqueo por power injector gestionado sin impacto en el resto de la migración — puertos configurados y en disable, listos para activarse en cuanto llegó el hardware.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>Decommission ordenado del Sitio A: subredes liberadas, TFTP borrados y equipos legacy dados de baja con la documentación correspondiente.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-name">Pamela Gatto — IT Project Coordinator</span>
+  <span class="footer-contact">pame.gatto@gmail.com · linkedin.com/in/pame-gatto</span>
+</footer>
+
+</body>
+</html>
