@@ -247,7 +247,12 @@
   <div class="article-body">
     <p>Porque se hizo con fibras estandar, usando infraestructura existente y se demuestra que las redes pueden estar a la altura de las demandas actuales y futuras de la sociedad. Esto sienta un precedente: la próxima generación de redes va ser mas veloz, mas robusta, mas integrada, mas eficiente y que debería ser accesible para millones de personas en el mundo. En infraestructura de redes, esto importa.</p>
   </div>
-
+<div class="share-block" style="margin-top:2.5rem; display:flex; align-items:center; gap:1rem;">
+  <span style="font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray);">Compartir</span>
+  <button onclick="compartir()" style="font-family:'IBM Plex Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.6rem 1.2rem; background:var(--ink); color:var(--paper); border:none; cursor:pointer;">
+    Compartir esta nota →
+  </button>
+</div>
   <div class="article-source">
     <span class="source-label">Fuente</span>
     <a href="https://www.nict.go.jp/en/press/2025/05/29-1.html" target="_blank" class="source-link">NICT — National Institute of Information and Communications Technology →</a>
@@ -264,7 +269,20 @@
   <a href="notas.html" class="back-notes">← Ver todas las notas</a>
 
 </article>
-
+<script>
+function compartir() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'El experimento que rompió todos los récords de transmisión de datos',
+      text: 'Un equipo internacional transmitió más de un petabit por segundo con fibra estándar. Esto es lo que significa.',
+      url: window.location.href
+    });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('¡Link copiado al portapapeles!');
+  }
+}
+</script>
 <footer>
   <span class="footer-name">Pamela Gatto</span>
   <span class="footer-note">IT Project Coordinator · Networking & Infrastructure · 2026</span>
