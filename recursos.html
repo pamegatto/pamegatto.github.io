@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recursos — Pamela Gatto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+    --cisco: #1ba0d7;
+    --aws: #ff9900;
+    --google: #4285f4;
+    --lf: #003366;
+    --caba: #2d6a4f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem; background: var(--paper); border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back:hover { border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px; background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(247,244,238,0.018) 30px, rgba(247,244,238,0.018) 31px);
+    pointer-events: none;
+  }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.1; font-weight: 400; margin-bottom: 1.2rem; }
+  .hero h1 em { font-style: italic; color: rgba(247,244,238,0.4); }
+  .hero-desc { font-size: 0.95rem; line-height: 1.8; color: rgba(247,244,238,0.6); max-width: 580px; }
+
+  /* INTRO NOTE */
+  .intro-note {
+    background: var(--warm); border-left: 4px solid var(--accent);
+    padding: 2rem 2.5rem; margin: 0;
+  }
+  .intro-note p { font-size: 0.95rem; line-height: 1.8; max-width: 720px; }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 5rem 2rem; }
+
+  /* PATH TABS */
+  .path-tabs {
+    display: flex; gap: 0; border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+    margin-bottom: 4rem; flex-wrap: wrap;
+  }
+  .path-tab {
+    flex: 1; min-width: 150px; padding: 1rem 1.5rem; border: none; cursor: pointer;
+    background: var(--paper); font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray); border-right: 1px solid var(--border);
+    transition: all 0.2s; text-align: center;
+  }
+  .path-tab:last-child { border-right: none; }
+  .path-tab.active { background: var(--ink); color: var(--paper); }
+  .path-tab:hover:not(.active) { background: var(--warm); color: var(--ink); }
+
+  /* ROADMAP */
+  .roadmap { display: none; }
+  .roadmap.active { display: block; }
+
+  .roadmap-intro { margin-bottom: 3rem; }
+  .roadmap-intro h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 0.8rem; }
+  .roadmap-intro p { font-size: 0.95rem; line-height: 1.8; max-width: 680px; }
+
+  /* STEP */
+  .steps { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .steps::before {
+    content: ''; position: absolute; left: 24px; top: 0; bottom: 0;
+    width: 1px; background: var(--border); z-index: 0;
+  }
+
+  .step { display: flex; gap: 2rem; margin-bottom: 1px; }
+  .step-num-wrap { flex-shrink: 0; width: 49px; display: flex; flex-direction: column; align-items: center; padding-top: 2rem; z-index: 1; }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+    font-weight: 500; background: var(--paper); border: 2px solid var(--border);
+    color: var(--gray);
+  }
+  .step-num.start { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .step-num.milestone { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+  .step-card {
+    flex: 1; border: 1px solid var(--border); border-bottom: none;
+    padding: 2rem 2.5rem; transition: background 0.2s;
+  }
+  .step:first-child .step-card { border-radius: 4px 4px 0 0; }
+  .step:last-child .step-card { border-bottom: 1px solid var(--border); border-radius: 0 0 4px 4px; margin-bottom: 0; }
+  .step-card:hover { background: var(--warm); }
+
+  .step-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.8rem; }
+  .step-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 400; }
+  .step-badge {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.6rem; border-radius: 2px; flex-shrink: 0;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .step-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .step-badge.free { background: rgba(45,106,79,0.08); color: var(--green); border: 1px solid rgba(45,106,79,0.2); }
+  .step-badge.credly { background: rgba(232,93,47,0.08); color: var(--accent); border: 1px solid rgba(232,93,47,0.2); }
+  .step-badge.exam { background: rgba(47,122,232,0.08); color: var(--blue); border: 1px solid rgba(47,122,232,0.2); }
+  .step-badge.local { background: rgba(45,106,79,0.08); color: var(--green); border: 1px solid rgba(45,106,79,0.2); }
+
+  .step-desc { font-size: 0.9rem; line-height: 1.7; color: #2e2a26; margin-bottom: 1rem; }
+
+  .course-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .course-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    font-size: 0.88rem; line-height: 1.5;
+  }
+  .course-provider {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.15rem 0.5rem; border-radius: 2px; flex-shrink: 0; margin-top: 0.1rem;
+  }
+  .course-provider.cisco { background: rgba(27,160,215,0.1); color: var(--cisco); }
+  .course-provider.aws { background: rgba(255,153,0,0.1); color: #b36b00; }
+  .course-provider.google { background: rgba(66,133,244,0.1); color: var(--google); }
+  .course-provider.lf { background: rgba(0,51,102,0.1); color: var(--lf); }
+  .course-provider.caba { background: rgba(45,106,79,0.1); color: var(--caba); }
+  .course-provider.pmi { background: rgba(232,93,47,0.1); color: var(--accent); }
+
+  .course-link { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color 0.2s; }
+  .course-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  .step-tip {
+    margin-top: 1rem; padding: 0.8rem 1.2rem;
+    border-left: 3px solid var(--blue); background: rgba(47,122,232,0.04);
+    font-size: 0.85rem; line-height: 1.6; color: #2e2a26;
+  }
+  .step-tip strong { font-weight: 500; color: var(--blue); font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 0.3rem; }
+
+  /* ARGENTINA SECTION */
+  .local-section { margin-top: 5rem; }
+  .local-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border); }
+  .local-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--caba); flex-shrink: 0; }
+  .local-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 400; }
+  .local-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-left: auto; }
+
+  .local-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .local-card { background: var(--paper); padding: 1.8rem 2rem; transition: background 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.6rem; position: relative; }
+  .local-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--caba); }
+  .local-card:hover { background: var(--warm); }
+  .local-card-org { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+  .local-card-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; line-height: 1.3; }
+  .local-card-desc { font-size: 0.85rem; line-height: 1.55; color: var(--gray); }
+  .local-card-tag { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.18rem 0.5rem; border: 1px solid rgba(45,106,79,0.2); color: var(--green); background: rgba(45,106,79,0.05); width: fit-content; margin-top: auto; }
+
+  footer { background: var(--ink); color: var(--paper); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; }
+  .footer-note { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.3); }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    .intro-note { padding: 1.5rem; }
+    main { padding: 3rem 1.5rem; }
+    .step-card { padding: 1.5rem; }
+    .steps::before { left: 16px; }
+    .step-num-wrap { width: 33px; }
+    .step-num { width: 24px; height: 24px; font-size: 0.55rem; }
+    .path-tabs { flex-direction: column; }
+    .path-tab { border-right: none; border-bottom: 1px solid var(--border); }
+    .path-tab:last-child { border-bottom: none; }
+    .local-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="index.html" class="back">← Volver al portfolio</a>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">Recursos</div>
+  <h1>Empezar<br>desde <em>cero</em><br>no es tan difícil.</h1>
+  <p class="hero-desc">Una guía armada con los mejores recursos gratuitos para aprender redes, ciberseguridad y DevOps. Con badges verificables, sin pagar nada — solo con tiempo y ganas.</p>
+</div>
+
+<div class="intro-note">
+  <p>Todos los cursos listados acá son <strong>gratuitos para completar</strong>. Algunos emiten badges verificables a través de Credly. Otros dan certificados de completación. Los exámenes de certificación oficial (CCNA, AWS Certified, etc.) sí tienen costo — pero la preparación no. Empezá por donde te resuene, no hay un único camino correcto.</p>
+</div>
+
+<main>
+
+  <!-- TABS -->
+  <div class="path-tabs">
+    <button class="path-tab active" onclick="showPath('redes')">🌐 Redes</button>
+    <button class="path-tab" onclick="showPath('ciberseguridad')">🔒 Ciberseguridad</button>
+    <button class="path-tab" onclick="showPath('devops')">⚙️ DevOps & Cloud</button>
+    <button class="path-tab" onclick="showPath('ia')">🤖 IA & Datos</button>
+  </div>
+
+  <!-- REDES -->
+  <div id="path-redes" class="roadmap active">
+    <div class="roadmap-intro">
+      <h2>Camino en Redes</h2>
+      <p>Desde cero hasta CCNA — el estándar de la industria para roles técnicos en networking. Cisco lo ofrece todo de forma gratuita, con badges verificables en cada paso.</p>
+    </div>
+    <div class="share-bar" style="margin-bottom:2rem; display:flex; align-items:center; gap:1rem;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray);">Compartir esta ruta</span>
+      <button onclick="compartirRuta('🌐 Redes', window.location.href)" style="font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.5rem 1.1rem; background:var(--ink); color:var(--paper); border:none; cursor:pointer;">Compartir →</button>
+    </div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num start">01</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Entender cómo funciona una red</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">El punto de partida. Qué es una red, cómo se comunican los dispositivos, protocolos básicos. No se requiere ningún conocimiento previo.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/networking-basics" target="_blank" class="course-link">Networking Basics</a> — Conceptos fundamentales, cómo funcionan las redes, IP, switches. Badge al completar.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/exploring-networking-iot-packet-tracer" target="_blank" class="course-link">Exploring Networking & IoT with Packet Tracer</a> — Prácticas con simulador de red real.</span>
+            </div>
+          </div>
+          <div class="step-tip"><strong>Herramienta clave</strong> Cisco Packet Tracer es un simulador de red gratuito. Vas a poder configurar routers y switches sin hardware real. Descargalo gratis en netacad.com.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num">02</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Configuración de dispositivos y direccionamiento</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">Acá empezás a tocar dispositivos de red reales — configurar switches, entender VLANs, IPs y subredes. Estos dos cursos corresponden a los badges que ya conocés.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/networking-devices-and-initial-configuration" target="_blank" class="course-link">Networking Devices and Initial Configuration</a> — Configuración inicial de routers y switches.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/network-addressing-and-basic-troubleshooting" target="_blank" class="course-link">Network Addressing and Basic Troubleshooting</a> — Subredes, DHCP, diagnóstico de problemas.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num">03</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Soporte y seguridad de red</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">Diagnóstico de fallas, conceptos de seguridad perimetral básica, monitoreo. Cierra el ciclo del técnico de soporte antes de pasar a CCNA.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/network-support-and-security" target="_blank" class="course-link">Network Support and Security</a> — Seguridad de dispositivos, troubleshooting, best practices.</span>
+            </div>
+          </div>
+          <div class="step-tip"><strong>Certificación intermedia</strong> Con estos cuatro cursos estás listo para rendir el examen CCST (Cisco Certified Support Technician). Es la puerta de entrada al mundo Cisco certificado.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num milestone">04</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Preparación para CCNA</div>
+            <span class="step-badge exam">Examen pago · Beca disponible</span>
+          </div>
+          <p class="step-desc">El CCNA es el estándar de la industria para roles técnicos en networking. El examen tiene costo (~$330 USD), pero la preparación es gratuita. Además, hay una beca 100% gratuita para acceder al primer módulo con instructor.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/ccna-introduction-networks?courseLang=es-XL&instance_id=713e9500-6d5d-4ae9-93f7-87a85cdd18fa" target="_blank" class="course-link">CCNA: Introduction to Networks — Beca 100% gratuita</a> — Módulo 1 del currículo oficial CCNA con acceso bonificado.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/ccna-switching-routing-wireless" target="_blank" class="course-link">CCNA: Switching, Routing and Wireless Essentials</a> — Módulo 2. VLANs, routing, WiFi.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/ccna-enterprise-networking" target="_blank" class="course-link">CCNA: Enterprise Networking, Security and Automation</a> — Módulo 3 final.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CIBERSEGURIDAD -->
+  <div id="path-ciberseguridad" class="roadmap">
+    <div class="roadmap-intro">
+      <h2>Camino en Ciberseguridad</h2>
+      <p>Desde los fundamentos hasta preparación para certificaciones reconocidas. Cisco y Linux Foundation ofrecen rutas completas y gratuitas, con credenciales verificables.</p>
+    </div>
+    <div class="share-bar" style="margin-bottom:2rem; display:flex; align-items:center; gap:1rem;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray);">Compartir esta ruta</span>
+      <button onclick="compartirRuta('🔒 Ciberseguridad', window.location.href)" style="font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.5rem 1.1rem; background:var(--ink); color:var(--paper); border:none; cursor:pointer;">Compartir →</button>
+    </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num start">01</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Introducción al mundo de la ciberseguridad</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">Primer contacto con el campo: qué es un ataque, cómo piensan los atacantes, cómo se protegen las organizaciones. No requiere conocimientos previos.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/introduction-to-cybersecurity" target="_blank" class="course-link">Introduction to Cybersecurity</a> — Panorama general, amenazas más comunes, cómo protegerse. Badge al completar.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/cybersecurity-essentials" target="_blank" class="course-link">Cybersecurity Essentials</a> — Profundización en principios de seguridad, criptografía básica, defensa de redes.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num">02</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Defensa de endpoints y redes</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">Seguridad a nivel dispositivo y red. Firewalls, IDS/IPS, análisis de tráfico. El camino continúa hacia CyberOps Associate — la certificación de analista de seguridad de Cisco.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/endpoint-security" target="_blank" class="course-link">Endpoint Security</a> — Protección de dispositivos, amenazas en endpoints, políticas de seguridad.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/network-defense" target="_blank" class="course-link">Network Defense</a> — Firewall, VPN, IDS, monitoreo de tráfico.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/cyber-threat-management" target="_blank" class="course-link">Cyber Threat Management</a> — Gestión de incidentes, análisis forense básico, respuesta.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num">04</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">DevSecOps — seguridad en el ciclo de desarrollo</div>
+            <span class="step-badge free">Gratis · Badge digital</span>
+          </div>
+          <p class="step-desc">Para quienes quieren entender cómo se integra la seguridad en el desarrollo de software y en las operaciones. Ideal para perfiles que trabajan con equipos técnicos.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider lf">Linux Foundation</span>
+              <span><a href="https://training.linuxfoundation.org/training/introduction-to-devsecops-for-managers-lfs180/" target="_blank" class="course-link">Introduction to DevSecOps for Managers (LFS180)</a> — Gratuito, 20 horas, badge digital al completar. Nivel introductorio, sin conocimientos previos.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num milestone">05</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">IoT — el siguiente frente de la ciberseguridad</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">Cada dispositivo conectado es un vector de ataque potencial. Entender IoT desde el punto de vista de la seguridad es cada vez más relevante — y este curso lo explica desde cero.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/ccna-introduction-networks?courseLang=es-XL&instance_id=713e9500-6d5d-4ae9-93f7-87a85cdd18fa" target="_blank" class="course-link">Introduction to IoT</a> — Cómo funcionan los dispositivos conectados, sus vulnerabilidades y cómo mitigarlas. Badge Credly.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DEVOPS & CLOUD -->
+  <div id="path-devops" class="roadmap">
+    <div class="roadmap-intro">
+      <h2>Camino en DevOps & Cloud</h2>
+      <p>El puente entre desarrollo y operaciones. Linux Foundation y AWS ofrecen las mejores rutas gratuitas para entrar al mundo DevOps, cloud nativo y automatización.</p>
+    </div>
+    <div class="share-bar" style="margin-bottom:2rem; display:flex; align-items:center; gap:1rem;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray);">Compartir esta ruta</span>
+      <button onclick="compartirRuta('⚙️ DevOps & Cloud', window.location.href)" style="font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.5rem 1.1rem; background:var(--ink); color:var(--paper); border:none; cursor:pointer;">Compartir →</button>
+    </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num start">01</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Linux — el sistema operativo de la infraestructura</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">No podés trabajar en DevOps sin entender Linux. Este curso lo explica desde cero — comandos, archivos, permisos, procesos. Gratis y con badge.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider lf">Linux Foundation</span>
+              <span><a href="https://training.linuxfoundation.org/training/introduction-to-linux/" target="_blank" class="course-link">Introduction to Linux (LFS101)</a> — Gratuito, autoguiado, badge Credly al completar. Prepara para LFCS.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/linux-unhatched?courseLang=en-US" target="_blank" class="course-link">NDG Linux Unhatched</a> — Introducción a la línea de comandos Linux, gratuito en NetAcad.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num">02</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Fundamentos de DevOps y SRE</div>
+            <span class="step-badge free">Gratis · Certificado</span>
+          </div>
+          <p class="step-desc">Qué es DevOps, cómo funciona CI/CD, qué es Infrastructure as Code, containers y Kubernetes en contexto. Sin conocimientos previos requeridos.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider lf">Linux Foundation</span>
+              <span><a href="https://training.linuxfoundation.org/training/introduction-to-devops-and-site-reliability-engineering-lfs162/" target="_blank" class="course-link">Introduction to DevOps and SRE (LFS162)</a> — Gratuito, muy bien valorado, visión completa del ecosistema.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider lf">Linux Foundation</span>
+              <span><a href="https://training.linuxfoundation.org/training/introduction-to-gitops/" target="_blank" class="course-link">Introduction to GitOps</a> — Gratuito, badge Credly. Prepara para certificación CGOA.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num">03</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Kubernetes — el estándar de orquestación de containers</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">Kubernetes es la tecnología más demandada en DevOps hoy. La Linux Foundation lo enseña gratis desde los conceptos hasta la práctica.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider lf">Linux Foundation</span>
+              <span><a href="https://training.linuxfoundation.org/training/introduction-to-kubernetes/" target="_blank" class="course-link">Introduction to Kubernetes</a> — Gratuito, badge Credly. Prepara para KCNA, CKA y CKAD.</span>
+            </div>
+          </div>
+          <div class="step-tip"><strong>Ruta de certificación</strong> KCNA (Kubernetes and Cloud Native Associate) es la certificación de entrada al mundo cloud nativo. El examen tiene costo, pero el curso de preparación es gratuito.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num">04</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">AWS Cloud — la nube más usada del mundo</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">AWS Skill Builder ofrece cursos gratuitos con badges verificables. Los Knowledge Badges se obtienen aprobando una evaluación con 80% o más — sin pagar nada.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider aws">AWS</span>
+              <span><a href="https://skillbuilder.aws/learn/RH22P2RXU4/getting-started-with-aws-cloudformation-espaol-latam/RFBE1GES4F" target="_blank" class="course-link">Getting Started with AWS CloudFormation</a> — Infraestructura como código en AWS. En español LATAM.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider aws">AWS</span>
+              <span><a href="https://skillbuilder.aws/learn/R4B13K95YQ/getting-started-with-devops-on-aws-espaol-latam/Z4EQSHSMBY" target="_blank" class="course-link">Getting Started with DevOps on AWS</a> — CI/CD, automatización y cultura DevOps. En español LATAM.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- IA & DATOS -->
+  <div id="path-ia" class="roadmap">
+    <div class="roadmap-intro">
+      <h2>Camino en IA & Datos</h2>
+      <p>No hace falta saber programar para empezar. Cisco y AWS ofrecen rutas accesibles para entender IA, IoT industrial y datos — con certificados y badges verificables.</p>
+    </div>
+    <div class="share-bar" style="margin-bottom:2rem; display:flex; align-items:center; gap:1rem;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray);">Compartir esta ruta</span>
+      <button onclick="compartirRuta('🤖 IA & Datos', window.location.href)" style="font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.5rem 1.1rem; background:var(--ink); color:var(--paper); border:none; cursor:pointer;">Compartir →</button>
+    </div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num start">01</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">IoT — el Internet de las Cosas</div>
+            <span class="step-badge credly">Badge Credly</span>
+          </div>
+          <p class="step-desc">Millones de dispositivos conectados generan datos constantemente. Entender IoT abre la puerta a análisis de datos en tiempo real, automatización y domótica.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/introduction-iot?courseLang=en-US" target="_blank" class="course-link">Introduction to IoT</a> — Qué es el IoT, cómo funciona, aplicaciones reales. Badge Credly.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/introduction-to-modern-ai?courseLang=en-US" target="_blank" class="course-link">Introduction to Modern AI</a> — Fundamentos de IA aplicada al mundo conectado. Sin conocimientos previos.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/industrial-iot-and-control-systems-in-manufacturing?courseLang=en-US" target="_blank" class="course-link">Industrial IoT and Control Systems in Manufacturing</a> — IoT aplicado a procesos industriales y manufactura.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num-wrap"><div class="step-num">02</div></div>
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-title">Datos — fundamentos para empezar</div>
+            <span class="step-badge free">Certificado</span>
+          </div>
+          <p class="step-desc">Cómo se organizan, analizan y usan los datos. Desde los conceptos básicos hasta herramientas de análisis en la nube, sin necesidad de ser programador.</p>
+          <div class="course-list">
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/data-analytics-essentials" target="_blank" class="course-link">Data Analytics Essentials</a> — Fundamentos de análisis de datos, visualización, introducción a Python. Gratuito.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider cisco">Cisco</span>
+              <span><a href="https://www.netacad.com/courses/introduction-data-science?courseLang=en-US" target="_blank" class="course-link">Introduction to Data Science</a> — Qué es la ciencia de datos, cómo se usa, casos reales.</span>
+            </div>
+            <div class="course-item">
+              <span class="course-provider aws">AWS</span>
+              <span><a href="https://skillbuilder.aws/learning-plan/J38YWQY59M/data-analytics-learning-plan-includes-labs-espaol-latam/HE48D1RBAQ" target="_blank" class="course-link">Data Analytics Learning Plan (includes Labs)</a> — Streaming, procesamiento y visualización de datos en AWS. Con labs prácticos. En español LATAM.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span class="footer-name">Pamela Gatto</span>
+  <span class="footer-note">IT Project Coordinator · Networking & Infrastructure · 2026</span>
+</footer>
+
+<script>
+function showPath(path) {
+  document.querySelectorAll('.roadmap').forEach(r => r.classList.remove('active'));
+  document.querySelectorAll('.path-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('path-' + path).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function compartirRuta(nombre, url) {
+  const texto = 'Encontré esta guía gratuita de recursos para aprender ' + nombre + ' — con badges verificables y sin pagar nada.';
+  if (navigator.share) {
+    navigator.share({ title: 'Recursos: ' + nombre, text: texto, url: url });
+  } else {
+    navigator.clipboard.writeText(url);
+    alert('¡Link copiado al portapapeles!');
+  }
+}
+</script>
+
+</body>
+</html>
