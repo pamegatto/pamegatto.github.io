@@ -298,83 +298,82 @@
 <nav>
   <span class="nav-logo">Pamela Gatto</span>
   <div class="nav-links">
-    <a href="#sobre-mi">Sobre mí</a>
-    <a href="#proyectos">Proyectos</a>
-    <a href="#formacion">Formación</a>
-    <a href="credenciales.html">Credenciales</a>
-    <a href="notas.html">Notas</a>
-    <a href="#contacto">Contacto</a>
+    <a href="#sobre-mi" data-es="Sobre mí" data-en="About">Sobre mí</a>
+    <a href="#proyectos" data-es="Proyectos" data-en="Projects">Proyectos</a>
+    <a href="#formacion" data-es="Formación" data-en="Education">Formación</a>
+    <a href="credenciales.html" data-es="Credenciales" data-en="Credentials">Credenciales</a>
+    <a href="notas.html" data-es="Notas" data-en="Notes">Notas</a>
+    <a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a>
+    <button onclick="toggleLang()" id="lang-btn" style="font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; background:transparent; border:1px solid var(--border); color:var(--gray); padding:0.3rem 0.7rem; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--gray)'">EN</button>
   </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">Portfolio profesional</div>
+    <div class="hero-eyebrow" data-es="Portfolio profesional" data-en="Professional Portfolio">Portfolio profesional</div>
     <div class="hero-name">Pamela<br>Gatto</div>
     <div class="hero-title">IT Project Coordinator · Networking & Infrastructure</div>
-    <p class="hero-desc">Coordinación de proyectos de infraestructura de red con visión de negocio. Cada obra que llevo adelante combina ejecución técnica, gestión de equipos y comprensión del impacto real en el cliente final.</p>
+    <p class="hero-desc" data-es="Coordinación de proyectos de infraestructura de red con visión de negocio. Cada obra que llevo adelante combina ejecución técnica, gestión de equipos y comprensión del impacto real en el cliente final." data-en="Network infrastructure project coordination with a business mindset. Every project I lead combines technical execution, team management, and a clear understanding of the real impact on the end client.">Coordinación de proyectos de infraestructura de red con visión de negocio. Cada obra que llevo adelante combina ejecución técnica, gestión de equipos y comprensión del impacto real en el cliente final.</p>
     <div class="hero-cta">
-      <a href="#proyectos" class="btn-primary">Ver proyectos</a>
-      <a href="#contacto" class="btn-secondary">Contacto</a>
-    </div>
-  </div>
+      <a href="#proyectos" class="btn-primary" data-es="Ver proyectos" data-en="View projects">Ver proyectos</a>
+      <a href="#contacto" class="btn-secondary" data-es="Contacto" data-en="Contact">Contacto</a>
+    </div>  </div>
   <div class="hero-right">
     <div class="hero-stat">
-      <div class="hero-stat-label">Empresa actual</div>
+      <div class="hero-stat-label" data-es="Empresa actual" data-en="Current employer">Empresa actual</div>
       <div class="hero-stat-value"><strong>AT&T Inc.</strong> · IT Project Coordinator / Jr. PM</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-label">Especialización</div>
+      <div class="hero-stat-label" data-es="Especialización" data-en="Specialization">Especialización</div>
       <div class="hero-stat-value">Network Infrastructure · LAN / WAN · WiFi · 5G</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-label">Background</div>
-      <div class="hero-stat-value">Business Analyst + formación técnica en redes</div>
+      <div class="hero-stat-label" data-es="Background" data-en="Background">Background</div>
+      <div class="hero-stat-value" data-es="Business Analyst + formación técnica en redes" data-en="Business Analyst + technical networking training">Business Analyst + formación técnica en redes</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-label">Certificaciones en curso</div>
+      <div class="hero-stat-label" data-es="Certificaciones en curso" data-en="Certifications in progress">Certificaciones en curso</div>
       <div class="hero-stat-value">Cisco CCST · CCNA · AWS Generative AI</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-label">Ubicación</div>
-      <div class="hero-stat-value">La Plata, Buenos Aires · Trabajo remoto global</div>
+      <div class="hero-stat-label" data-es="Ubicación" data-en="Location">Ubicación</div>
+      <div class="hero-stat-value" data-es="La Plata, Buenos Aires · Trabajo remoto global" data-en="La Plata, Buenos Aires · Global remote work">La Plata, Buenos Aires · Trabajo remoto global</div>
     </div>
   </div>
 </div>
 
 <main>
 
-  <!-- SOBRE MÍ -->
   <section class="section" id="sobre-mi">
     <div class="section-header">
       <span class="section-num">01</span>
-      <h2 class="section-title">Sobre mí</h2>
+      <h2 class="section-title" data-es="Sobre mí" data-en="About me">Sobre mí</h2>
     </div>
     <div class="about-grid">
       <div class="about-text">
-        <p>Trabajo en infraestructura de red con la misma mentalidad con la que alguna vez analicé negocios: entendiendo primero el por qué antes de resolver el cómo. Mi paso por Business Analysis me dio una mirada crítica y analítica que aplico en cada proyecto — no solo ejecuto, también entiendo el impacto de cada decisión técnica en la operación y en el negocio.</p>
-        <p>En AT&T no me limité a aprender redes. Estudié el negocio de las telecomunicaciones, la posición competitiva de la empresa, sus perspectivas en el mercado estadounidense y las oportunidades que se abren con la expansión de fibra óptica hacia estados con poca infraestructura. Entender que cada nuevo cliente en una zona "oscura" es un paso hacia dominar ese mercado en los próximos años le da sentido estratégico a cada obra que coordino.</p>
-        <p>Me formé también en los fundamentos técnicos del negocio: tipos de frecuencia de onda, diferencias entre redes 5G y 6G, aplicaciones de microondas e infrarrojos, y cómo cada tecnología impacta directamente en la experiencia del cliente final.</p>
-        <p>Soy tenaz, comprometida con mi equipo y me gusta transmitirles tranquilidad — aunque por dentro a veces me muera de nervios. Creo que un equipo que trabaja con confianza trabaja mejor. Y no hay un día en que no haga algo para ser mejor profesional: leo, estudio, pregunto, busco. La rutina me da estructura y las biografías de científicos me recuerdan que los grandes avances siempre empezaron con muchas preguntas y ninguna respuesta garantizada.</p>
-        <p style="color: var(--gray); font-style: italic; font-size: 0.88rem;">También juego al tutti frutti. Con mucha convicción.</p>
+        <p data-es="Trabajo en infraestructura de red con la misma mentalidad con la que alguna vez analicé negocios: entendiendo primero el por qué antes de resolver el cómo. Mi paso por Business Analysis me dio una mirada crítica y analítica que aplico en cada proyecto — no solo ejecuto, también entiendo el impacto de cada decisión técnica en la operación y en el negocio." data-en="I work in network infrastructure with the same mindset I once applied to business analysis: understanding the why before solving the how. My background in Business Analysis gave me a critical, analytical perspective that I bring to every project — I don't just execute, I understand the impact of every technical decision on operations and on the business.">Trabajo en infraestructura de red con la misma mentalidad con la que alguna vez analicé negocios: entendiendo primero el por qué antes de resolver el cómo. Mi paso por Business Analysis me dio una mirada crítica y analítica que aplico en cada proyecto — no solo ejecuto, también entiendo el impacto de cada decisión técnica en la operación y en el negocio.</p>
+        <p data-es='En AT&amp;T no me limité a aprender redes. Estudié el negocio de las telecomunicaciones, la posición competitiva de la empresa, sus perspectivas en el mercado estadounidense y las oportunidades que se abren con la expansión de fibra óptica hacia estados con poca infraestructura. Entender que cada nuevo cliente en una zona "oscura" es un paso hacia dominar ese mercado en los próximos años le da sentido estratégico a cada obra que coordino.' data-en='At AT&amp;T I didn't just learn networking. I studied the telecommunications business, the company's competitive position, its prospects in the US market, and the opportunities that come with fiber optic expansion into underserved states. Understanding that each new customer in a "dark zone" is a step toward owning that market in the coming years gives strategic meaning to every project I coordinate.'>En AT&T no me limité a aprender redes. Estudié el negocio de las telecomunicaciones, la posición competitiva de la empresa, sus perspectivas en el mercado estadounidense y las oportunidades que se abren con la expansión de fibra óptica hacia estados con poca infraestructura. Entender que cada nuevo cliente en una zona "oscura" es un paso hacia dominar ese mercado en los próximos años le da sentido estratégico a cada obra que coordino.</p>
+        <p data-es="Me formé también en los fundamentos técnicos del negocio: tipos de frecuencia de onda, diferencias entre redes 5G y 6G, aplicaciones de microondas e infrarrojos, y cómo cada tecnología impacta directamente en la experiencia del cliente final." data-en="I also trained in the technical fundamentals of the business: wave frequency types, differences between 5G and 6G networks, microwave and infrared applications, and how each technology directly impacts the end customer experience.">Me formé también en los fundamentos técnicos del negocio: tipos de frecuencia de onda, diferencias entre redes 5G y 6G, aplicaciones de microondas e infrarrojos, y cómo cada tecnología impacta directamente en la experiencia del cliente final.</p>
+        <p data-es="Soy tenaz, comprometida con mi equipo y me gusta transmitirles tranquilidad — aunque por dentro a veces me muera de nervios. Creo que un equipo que trabaja con confianza trabaja mejor. Y no hay un día en que no haga algo para ser mejor profesional: leo, estudio, pregunto, busco. La rutina me da estructura y las biografías de científicos me recuerdan que los grandes avances siempre empezaron con muchas preguntas y ninguna respuesta garantizada." data-en="I'm tenacious, committed to my team, and I like to project calm — even when I'm nervous on the inside. I believe a team that works with confidence works better. There isn't a day that goes by where I don't do something to become a better professional: I read, study, ask questions, and keep searching. Routine gives me structure, and biographies of scientists remind me that great breakthroughs always started with many questions and no guaranteed answers.">Soy tenaz, comprometida con mi equipo y me gusta transmitirles tranquilidad — aunque por dentro a veces me muera de nervios. Creo que un equipo que trabaja con confianza trabaja mejor. Y no hay un día en que no haga algo para ser mejor profesional: leo, estudio, pregunto, busco. La rutina me da estructura y las biografías de científicos me recuerdan que los grandes avances siempre empezaron con muchas preguntas y ninguna respuesta garantizada.</p>
+        <p style="color: var(--gray); font-style: italic; font-size: 0.88rem;" data-es="También juego al tutti frutti. Con mucha convicción." data-en="I also play tutti frutti. With great conviction.">También juego al tutti frutti. Con mucha convicción.</p>
       </div>
       <div class="about-aside">
         <div class="aside-item">
-          <div class="aside-label">Fortalezas</div>
-          <div class="aside-value">Tenacidad · Visión de negocio · Trabajo en equipo · Comunicación clara bajo presión</div>
+          <div class="aside-label" data-es="Fortalezas" data-en="Strengths">Fortalezas</div>
+          <div class="aside-value" data-es="Tenacidad · Visión de negocio · Trabajo en equipo · Comunicación clara bajo presión" data-en="Tenacity · Business vision · Teamwork · Clear communication under pressure">Tenacidad · Visión de negocio · Trabajo en equipo · Comunicación clara bajo presión</div>
         </div>
         <div class="aside-item">
-          <div class="aside-label">Formación base</div>
-          <div class="aside-value">Ciencias + Tecnología · Business Analysis · Técnico en Redes (en curso)</div>
+          <div class="aside-label" data-es="Formación base" data-en="Academic background">Formación base</div>
+          <div class="aside-value" data-es="Ciencias + Tecnología · Business Analysis · Técnico en Redes (en curso)" data-en="Science + Technology · Business Analysis · Network Technician (in progress)">Ciencias + Tecnología · Business Analysis · Técnico en Redes (en curso)</div>
         </div>
         <div class="aside-item">
-          <div class="aside-label">Contexto técnico AT&T</div>
-          <div class="aside-value">Banda 3.45 GHz en zonas urbanas · Banda 600 MHz en zonas rurales · Expansión 5G y fibra óptica</div>
+          <div class="aside-label" data-es="Contexto técnico AT&T" data-en="AT&T technical context">Contexto técnico AT&T</div>
+          <div class="aside-value" data-es="Banda 3.45 GHz en zonas urbanas · Banda 600 MHz en zonas rurales · Expansión 5G y fibra óptica" data-en="3.45 GHz band in urban areas · 600 MHz band in rural areas · 5G and fiber optic expansion">Banda 3.45 GHz en zonas urbanas · Banda 600 MHz en zonas rurales · Expansión 5G y fibra óptica</div>
         </div>
         <div class="aside-item">
-          <div class="aside-label">Intereses fuera del trabajo</div>
-          <div class="aside-value">Biografías de científicos · Tutti frutti · Rutina como herramienta de crecimiento</div>
+          <div class="aside-label" data-es="Intereses fuera del trabajo" data-en="Outside of work">Intereses fuera del trabajo</div>
+          <div class="aside-value" data-es="Biografías de científicos · Tutti frutti · Rutina como herramienta de crecimiento" data-en="Scientist biographies · Tutti frutti · Routine as a growth tool">Biografías de científicos · Tutti frutti · Rutina como herramienta de crecimiento</div>
         </div>
       </div>
     </div>
@@ -384,7 +383,7 @@
   <section class="section" id="proyectos">
     <div class="section-header">
       <span class="section-num">02</span>
-      <h2 class="section-title">Proyectos</h2>
+      <h2 class="section-title" data-es="Proyectos" data-en="Projects">Proyectos</h2>
     </div>
     <div class="projects-grid">
 
@@ -392,10 +391,10 @@
         <div>
           <div class="card-meta">
             <span>AT&T Inc. · 2025</span>
-            <span class="card-type upgrade">Network Upgrade</span>
+            <span class="card-type upgrade" data-es="Network Upgrade" data-en="Network Upgrade">Network Upgrade</span>
           </div>
-          <div class="card-title">Dual AVPN Network Refresh — Modernización de infraestructura corporativa</div>
-          <p class="card-desc">Planificación y ejecución de upgrade completo de red en sitio corporativo: nuevos circuitos AVPN duales, switches, cableado Cat 6A, WiFi y migración de usuarios — con decommission controlado de red legacy.</p>
+          <div class="card-title" data-es="Dual AVPN Network Refresh — Modernización de infraestructura corporativa" data-en="Dual AVPN Network Refresh — Corporate Infrastructure Modernization">Dual AVPN Network Refresh — Modernización de infraestructura corporativa</div>
+          <p class="card-desc" data-es="Planificación y ejecución de upgrade completo de red en sitio corporativo: nuevos circuitos AVPN duales, switches, cableado Cat 6A, WiFi y migración de usuarios — con decommission controlado de red legacy." data-en="Planning and execution of a full network upgrade at a corporate site: dual AVPN circuits, switches, Cat 6A cabling, WiFi, and user migration — with controlled legacy network decommission.">Planificación y ejecución de upgrade completo de red en sitio corporativo: nuevos circuitos AVPN duales, switches, cableado Cat 6A, WiFi y migración de usuarios — con decommission controlado de red legacy.</p>
           <div class="card-tags">
             <span class="card-tag">AVPN</span>
             <span class="card-tag">LAN/WAN</span>
@@ -411,10 +410,10 @@
         <div>
           <div class="card-meta">
             <span>AT&T Inc. · 2025</span>
-            <span class="card-type wifi">Network Upgrade · WiFi</span>
+            <span class="card-type wifi" data-es="Network Upgrade · WiFi" data-en="Network Upgrade · WiFi">Network Upgrade · WiFi</span>
           </div>
-          <div class="card-title">Network Upgrade Completo — Oakbrook, Illinois</div>
-          <p class="card-desc">Modernización total de infraestructura en edificio de 3 niveles: switches C9500 de core, fibra, transceivers, controladores 9800, nuevas VLANs y 15 Access Points WiFi 6E registrados en Cisco Catalyst Center. Proyecto tomado con demora preexistente y múltiples bloqueos técnicos resueltos en ejecución.</p>
+          <div class="card-title" data-es="Network Upgrade Completo — Oakbrook, Illinois" data-en="Full Network Upgrade — Oakbrook, Illinois">Network Upgrade Completo — Oakbrook, Illinois</div>
+          <p class="card-desc" data-es="Modernización total de infraestructura en edificio de 3 niveles: switches C9500 de core, fibra, transceivers, controladores 9800, nuevas VLANs y 15 Access Points WiFi 6E registrados en Cisco Catalyst Center. Proyecto tomado con demora preexistente y múltiples bloqueos técnicos resueltos en ejecución." data-en="Full infrastructure modernization in a 3-floor building: C9500 core switches, fiber, transceivers, 9800 controllers, new VLANs and 15 WiFi 6E Access Points registered in Cisco Catalyst Center. Project inherited with pre-existing delay and multiple technical blockers resolved during execution.">Modernización total de infraestructura en edificio de 3 niveles: switches C9500 de core, fibra, transceivers, controladores 9800, nuevas VLANs y 15 Access Points WiFi 6E registrados en Cisco Catalyst Center. Proyecto tomado con demora preexistente y múltiples bloqueos técnicos resueltos en ejecución.</p>
           <div class="card-tags">
             <span class="card-tag">C9500</span>
             <span class="card-tag">WiFi 6E</span>
@@ -425,23 +424,23 @@
         </div>
         <div class="card-arrow">→</div>
       </a>
-<a href="proyecto-relocalizacion.html" class="project-card">
-  <div>
-    <div class="card-meta">
-      <span>AT&T Inc. · 2025</span>
-      <span class="card-type upgrade">Relocalización · Migración</span>
-    </div>
-    <div class="card-title">Relocalización
-de oficina —
-Migración de red en paralelo</div>
-    <p class="card-desc">Baja completa de infraestructura de red en un sitio y alta simultánea en otro, mientras 11 personas continuaban trabajando. La coordinación fue el proyecto.</p>
-    <div class="card-tags">
-      <span class="card-tag">C9300</span>
-      <span class="card-tag">Subredes</span>
-    </div>
-  </div>
-  <div class="card-arrow">→</div>
-</a>
+
+      <a href="proyecto-relocalizacion.html" class="project-card">
+        <div>
+          <div class="card-meta">
+            <span>AT&T Inc. · 2025</span>
+            <span class="card-type upgrade" data-es="Relocalización · Migración" data-en="Relocation · Migration">Relocalización · Migración</span>
+          </div>
+          <div class="card-title" data-es="Relocalización de oficina — Migración de red en paralelo" data-en="Office Relocation — Parallel Network Migration">Relocalización de oficina — Migración de red en paralelo</div>
+          <p class="card-desc" data-es="Baja completa de infraestructura de red en un sitio y alta simultánea en otro, mientras 11 personas continuaban trabajando. La coordinación fue el proyecto." data-en="Full network teardown at one site and simultaneous bring-up at another, while 11 people kept working. Coordination was the project.">Baja completa de infraestructura de red en un sitio y alta simultánea en otro, mientras 11 personas continuaban trabajando. La coordinación fue el proyecto.</p>
+          <div class="card-tags">
+            <span class="card-tag">C9300X</span>
+            <span class="card-tag" data-es="Subredes" data-en="Subnets">Subredes</span>
+          </div>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
+
     </div>
   </section>
 
@@ -449,40 +448,40 @@ Migración de red en paralelo</div>
   <section class="section" id="habilidades">
     <div class="section-header">
       <span class="section-num">03</span>
-      <h2 class="section-title">Habilidades</h2>
+      <h2 class="section-title" data-es="Habilidades" data-en="Skills">Habilidades</h2>
     </div>
     <div class="skills-grid">
       <div class="skill-group">
-        <div class="skill-group-title">Gestión de proyectos</div>
+        <div class="skill-group-title" data-es="Gestión de proyectos" data-en="Project Management">Gestión de proyectos</div>
         <div class="skill-list">
           <div class="skill-item">IT Project Coordination</div>
           <div class="skill-item">Change Management</div>
-          <div class="skill-item">Gestión de dependencias y bloqueos</div>
-          <div class="skill-item">Coordinación multiteam</div>
-          <div class="skill-item">Documentación técnica</div>
-          <div class="skill-item">Planificación física y lógica de red</div>
+          <div class="skill-item" data-es="Gestión de dependencias y bloqueos" data-en="Dependency and blocker management">Gestión de dependencias y bloqueos</div>
+          <div class="skill-item" data-es="Coordinación multiteam" data-en="Multi-team coordination">Coordinación multiteam</div>
+          <div class="skill-item" data-es="Documentación técnica" data-en="Technical documentation">Documentación técnica</div>
+          <div class="skill-item" data-es="Planificación física y lógica de red" data-en="Physical and logical network planning">Planificación física y lógica de red</div>
         </div>
       </div>
       <div class="skill-group">
-        <div class="skill-group-title">Infraestructura de red</div>
+        <div class="skill-group-title" data-es="Infraestructura de red" data-en="Network Infrastructure">Infraestructura de red</div>
         <div class="skill-list">
           <div class="skill-item">LAN / WAN / MAN</div>
           <div class="skill-item">DHCP · ARP · TCP/IP</div>
-          <div class="skill-item">Cableado estructurado Cat 6A / 5e</div>
+          <div class="skill-item" data-es="Cableado estructurado Cat 6A / 5e" data-en="Structured cabling Cat 6A / 5e">Cableado estructurado Cat 6A / 5e</div>
           <div class="skill-item">WiFi 6E · Access Points · WLC</div>
-          <div class="skill-item">Redes 5G privadas</div>
-          <div class="skill-item">Fibra óptica · Transceivers SFP/QSFP</div>
+          <div class="skill-item" data-es="Redes 5G privadas" data-en="Private 5G networks">Redes 5G privadas</div>
+          <div class="skill-item" data-es="Fibra óptica · Transceivers SFP/QSFP" data-en="Fiber optics · SFP/QSFP transceivers">Fibra óptica · Transceivers SFP/QSFP</div>
         </div>
       </div>
       <div class="skill-group">
-        <div class="skill-group-title">Plataformas y herramientas</div>
+        <div class="skill-group-title" data-es="Plataformas y herramientas" data-en="Platforms & Tools">Plataformas y herramientas</div>
         <div class="skill-list">
           <div class="skill-item">Cisco Catalyst Center (DNAC)</div>
           <div class="skill-item">Cisco ISE</div>
-          <div class="skill-item">TFTP · Templates de configuración</div>
-          <div class="skill-item">VLANs · Subredes · DHCP Options</div>
-          <div class="skill-item">Sistemas de tickets y AOTS CR</div>
-          <div class="skill-item">AWS · IA Generativa</div>
+          <div class="skill-item" data-es="TFTP · Templates de configuración" data-en="TFTP · Configuration templates">TFTP · Templates de configuración</div>
+          <div class="skill-item" data-es="VLANs · Subredes · DHCP Options" data-en="VLANs · Subnets · DHCP Options">VLANs · Subredes · DHCP Options</div>
+          <div class="skill-item" data-es="Sistemas de tickets y AOTS CR" data-en="Ticketing systems and AOTS CR">Sistemas de tickets y AOTS CR</div>
+          <div class="skill-item" data-es="AWS · IA Generativa" data-en="AWS · Generative AI">AWS · IA Generativa</div>
         </div>
       </div>
     </div>
@@ -492,62 +491,62 @@ Migración de red en paralelo</div>
   <section class="section" id="formacion">
     <div class="section-header">
       <span class="section-num">04</span>
-      <h2 class="section-title">Formación</h2>
+      <h2 class="section-title" data-es="Formación" data-en="Education">Formación</h2>
     </div>
     <div class="edu-grid">
       <div class="edu-item">
         <div class="edu-org">Cisco Networking Academy</div>
         <div class="edu-detail">
-          <div class="edu-title">Carrera Profesional de Técnico en Redes</div>
-          <span class="edu-status ongoing">En curso</span>
+          <div class="edu-title" data-es="Carrera Profesional de Técnico en Redes" data-en="Professional Network Technician Program">Carrera Profesional de Técnico en Redes</div>
+          <span class="edu-status ongoing" data-es="En curso" data-en="In progress">En curso</span>
         </div>
       </div>
       <div class="edu-item">
         <div class="edu-org">Cisco</div>
         <div class="edu-detail">
           <div class="edu-title">Cisco Certified Support Technician (CCST)</div>
-          <span class="edu-status ongoing">En curso</span>
+          <span class="edu-status ongoing" data-es="En curso" data-en="In progress">En curso</span>
         </div>
       </div>
       <div class="edu-item">
         <div class="edu-org">Cisco</div>
         <div class="edu-detail">
           <div class="edu-title">CCNA — Cisco Certified Network Associate</div>
-          <span class="edu-status ongoing">En curso</span>
+          <span class="edu-status ongoing" data-es="En curso" data-en="In progress">En curso</span>
         </div>
       </div>
       <div class="edu-item">
         <div class="edu-org">Amazon Web Services</div>
         <div class="edu-detail">
           <div class="edu-title">Security and Cost Management for Generative AI Applications on AWS</div>
-          <span class="edu-status done">Completado</span>
+          <span class="edu-status done" data-es="Completado" data-en="Completed">Completado</span>
         </div>
       </div>
       <div class="edu-item">
         <div class="edu-org">Amazon Web Services</div>
         <div class="edu-detail">
           <div class="edu-title">Planning a Generative AI Project</div>
-          <span class="edu-status done">Completado</span>
+          <span class="edu-status done" data-es="Completado" data-en="Completed">Completado</span>
         </div>
       </div>
     </div>
 
     <div style="margin-top: 2.5rem;">
-      <a href="credenciales.html" style="display:inline-flex; align-items:center; gap:0.6rem; font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.9rem 1.8rem; background:var(--ink); color:var(--paper); text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Ver todos los badges y certificados →</a>
+      <a href="credenciales.html" style="display:inline-flex; align-items:center; gap:0.6rem; font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.9rem 1.8rem; background:var(--ink); color:var(--paper); text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" data-es="Ver todos los badges y certificados →" data-en="View all badges and certificates →">Ver todos los badges y certificados →</a>
     </div>
 
     <div style="margin-top: 3rem;">
       <div class="section-header" style="margin-bottom: 1.5rem;">
         <span class="section-num">05</span>
-        <h2 class="section-title">Idiomas</h2>
+        <h2 class="section-title" data-es="Idiomas" data-en="Languages">Idiomas</h2>
       </div>
       <div class="lang-row">
         <div class="lang-item">
-          <div class="lang-name">Español</div>
-          <div class="lang-level">Nativo</div>
+          <div class="lang-name" data-es="Español" data-en="Spanish">Español</div>
+          <div class="lang-level" data-es="Nativo" data-en="Native">Nativo</div>
         </div>
         <div class="lang-item">
-          <div class="lang-name">Inglés</div>
+          <div class="lang-name" data-es="Inglés" data-en="English">Inglés</div>
           <div class="lang-level">B2 — Upper Intermediate</div>
         </div>
       </div>
@@ -558,20 +557,20 @@ Migración de red en paralelo</div>
   <section class="section" id="contacto">
     <div class="section-header">
       <span class="section-num">06</span>
-      <h2 class="section-title">Contacto</h2>
+      <h2 class="section-title" data-es="Contacto" data-en="Contact">Contacto</h2>
     </div>
     <div class="contact-block">
       <div class="contact-left">
-        <div class="contact-title">Hablemos.</div>
-        <p class="contact-desc">Si estás buscando una IT Project Coordinator con visión de negocio, capacidad técnica y las ganas de seguir creciendo todos los días — estoy disponible.</p>
+        <div class="contact-title" data-es="Hablemos." data-en="Let's talk.">Hablemos.</div>
+        <p class="contact-desc" data-es="Si estás buscando una IT Project Coordinator con visión de negocio, capacidad técnica y las ganas de seguir creciendo todos los días — estoy disponible." data-en="If you're looking for an IT Project Coordinator with business vision, technical skills, and a drive to keep growing every single day — I'm available.">Si estás buscando una IT Project Coordinator con visión de negocio, capacidad técnica y las ganas de seguir creciendo todos los días — estoy disponible.</p>
       </div>
       <div class="contact-links">
-        <a href="/cdn-cgi/l/email-protection#3a4a5b575f145d5b4e4e557a5d575b535614595557" class="contact-link">
+        <div class="contact-link">
           <div>
             <div class="contact-link-label">Email</div>
-            <div class="contact-link-value"><span class="__cf_email__" data-cfemail="fb8b9a969ed59c9a8f8f94bb9c969a9297d5989496">[email&#160;pame.gatto@gmail.com]</span></div>
+            <div class="contact-link-value">pame.gatto@gmail.com</div>
           </div>
-        </a>
+        </div>
         <a href="https://linkedin.com/in/pame-gatto" target="_blank" class="contact-link">
           <div>
             <div class="contact-link-label">LinkedIn</div>
@@ -580,7 +579,7 @@ Migración de red en paralelo</div>
         </a>
         <a href="tel:+5492213587439" class="contact-link">
           <div>
-            <div class="contact-link-label">Teléfono</div>
+            <div class="contact-link-label" data-es="Teléfono" data-en="Phone">Teléfono</div>
             <div class="contact-link-value">+549 221 358-7439</div>
           </div>
         </a>
@@ -591,4 +590,26 @@ Migración de red en paralelo</div>
 </main>
 
 <footer>
-  <span class="footer-name">Pamela 
+  <span class="footer-name">Pamela Gatto</span>
+  <span class="footer-note" data-es="IT Project Coordinator · Networking & Infrastructure · 2025" data-en="IT Project Coordinator · Networking & Infrastructure · 2025">IT Project Coordinator · Networking & Infrastructure · 2025</span>
+</footer>
+
+<script>
+let currentLang = 'es';
+
+function toggleLang() {
+  currentLang = currentLang === 'es' ? 'en' : 'es';
+  const btn = document.getElementById('lang-btn');
+  btn.textContent = currentLang === 'es' ? 'EN' : 'ES';
+
+  document.querySelectorAll('[data-es]').forEach(el => {
+    const text = el.getAttribute('data-' + currentLang);
+    if (text) el.textContent = text;
+  });
+
+  document.documentElement.lang = currentLang;
+}
+</script>
+
+</body>
+</html>
