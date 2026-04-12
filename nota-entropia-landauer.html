@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Por qué borrar un bit cuesta energía — Pamela Gatto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem; background: var(--paper); border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back:hover { border-color: var(--accent); }
+
+  .hero {
+    margin-top: 60px; background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(247,244,238,0.018) 30px, rgba(247,244,238,0.018) 31px);
+    pointer-events: none;
+  }
+  .hero-meta { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; }
+  .hero-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.7rem; border: 1px solid rgba(232,93,47,0.4); color: var(--accent); border-radius: 2px; }
+  .hero-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: rgba(247,244,238,0.35); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3.2rem); line-height: 1.15; font-weight: 400; margin-bottom: 1.2rem; max-width: 720px; }
+  .hero h1 em { font-style: italic; color: rgba(247,244,238,0.45); }
+  .hero-sub { font-size: 1rem; line-height: 1.75; color: rgba(247,244,238,0.55); max-width: 560px; }
+
+  article { max-width: 720px; margin: 0 auto; padding: 5rem 2rem 6rem; }
+
+  .article-body p {
+    font-size: 1rem; line-height: 1.95; color: #2a2520;
+    margin-bottom: 1.6rem; max-width: 100%;
+  }
+  .article-body p:first-child::first-letter {
+    font-family: 'Playfair Display', serif; font-size: 3.8rem; line-height: 0.85;
+    float: left; margin-right: 0.12em; margin-top: 0.08em; color: var(--accent);
+  }
+
+  .laws-block {
+    margin: 2rem 0; padding: 1.8rem 2rem;
+    border: 1px solid var(--border); border-radius: 4px;
+    background: var(--warm);
+  }
+  .laws-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 1rem; }
+  .law-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 0.7rem; font-size: 0.95rem; line-height: 1.6; color: #2a2520; }
+  .law-item:last-child { margin-bottom: 0; }
+  .law-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--accent); font-weight: 500; flex-shrink: 0; margin-top: 0.2rem; }
+
+  .section-divider {
+    margin: 3rem 0 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .section-divider h2 {
+    font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
+
+  .formula-block {
+    margin: 2rem 0; padding: 2rem;
+    border: 1px solid var(--border); border-radius: 4px;
+    text-align: center; background: var(--warm);
+  }
+  .formula { font-family: 'IBM Plex Mono', monospace; font-size: 1.4rem; color: var(--ink); margin-bottom: 1rem; letter-spacing: 0.05em; }
+  .formula-legend { display: flex; flex-direction: column; gap: 0.3rem; align-items: center; }
+  .formula-item { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--gray); }
+
+  .pullquote {
+    margin: 2.5rem 0; padding: 2rem 2.5rem;
+    border-left: 4px solid var(--accent);
+    background: rgba(232,93,47,0.04);
+  }
+  .pullquote p { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.6; font-style: italic; color: var(--ink); margin-bottom: 0 !important; }
+
+  .highlight-box {
+    margin: 2rem 0; padding: 1.5rem 2rem;
+    border-left: 3px solid var(--blue);
+    background: rgba(47,122,232,0.04);
+    border-radius: 0 4px 4px 0;
+  }
+  .highlight-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.5rem; }
+  .highlight-box p { font-size: 0.92rem; line-height: 1.7; color: #2a2520; margin-bottom: 0 !important; }
+
+  .share-block { margin-top: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  .share-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+  .share-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 1.2rem; background: var(--ink); color: var(--paper); border: none; cursor: pointer; }
+  .share-btn:hover { opacity: 0.8; }
+
+  .article-source { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .source-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+
+  .author-block { margin-top: 2.5rem; padding: 1.8rem 2rem; border: 1px solid var(--border); border-radius: 4px; display: flex; gap: 1.5rem; align-items: center; background: var(--warm); }
+  .author-initial { width: 48px; height: 48px; border-radius: 50%; background: var(--ink); color: var(--paper); font-family: 'Playfair Display', serif; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .author-name { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
+  .author-role { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+
+  .back-notes { display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 2.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back-notes:hover { border-color: var(--accent); }
+
+  footer { background: var(--ink); color: var(--paper); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; }
+  .footer-note { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.3); }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    article { padding: 3rem 1.5rem 4rem; }
+    .pullquote { padding: 1.5rem; }
+    .author-block { flex-direction: column; align-items: flex-start; }
+    footer { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="notas.html" class="back">← Volver a notas</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-meta">
+    <span class="hero-tag">Física · Computación · Infraestructura</span>
+    <span class="hero-date">Abril 2026</span>
+  </div>
+  <h1>Por qué borrar un bit<br>cuesta energía —<br><em>y qué tiene que ver con el universo</em></h1>
+  <p class="hero-sub">Einstein consideraba la Segunda Ley de la Termodinámica como la más sólida de las leyes físicas. Tiene implicancias en las redes que usamos todos los días.</p>
+</div>
+
+<article>
+  <div class="article-body">
+
+    <div class="laws-block">
+      <div class="laws-label">Refrescando conceptos</div>
+      <div class="law-item"><span class="law-num">01</span><span>La energía total del universo es constante.</span></div>
+      <div class="law-item"><span class="law-num">02</span><span>La entropía total del universo tiende a un máximo.</span></div>
+    </div>
+
+    <p>Es decir: la energía se disipa a lo largo del tiempo.</p>
+
+    <p>La Segunda Ley de la Termodinámica pretende regir la totalidad de los fenómenos físicos, desde los que involucran solo unas pocas partículas hasta los que afectan el universo en su conjunto, por lo que no estamos ante una simple ley física. Tiene implicancias en la sensación del paso del tiempo, los cambios en nuestro cuerpo y, en última instancia, la aniquilación.</p>
+
+    <p>Por otra parte, el concepto de entropía nace en el siglo XIX. En ese momento de la historia, la humanidad estaba en búsqueda de construir máquinas cada vez más potentes. Las máquinas de vapor ya eran campo de estudio de ingenieros y científicos que las analizaban desde un punto de vista más sistemático.</p>
+
+    <p>Hasta ese momento, la física se basaba en los estudios de Newton, que buscaban explicar el cielo, el movimiento de los planetas, la gravedad y la tierra, pero no lograba dar explicación a la termodinámica. La termodinámica no pretende describir todo bajo cualquier circunstancia, sino solo lo que importa bajo las condiciones que importan.</p>
+
+    <p>Sadi Carnot pasó tres años estudiando el uso óptimo de la energía en máquinas de vapor y llegó a la conclusión de que solo una parte de la energía era convertida en trabajo; el resto se dispersaba y ya no era posible recuperarla ni usarla, dando lugar a un proceso irreversible. A esto, Rudolf Clausius lo llamó entropía — eligió esa palabra deliberadamente, del griego <em>trope</em> (transformación), para que sonara lo suficientemente universal como para estar a la altura del concepto: una medida de la energía que se dispersa y que el universo no puede recuperar. Una vez que ocurre, no hay vuelta atrás.</p>
+
+    <p>Aunque muchas veces pensamos en la entropía como desorden, probablemente la mejor manera de entenderla es considerándola como energía que se dispersa y ya no puede ser utilizada.</p>
+
+    <p>Por otra parte, Boltzmann estableció que el calor no siempre viaja de los cuerpos calientes a los fríos, sino que es puramente estadístico. Existen casos en los que el calor viaja de cuerpos fríos a calientes. (Tranqui, ya vamos a ver un ejemplo.) Es poco probable, pero sucede.</p>
+
+    <p>Pensemos en sistemas de refrigeración: el calor pasa de cuerpos fríos a sistemas calientes, pero si esos sistemas tienen un descenso de temperatura, están teniendo, a su vez, un descenso de la entropía. Y si la entropía del universo tiende a máximo, ¿dónde está aumentando?</p>
+
+    <p>En el aumento de temperatura del motor del equipo de refrigeración, en la energía disipada por los cables que conducen electricidad, en los transformadores eléctricos y en las centrales eléctricas, donde fuentes de calor convierten agua en vapor que mueve turbinas gigantes.</p>
+
+  </div>
+
+  <div class="pullquote">
+    <p>Un mínimo cambio en la entropía de un sistema conlleva un gran cambio de entropía en otra parte del universo.</p>
+  </div>
+
+  <div class="section-divider">
+    <h2>Procesos informáticos, entropía y la Segunda Ley: el principio de Landauer</h2>
+
+    <div class="article-body">
+
+      <p>Hacia 1960, Rolf Landauer planteó que los sistemas informáticos debían comportarse de acuerdo a la Segunda Ley de la Termodinámica. ¿Pero cómo?</p>
+
+      <p>Estableció que existe un límite de energía mínima necesaria para el borrado de una cantidad de información, dando lugar al principio limitante para el borrado de un bit de memoria de un sistema que funciona a una temperatura de equilibrio T. La cantidad mínima de energía disipada al borrar un bit de información está establecida por:</p>
+
+    </div>
+
+    <div class="formula-block">
+      <div class="formula">W = k<sub>B</sub> · T · ln2</div>
+      <div class="formula-legend">
+        <span class="formula-item">k<sub>B</sub> = constante de Boltzmann</span>
+        <span class="formula-item">T = temperatura de equilibrio del sistema informático</span>
+        <span class="formula-item">W = energía mínima disipada al borrar un bit</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+
+      <p>De esta manera, Landauer logró relacionar procesos informáticos con irreversibilidad termodinámica, pero solo de manera teórica.</p>
+
+      <p>No fue hasta 60 años después que se logró comprobar de manera empírica que el proceso de borrado de información, relacionado con el tiempo necesario para disipar energía, se acerca bastante a los cálculos establecidos por Landauer: 10⁻²¹ J.</p>
+
+      <p>Se estima que para la próxima década tengamos circuitos operando muy cerca del límite de Landauer.</p>
+
+    </div>
+
+    <div class="highlight-box">
+      <div class="highlight-label">Por qué importa en infraestructura</div>
+      <p>Esto trae implicancias en la cantidad de información que generamos, usamos y borramos; los sistemas que alimentamos con esa información; la cantidad de recursos necesarios para su almacenamiento y procesamiento; y el uso de las redes de infraestructura que cada vez tienen más demanda de tráfico y velocidad.</p>
+    </div>
+
+  </div>
+
+  <div class="share-block">
+    <span class="share-label">Compartir</span>
+    <button class="share-btn" onclick="compartir()">Compartir esta nota →</button>
+  </div>
+
+  <div class="article-source">
+    <span class="source-label">Basado en</span>
+    <span style="font-size:0.88rem; color: var(--gray);">Principio de Landauer · R. Landauer, IBM Journal of Research and Development, 1961 · Segunda Ley de la Termodinámica</span>
+  </div>
+
+  <div class="author-block">
+    <div class="author-initial">P</div>
+    <div>
+      <div class="author-name">Pamela Gatto</div>
+      <div class="author-role">IT Project Coordinator · Networking & Infrastructure · AT&T</div>
+    </div>
+  </div>
+
+  <a href="notas.html" class="back-notes">← Ver todas las notas</a>
+
+</article>
+
+<footer>
+  <span class="footer-name">Pamela Gatto</span>
+  <span class="footer-note">IT Project Coordinator · Networking & Infrastructure · 2026</span>
+</footer>
+
+<script>
+function compartir() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Por qué borrar un bit cuesta energía — y qué tiene que ver con el universo',
+      text: 'Einstein consideraba la Segunda Ley de la Termodinámica como la más sólida de las leyes físicas. Tiene implicancias en las redes que usamos todos los días.',
+      url: window.location.href
+    });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('¡Link copiado al portapapeles!');
+  }
+}
+</script>
+
+</body>
+</html>
