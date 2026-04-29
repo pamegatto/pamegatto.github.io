@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo calcular subredes — Pamela Gatto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem; background: var(--paper); border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back:hover { border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px; background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(247,244,238,0.018) 30px, rgba(247,244,238,0.018) 31px);
+    pointer-events: none;
+  }
+  .hero-meta { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; }
+  .hero-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.7rem; border: 1px solid rgba(232,93,47,0.4); color: var(--accent); border-radius: 2px; }
+  .hero-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: rgba(247,244,238,0.35); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4.5vw, 3.8rem); line-height: 1.1; font-weight: 400; margin-bottom: 1.2rem; max-width: 780px; }
+  .hero h1 em { font-style: italic; color: rgba(247,244,238,0.45); }
+  .hero-sub { font-size: 1rem; line-height: 1.75; color: rgba(247,244,238,0.55); max-width: 580px; }
+
+  /* ARTICLE */
+  article { max-width: 720px; margin: 0 auto; padding: 5rem 2rem 6rem; }
+
+  .article-body p {
+    font-size: 1rem; line-height: 1.95; color: #2a2520; margin-bottom: 1.6rem; max-width: 100%;
+  }
+  .article-body p:first-child::first-letter {
+    font-family: 'Playfair Display', serif; font-size: 3.8rem; line-height: 0.85;
+    float: left; margin-right: 0.12em; margin-top: 0.08em; color: var(--accent);
+  }
+
+  /* CLASSES TABLE */
+  .classes-block {
+    margin: 2.5rem 0;
+    border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+  }
+  .classes-header {
+    background: var(--ink); color: var(--paper);
+    padding: 0.9rem 1.5rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,244,238,0.5);
+  }
+  .class-row {
+    display: grid; grid-template-columns: 1fr 1.5fr 1fr;
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+    transition: background 0.2s; align-items: center;
+  }
+  .class-row:last-child { border-bottom: none; }
+  .class-row:hover { background: var(--warm); }
+  .class-row.special { opacity: 0.6; }
+  .class-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+  .class-range { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--accent); }
+  .class-mask { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--gray); }
+  .class-note { font-size: 0.78rem; color: var(--gray); font-style: italic; grid-column: 1 / -1; margin-top: 0.2rem; }
+
+  /* FORMULA BLOCK */
+  .formula-block {
+    margin: 2.5rem 0; padding: 2rem 2.5rem;
+    background: var(--ink); color: var(--paper);
+    border-radius: 4px;
+  }
+  .formula-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,244,238,0.4); margin-bottom: 1rem; }
+  .formula-row { display: flex; flex-direction: column; gap: 0.8rem; }
+  .formula-item { display: flex; align-items: baseline; gap: 1rem; }
+  .formula-eq { font-family: 'IBM Plex Mono', monospace; font-size: 1.1rem; color: var(--accent); }
+  .formula-desc { font-size: 0.9rem; color: rgba(247,244,238,0.6); }
+
+  /* EXAMPLE BLOCK */
+  .example-block {
+    margin: 2.5rem 0;
+    border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+  }
+  .example-header {
+    background: var(--warm); padding: 1rem 1.5rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .example-header span { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--ink); text-transform: none; letter-spacing: 0; }
+  .example-step {
+    padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
+    display: flex; gap: 1.5rem; align-items: flex-start;
+  }
+  .example-step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+    color: var(--accent); flex-shrink: 0; margin-top: 0.15rem;
+    width: 2rem;
+  }
+  .step-content { flex: 1; }
+  .step-title { font-size: 0.92rem; font-weight: 500; margin-bottom: 0.3rem; }
+  .step-detail { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--accent); margin-bottom: 0.25rem; }
+  .step-exp { font-size: 0.88rem; line-height: 1.6; color: var(--gray); }
+
+  /* BITS VISUAL */
+  .bits-visual {
+    display: flex; gap: 3px; margin: 0.8rem 0; flex-wrap: wrap;
+  }
+  .bit {
+    width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 500;
+    border-radius: 3px; border: 1px solid var(--border);
+  }
+  .bit.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .bit.borrowed { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+  .bit.off { background: var(--paper); color: var(--gray); }
+  .bits-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); margin-top: 0.3rem; }
+
+  /* RESULT CARDS */
+  .result-cards {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden; margin: 2.5rem 0;
+  }
+  .result-card { background: var(--paper); padding: 1.5rem; text-align: center; }
+  .result-card:hover { background: var(--warm); }
+  .rc-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem; }
+  .rc-value { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--accent); margin-bottom: 0.2rem; }
+  .rc-formula { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--gray); }
+
+  /* PULLQUOTE */
+  .pullquote { margin: 2.5rem 0; padding: 2rem 2.5rem; border-left: 4px solid var(--accent); background: rgba(232,93,47,0.04); }
+  .pullquote p { font-family: 'Playfair Display', serif; font-size: 1.15rem; line-height: 1.6; font-style: italic; color: var(--ink); margin-bottom: 0 !important; }
+
+  /* SHARE */
+  .share-block { margin-top: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  .share-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+  .share-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 1.2rem; background: var(--ink); color: var(--paper); border: none; cursor: pointer; }
+
+  /* AUTHOR */
+  .author-block { margin-top: 2.5rem; padding: 1.8rem 2rem; border: 1px solid var(--border); border-radius: 4px; display: flex; gap: 1.5rem; align-items: center; background: var(--warm); }
+  .author-initial { width: 48px; height: 48px; border-radius: 50%; background: var(--ink); color: var(--paper); font-family: 'Playfair Display', serif; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .author-name { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
+  .author-role { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+
+  .back-notes { display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 2.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back-notes:hover { border-color: var(--accent); }
+
+  footer { background: var(--ink); color: var(--paper); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; }
+  .footer-note { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.3); }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    article { padding: 3rem 1.5rem 4rem; }
+    .result-cards { grid-template-columns: 1fr; }
+    .class-row { grid-template-columns: 1fr 1fr; }
+    .class-mask { display: none; }
+    footer { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="notas.html" class="back">← Volver a notas</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-meta">
+    <span class="hero-tag">Redes · IPv4</span>
+    <span class="hero-date">2026</span>
+  </div>
+  <h1>Cómo calcular subredes — <em>fórmula para gente cansada</em></h1>
+  <p class="hero-sub">Un instructivo directo para calcular subredes IPv4 sin vueltas. Clases, máscaras, bits prestados y las dos fórmulas que necesitás saber.</p>
+</div>
+
+<article>
+  <div class="article-body">
+
+    <p>Este instructivo está dedicado a la gente cansadita que necesita calcular subredes en IPv4. Sin rodeos, sin teoría de más. Solo lo que importa bajo las condiciones que importan.</p>
+
+    <p>Primero, un recordatorio necesario. Las redes IPv4 se dividen en clases según el valor del primer octeto de la dirección IP. Hay cinco clases, pero en la práctica las que vas a usar son A, B y C:</p>
+
+  </div>
+
+  <div class="classes-block">
+    <div class="classes-header">Clases de redes IPv4 — primer octeto</div>
+    <div class="class-row">
+      <span class="class-name">Clase A</span>
+      <span class="class-range">1 – 126</span>
+      <span class="class-mask">/8 → 255.0.0.0</span>
+    </div>
+    <div class="class-row special">
+      <span class="class-name" style="color:var(--gray);">127</span>
+      <span class="class-range">127.x.x.x</span>
+      <span class="class-mask">Loopback</span>
+      <span class="class-note">Reservado para loopback (127.0.0.1 = "yo mismo"). No se usa en redes normales.</span>
+    </div>
+    <div class="class-row">
+      <span class="class-name">Clase B</span>
+      <span class="class-range">128 – 191</span>
+      <span class="class-mask">/16 → 255.255.0.0</span>
+    </div>
+    <div class="class-row">
+      <span class="class-name">Clase C</span>
+      <span class="class-range">192 – 223</span>
+      <span class="class-mask">/24 → 255.255.255.0</span>
+    </div>
+    <div class="class-row special">
+      <span class="class-name" style="color:var(--gray);">Clase D</span>
+      <span class="class-range">224 – 239</span>
+      <span class="class-mask">Multicast</span>
+    </div>
+    <div class="class-row special">
+      <span class="class-name" style="color:var(--gray);">Clase E</span>
+      <span class="class-range">240 – 255</span>
+      <span class="class-mask">Experimental</span>
+    </div>
+  </div>
+
+  <div class="article-body">
+    <p>Las subredes son divisiones de la red en partes más pequeñas. Esto se logra tomando bits de la porción de host de la dirección IP para destinarlos a identificar subredes, logrando un uso más eficiente del espacio de direcciones.</p>
+
+    <p>¿Qué pasa cuando nuestra IP tiene una máscara que no es la que le corresponde por defecto? Ahí es donde entran los bits prestados.</p>
+  </div>
+
+  <div class="example-block">
+    <div class="example-header">Ejemplo práctico <span>192.x.x.x/28</span></div>
+
+    <div class="example-step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Identificar cuántos bits se prestaron</div>
+        <div class="step-detail">/28 − /24 = 4 bits prestados</div>
+        <div class="step-exp">La máscara por defecto de Clase C es /24. Nuestra máscara es /28. La diferencia son 4 bits que se tomaron de la porción de host para usarlos como bits de subred.</div>
+      </div>
+    </div>
+
+    <div class="example-step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">Calcular la máscara de subred</div>
+        <div class="step-detail">128 + 64 + 32 + 16 = 240</div>
+        <div class="step-exp">Los 4 bits prestados se marcan con 1, empezando de izquierda a derecha en el último octeto. Los bits encendidos suman sus valores de posición:</div>
+        <div class="bits-visual">
+          <div class="bit borrowed">1</div>
+          <div class="bit borrowed">1</div>
+          <div class="bit borrowed">1</div>
+          <div class="bit borrowed">1</div>
+          <div class="bit off">0</div>
+          <div class="bit off">0</div>
+          <div class="bit off">0</div>
+          <div class="bit off">0</div>
+        </div>
+        <div class="bits-label">← 4 bits prestados (subred) · 4 bits libres (hosts) →</div>
+        <div class="step-detail" style="margin-top:0.7rem;">Máscara de subred: 255.255.255.240</div>
+      </div>
+    </div>
+
+    <div class="example-step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">¿Cuántas subredes admite?</div>
+        <div class="step-detail">2⁴ = 16 subredes</div>
+        <div class="step-exp">Usamos los bits prestados (n = 4) en la fórmula 2ⁿ. Los bits que sí se prestaron determinan cuántas subredes podemos tener.</div>
+      </div>
+    </div>
+
+    <div class="example-step">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title">¿Cuántos hosts por subred?</div>
+        <div class="step-detail">2⁴ − 2 = 14 hosts utilizables</div>
+        <div class="step-exp">Ahora usamos los bits que NO se prestaron (los que quedaron en 0, también n = 4 en este caso). Le restamos 2 porque la primera dirección es la dirección de red y la última es el broadcast — ninguna de las dos se puede asignar a un host.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-cards">
+    <div class="result-card">
+      <div class="rc-label">Máscara de subred</div>
+      <div class="rc-value" style="font-size:1.3rem; margin-top:0.3rem;">255.255.255.240</div>
+      <div class="rc-formula">/28</div>
+    </div>
+    <div class="result-card">
+      <div class="rc-label">Subredes</div>
+      <div class="rc-value">16</div>
+      <div class="rc-formula">2⁴</div>
+    </div>
+    <div class="result-card">
+      <div class="rc-label">Hosts por subred</div>
+      <div class="rc-value">14</div>
+      <div class="rc-formula">2⁴ − 2</div>
+    </div>
+  </div>
+
+  <div class="formula-block">
+    <div class="formula-label">Las dos fórmulas que necesitás</div>
+    <div class="formula-row">
+      <div class="formula-item">
+        <span class="formula-eq">2ⁿ</span>
+        <span class="formula-desc">cantidad de subredes · n = bits prestados</span>
+      </div>
+      <div class="formula-item">
+        <span class="formula-eq">2ⁿ − 2</span>
+        <span class="formula-desc">hosts por subred · n = bits que quedaron libres</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <p>Una papa. Si llegaste hasta acá, gracias y espero que te sirva.</p>
+  </div>
+
+  <div class="share-block">
+    <span class="share-label">Compartir</span>
+    <button class="share-btn" onclick="compartir()">Compartir esta nota →</button>
+  </div>
+
+  <div class="author-block">
+    <div class="author-initial">P</div>
+    <div>
+      <div class="author-name">Pamela Gatto</div>
+      <div class="author-role">IT Project Coordinator · Networking & Infrastructure · AT&T</div>
+    </div>
+  </div>
+
+  <a href="notas.html" class="back-notes">← Ver todas las notas</a>
+
+</article>
+
+<footer>
+  <span class="footer-name">Pamela Gatto</span>
+  <span class="footer-note">IT Project Coordinator · Networking & Infrastructure · 2026</span>
+</footer>
+
+<script>
+function compartir() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Cómo calcular subredes — fórmula para gente cansada',
+      text: 'Un instructivo directo para calcular subredes IPv4. Clases, máscaras y las dos fórmulas que necesitás.',
+      url: window.location.href
+    });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('¡Link copiado al portapapeles!');
+  }
+}
+</script>
+
+</body>
+</html>
