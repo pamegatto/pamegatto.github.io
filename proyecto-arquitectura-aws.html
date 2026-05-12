@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de Arquitectura AWS — Pamela Gatto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+    --aws: #ff9900;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem; background: var(--paper); border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back:hover { border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px; background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem;
+    display: grid; grid-template-columns: 1fr 300px; gap: 4rem; align-items: end;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(247,244,238,0.018) 30px, rgba(247,244,238,0.018) 31px);
+    pointer-events: none;
+  }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.15; font-weight: 400; margin-bottom: 1.2rem; }
+  .hero h1 em { font-style: italic; color: rgba(247,244,238,0.45); }
+  .hero-desc { font-size: 0.93rem; line-height: 1.8; color: rgba(247,244,238,0.6); max-width: 520px; margin-bottom: 1.5rem; }
+  .badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 2px; background: rgba(255,153,0,0.12); color: var(--aws); border: 1px solid rgba(255,153,0,0.25); }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .hero-stats { display: flex; flex-direction: column; gap: 0; border-left: 1px solid rgba(247,244,238,0.12); padding-left: 2.5rem; }
+  .stat { padding: 1.2rem 0; border-bottom: 1px solid rgba(247,244,238,0.08); }
+  .stat:last-child { border-bottom: none; }
+  .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,244,238,0.3); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 0.88rem; color: var(--paper); line-height: 1.4; }
+  .stat-value.big { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--aws); }
+
+  main { max-width: 980px; margin: 0 auto; padding: 5rem 2rem; }
+  section { margin-bottom: 5rem; }
+  .sec-label { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
+  .sec-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; color: var(--gray); background: var(--warm); padding: 0.25rem 0.6rem; }
+  .sec-title { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 400; }
+  p.body-p { font-size: 0.96rem; line-height: 1.85; color: #2e2a26; max-width: 680px; margin-bottom: 1.2rem; }
+
+  /* DIAGRAM */
+  .diagram-block {
+    border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin: 2rem 0;
+  }
+  .diagram-header {
+    background: var(--warm); padding: 0.9rem 1.5rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .diagram-legend { display: flex; gap: 1.5rem; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.58rem; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .legend-dot.critico { background: var(--blue); }
+  .legend-dot.error { background: #e85d2f; }
+  .diagram-img { width: 100%; display: block; }
+
+  /* FINDINGS GRID */
+  .findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-top: 1.5rem; }
+  .finding-card { background: var(--paper); padding: 1.8rem 2rem; transition: background 0.2s; position: relative; }
+  .finding-card:hover { background: var(--warm); }
+  .finding-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+  .finding-card.critico::before { background: var(--blue); }
+  .finding-card.error::before { background: var(--accent); }
+  .finding-card.mejora::before { background: var(--green); }
+
+  .finding-type { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .finding-type.critico { color: var(--blue); }
+  .finding-type.error { color: var(--accent); }
+  .finding-type.mejora { color: var(--green); }
+  .finding-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; margin-bottom: 0.6rem; line-height: 1.3; }
+  .finding-desc { font-size: 0.88rem; line-height: 1.6; color: var(--gray); }
+  .finding-rec { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink); margin-top: 0.7rem; padding: 0.5rem 0.8rem; background: var(--warm); border-left: 2px solid var(--border); }
+
+  /* STACK TABLE */
+  .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-top: 1.5rem; }
+  .stack-item { background: var(--paper); padding: 1.2rem 1.5rem; transition: background 0.2s; text-align: center; }
+  .stack-item:hover { background: var(--warm); }
+  .stack-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .stack-name { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--ink); margin-bottom: 0.2rem; }
+  .stack-role { font-size: 0.75rem; color: var(--gray); line-height: 1.3; }
+
+  /* CONTEXT */
+  .context-block { margin: 1.5rem 0; padding: 1.5rem 2rem; border-left: 3px solid var(--aws); background: rgba(255,153,0,0.04); }
+  .context-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--aws); margin-bottom: 0.5rem; }
+
+  /* OUTCOMES */
+  .outcomes { display: flex; flex-direction: column; gap: 1px; background: var(--border); margin-top: 1.5rem; border-radius: 4px; overflow: hidden; }
+  .outcome { background: var(--paper); padding: 1.4rem 2rem; display: flex; gap: 1.2rem; align-items: flex-start; transition: background 0.2s; }
+  .outcome:hover { background: var(--warm); }
+  .outcome-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--accent); flex-shrink: 0; margin-top: 0.1rem; }
+  .outcome p { font-size: 0.92rem; line-height: 1.6; max-width: 100%; color: #2e2a26; }
+
+  /* TECH TAGS */
+  .tech-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tech { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.35rem 0.8rem; border: 1px solid var(--border); color: var(--gray); background: var(--paper); }
+
+  footer { background: var(--ink); color: var(--paper); padding: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+  .footer-contact { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.4); }
+
+  @media (max-width: 720px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 4rem 1.5rem 3rem; }
+    .hero-stats { border-left: none; border-top: 1px solid rgba(247,244,238,0.12); padding-left: 0; padding-top: 1.5rem; flex-direction: row; flex-wrap: wrap; gap: 1rem; }
+    .stat { padding: 0; border-bottom: none; min-width: 130px; }
+    main { padding: 3rem 1.5rem; }
+    .findings-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="index.html" class="back">← Volver al portfolio</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">Análisis técnico · AWS</div>
+    <h1>Arquitectura AWS —<br><em>análisis de despliegue</em><br>en 36 horas</h1>
+    <p class="hero-desc">Revisión completa del plan de despliegue de una aplicación en AWS: identificación de riesgos de seguridad, disponibilidad y consistencia antes de producción. Trabajo colaborativo con desarrolladores, solution architects e ingenieros.</p>
+    <div class="badge">Análisis pre-producción · 36 horas</div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-label">Duración</div><div class="stat-value big">36h</div></div>
+    <div class="stat"><div class="stat-label">Tipo</div><div class="stat-value">Análisis de arquitectura · Pre-producción</div></div>
+    <div class="stat"><div class="stat-label">Stack</div><div class="stat-value">ECS · Fargate · RDS · ElastiCache · S3 · CloudFront · EC2</div></div>
+    <div class="stat"><div class="stat-label">Equipo</div><div class="stat-value">Devs · Solution Architects · Ingenieros · PM</div></div>
+    <div class="stat"><div class="stat-label">Hallazgos críticos</div><div class="stat-value">9 riesgos identificados y documentados</div></div>
+  </div>
+</div>
+
+<main>
+
+  <!-- 01 CONTEXTO -->
+  <section>
+    <div class="sec-label"><span class="sec-num">01</span><h2 class="sec-title">Contexto</h2></div>
+    <p class="body-p">Una aplicación web con frontend Angular, backend API REST y base de datos PostgreSQL debía desplegarse en AWS. El plan original contemplaba ECS con Fargate para los contenedores, RDS para la base de datos, ElastiCache (Redis) para caché y sesiones, S3 con CloudFront para activos estáticos, y EC2 como generador del VPS.</p>
+    <p class="body-p">En 36 horas de trabajo intensivo y colaborativo con desarrolladores, solution architects e ingenieros, se revisó la arquitectura completa, se identificaron riesgos y se propusieron mejoras concretas antes de llegar a producción.</p>
+
+    <div class="context-block">
+      <div class="context-label">Metodología de trabajo</div>
+      <p class="body-p" style="margin:0;">El análisis se realizó en equipo multidisciplinario. El rol de PM en este contexto fue estructurar los hallazgos, documentar los riesgos, hacer las preguntas correctas y asegurar que cada problema identificado tuviera un responsable y una propuesta de resolución. Los hallazgos en azul corresponden a cambios críticos fundamentales; los en rosa a conflictos o errores que requerían corrección.</p>
+    </div>
+  </section>
+
+  <!-- 02 ARQUITECTURA -->
+  <section>
+    <div class="sec-label"><span class="sec-num">02</span><h2 class="sec-title">Arquitectura analizada</h2></div>
+    <p class="body-p">El stack completo bajo análisis:</p>
+    <div class="stack-grid">
+      <div class="stack-item"><div class="stack-icon">🐳</div><div class="stack-name">Docker · ECR</div><div class="stack-role">Contenedores e imágenes</div></div>
+      <div class="stack-item"><div class="stack-icon">⚙️</div><div class="stack-name">ECS · Fargate</div><div class="stack-role">Orquestación sin servidor</div></div>
+      <div class="stack-item"><div class="stack-icon">🗄️</div><div class="stack-name">RDS PostgreSQL</div><div class="stack-role">Base de datos relacional</div></div>
+      <div class="stack-item"><div class="stack-icon">⚡</div><div class="stack-name">ElastiCache Redis</div><div class="stack-role">Caché y sesiones</div></div>
+      <div class="stack-item"><div class="stack-icon">🪣</div><div class="stack-name">S3 + CloudFront</div><div class="stack-role">Estáticos y CDN</div></div>
+      <div class="stack-item"><div class="stack-icon">🖥️</div><div class="stack-name">EC2 · VPS</div><div class="stack-role">Infraestructura base</div></div>
+      <div class="stack-item"><div class="stack-icon">🔐</div><div class="stack-name">IAM</div><div class="stack-role">Identidad y permisos</div></div>
+      <div class="stack-item"><div class="stack-icon">🅰️</div><div class="stack-name">Angular</div><div class="stack-role">Frontend</div></div>
+    </div>
+
+    <div class="diagram-block" style="margin-top: 2rem;">
+      <div class="diagram-header">
+        Diagrama de arquitectura con hallazgos
+        <div class="diagram-legend">
+          <div class="legend-item"><div class="legend-dot critico"></div>Cambios críticos</div>
+          <div class="legend-item"><div class="legend-dot error"></div>Conflictos / errores</div>
+        </div>
+      </div>
+      <img src="Pader_architecture_improvements_.png" alt="Diagrama de arquitectura AWS con hallazgos marcados" class="diagram-img">
+    </div>
+  </section>
+
+  <!-- 03 HALLAZGOS -->
+  <section>
+    <div class="sec-label"><span class="sec-num">03</span><h2 class="sec-title">Hallazgos y mejoras propuestas</h2></div>
+    <p class="body-p">Se identificaron 9 riesgos distribuidos en seguridad, disponibilidad y consistencia de datos. Cada hallazgo incluye el problema identificado y la corrección propuesta.</p>
+
+    <div class="findings-grid">
+
+      <div class="finding-card critico">
+        <div class="finding-type critico">Crítico · Seguridad</div>
+        <div class="finding-title">IAM — ECS task execution role con credenciales expuestas</div>
+        <div class="finding-desc">Si ECS se compromete, quedan expuestos S3 (GetObjects) y Secret Value (credenciales sensibles). El ECS task execution role tenía permisos excesivos.</div>
+        <div class="finding-rec">→ Aplicar principio de mínimo privilegio. Separar roles por función. Auditar permisos IAM antes del despliegue.</div>
+      </div>
+
+      <div class="finding-card error">
+        <div class="finding-type error">Error · Seguridad</div>
+        <div class="finding-title">S3 público por accidente — bucket expone objetos</div>
+        <div class="finding-desc">El bucket S3 podía quedar público accidentalmente, exponiendo objetos. El plan original no contemplaba control de acceso desde CloudFront.</div>
+        <div class="finding-rec">→ Implementar Origin Access Control (OAC) entre CloudFront y S3. El bucket debe quedar privado en el plan operacional.</div>
+      </div>
+
+      <div class="finding-card error">
+        <div class="finding-type error">Conflicto · Consistencia de datos</div>
+        <div class="finding-title">Inconsistencia entre caché de CloudFront y ElastiCache</div>
+        <div class="finding-desc">Con dos capas de caché (CF + EC), un cambio de precio en RDS puede invalidarse en EC pero CF aún muestra el valor viejo, generando error lógico visible al usuario.</div>
+        <div class="finding-rec">→ TTL corto en CloudFront + invalidación data-driven (BBDD → Cambios → Invalidación CF).</div>
+      </div>
+
+      <div class="finding-card critico">
+        <div class="finding-type critico">Crítico · Disponibilidad</div>
+        <div class="finding-title">RDS Proxy → Fargate: riesgo de saturación de conexiones</div>
+        <div class="finding-desc">En escala, Fargate genera contenedores a demanda. RDS db.t3.xlarge tiene un límite de conexiones (~400-500 XS). Sin connection pooling en la app, el riesgo de saturación es real.</div>
+        <div class="finding-rec">→ Implementar connection pooling en la aplicación. Evaluar PgBouncer o RDS Proxy.</div>
+      </div>
+
+      <div class="finding-card error">
+        <div class="finding-type error">Riesgo · Consistencia</div>
+        <div class="finding-title">Migraciones con Prisma — sin plan de rollback</div>
+        <div class="finding-desc">Si una migración de Prisma falla, la base de datos queda sin consistencia. El plan original no contemplaba rollback estructurado.</div>
+        <div class="finding-rec">→ Definir estrategia de rollback antes de cada migración. Validar en entorno de staging.</div>
+      </div>
+
+      <div class="finding-card critico">
+        <div class="finding-type critico">Crítico · Disponibilidad</div>
+        <div class="finding-title">ElastiCache — Cold Start sin precarga</div>
+        <div class="finding-desc">Cuando se despliega con caché vacía, todo el tráfico cae sobre RDS en simultáneo y el sistema colapsa bajo carga inicial.</div>
+        <div class="finding-rec">→ Script de precarga antes del despliegue. Monitorear CPU de RDS post-deploy.</div>
+      </div>
+
+      <div class="finding-card error">
+        <div class="finding-type error">Error · Disponibilidad</div>
+        <div class="finding-title">ElastiCache sin failover — pérdida de sesiones</div>
+        <div class="finding-desc">Si Redis cae, la app también cae porque no encuentra la sesión del usuario. No había configuración de failover.</div>
+        <div class="finding-rec">→ Configurar ElastiCache con failover habilitado. Evaluar estrategia de sesión alternativa.</div>
+      </div>
+
+      <div class="finding-card error">
+        <div class="finding-type error">Error · Disponibilidad</div>
+        <div class="finding-title">RDS Single AZ — sin Multi-AZ</div>
+        <div class="finding-desc">RDS configurado en Single AZ implica un único punto de falla. En caso de caída de la zona, la base de datos no tiene réplica disponible.</div>
+        <div class="finding-rec">→ Configurar RDS en Multi-AZ para garantizar consistencia y disponibilidad ante falla zonal.</div>
+      </div>
+
+      <div class="finding-card critico">
+        <div class="finding-type critico">Crítico · Gobernanza</div>
+        <div class="finding-title">¿Quién es dueño del despliegue?</div>
+        <div class="finding-desc">El matchmaking entre ECS y Fargate puede generar falla en la gobernanza si no está claro quién tiene ownership del deploy. Fargate implica despliegue no manual — requiere service discovery y autoscaling con CI/CD definido.</div>
+        <div class="finding-rec">→ Definir ownership explícito. Documentar pipeline CI/CD. Establecer responsables por capa.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 04 APRENDIZAJES -->
+  <section>
+    <div class="sec-label"><span class="sec-num">04</span><h2 class="sec-title">Lo que dejó el análisis</h2></div>
+    <div class="outcomes">
+      <div class="outcome"><span class="outcome-arrow">→</span><p>9 riesgos identificados antes de producción — ninguno tuvo que resolverse en caliente con usuarios afectados.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>El trabajo colaborativo con devs, solution architects e ingenieros en 36 horas intensivas demostró que la coordinación técnica multiplica la capacidad de detección: cada rol vio lo que los demás no podían ver solos.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>La documentación estructurada de hallazgos — con tipo de riesgo, descripción y recomendación — permitió priorizar y asignar responsables sin ambigüedad.</p></div>
+      <div class="outcome"><span class="outcome-arrow">→</span><p>El rol del PM en un análisis técnico no es saber todo — es saber qué preguntar, estructurar lo que el equipo encuentra y asegurar que nada quede sin dueño.</p></div>
+    </div>
+  </section>
+
+  <!-- 05 TECNOLOGÍAS -->
+  <section>
+    <div class="sec-label"><span class="sec-num">05</span><h2 class="sec-title">Stack y conceptos clave</h2></div>
+    <div class="tech-wrap">
+      <span class="tech">AWS ECS</span>
+      <span class="tech">Fargate</span>
+      <span class="tech">ECR</span>
+      <span class="tech">RDS PostgreSQL</span>
+      <span class="tech">ElastiCache Redis</span>
+      <span class="tech">S3</span>
+      <span class="tech">CloudFront</span>
+      <span class="tech">IAM</span>
+      <span class="tech">EC2</span>
+      <span class="tech">Origin Access Control</span>
+      <span class="tech">Connection Pooling</span>
+      <span class="tech">Multi-AZ</span>
+      <span class="tech">CI/CD</span>
+      <span class="tech">Prisma</span>
+      <span class="tech">Cold Start</span>
+      <span class="tech">Cache Invalidation</span>
+      <span class="tech">Angular</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-name">Pamela Gatto — IT Project Coordinator</span>
+  <span class="footer-contact">pame.gatto@gmail.com · linkedin.com/in/pame-gatto</span>
+</footer>
+
+</body>
+</html>
