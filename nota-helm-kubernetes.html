@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helm como gestor de paquetes de Kubernetes — Pamela Gatto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem; background: var(--paper); border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back:hover { border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px; background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(247,244,238,0.018) 30px, rgba(247,244,238,0.018) 31px);
+    pointer-events: none;
+  }
+  .hero-meta { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; }
+  .hero-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.7rem; border: 1px solid rgba(232,93,47,0.4); color: var(--accent); border-radius: 2px; }
+  .hero-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: rgba(247,244,238,0.35); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4.5vw, 3.8rem); line-height: 1.1; font-weight: 400; margin-bottom: 1.2rem; max-width: 780px; }
+  .hero h1 em { font-style: italic; color: rgba(247,244,238,0.45); }
+  .hero-sub { font-size: 1rem; line-height: 1.75; color: rgba(247,244,238,0.55); max-width: 580px; }
+
+  /* ARTICLE */
+  article { max-width: 720px; margin: 0 auto; padding: 5rem 2rem 6rem; }
+
+  .article-body p {
+    font-size: 1rem; line-height: 1.95; color: #2a2520; margin-bottom: 1.6rem; max-width: 100%;
+  }
+  .article-body p:first-child::first-letter {
+    font-family: 'Playfair Display', serif; font-size: 3.8rem; line-height: 0.85;
+    float: left; margin-right: 0.12em; margin-top: 0.08em; color: var(--accent);
+  }
+
+  /* SECTION TITLES */
+  .article-h2 {
+    font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 400;
+    margin: 3rem 0 1.2rem; color: var(--ink);
+  }
+  .article-h2 em { font-style: italic; color: var(--gray); }
+
+  /* CODE BLOCK */
+  .code-block {
+    margin: 2rem 0; background: var(--ink); border-radius: 4px; overflow: hidden;
+  }
+  .code-label {
+    padding: 0.6rem 1.2rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(247,244,238,0.3); border-bottom: 1px solid rgba(247,244,238,0.08);
+  }
+  .code-content {
+    padding: 1.2rem 1.5rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem;
+    color: var(--accent); line-height: 1.6;
+  }
+
+  /* TOLKIEN ANALOGY */
+  .analogy-block {
+    margin: 2.5rem 0; border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+  }
+  .analogy-header {
+    background: var(--ink); color: var(--paper);
+    padding: 1rem 1.5rem;
+    font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic;
+  }
+  .analogy-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .analogy-row:last-child { border-bottom: none; }
+  .analogy-row:hover { background: var(--warm); }
+  .analogy-cell {
+    padding: 1.1rem 1.5rem; font-size: 0.9rem; line-height: 1.5; color: #2a2520;
+    border-right: 1px solid var(--border);
+  }
+  .analogy-cell:last-child { border-right: none; }
+  .analogy-cell-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 0.3rem;
+  }
+
+  /* PULLQUOTE */
+  .pullquote { margin: 2.5rem 0; padding: 2rem 2.5rem; border-left: 4px solid var(--accent); background: rgba(232,93,47,0.04); }
+  .pullquote p { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.6; font-style: italic; color: var(--ink); margin-bottom: 0 !important; }
+
+  /* SHARE */
+  .share-block { margin-top: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  .share-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+  .share-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 1.2rem; background: var(--ink); color: var(--paper); border: none; cursor: pointer; }
+
+  /* AUTHOR */
+  .author-block { margin-top: 2.5rem; padding: 1.8rem 2rem; border: 1px solid var(--border); border-radius: 4px; display: flex; gap: 1.5rem; align-items: center; background: var(--warm); }
+  .author-initial { width: 48px; height: 48px; border-radius: 50%; background: var(--ink); color: var(--paper); font-family: 'Playfair Display', serif; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .author-name { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
+  .author-role { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+
+  .back-notes { display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 2.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back-notes:hover { border-color: var(--accent); }
+
+  footer { background: var(--ink); color: var(--paper); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; }
+  .footer-note { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.3); }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    article { padding: 3rem 1.5rem 4rem; }
+    .analogy-row { grid-template-columns: 1fr; }
+    .analogy-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    footer { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="notas.html" class="back">← Volver a notas</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-meta">
+    <span class="hero-tag">Kubernetes · DevOps</span>
+    <span class="hero-date">2026</span>
+  </div>
+  <h1>Helm como gestor de paquetes <em>de Kubernetes</em></h1>
+  <p class="hero-sub">Por qué gestionar manifiestos a mano en múltiples entornos es una batalla que no conviene dar sola — y cómo Helm llega al amanecer del quinto día.</p>
+</div>
+
+<article>
+
+  <h2 class="article-h2">El problema: manifiestos en múltiples entornos</h2>
+
+  <div class="article-body">
+    <p>Una sola aplicación de EKS puede constar de varios recursos, dependiendo del tipo de aplicación. Puede haber microservicios que requieran varias dependencias diferentes para que todo funcione bien, o una combinación de recursos: un Namespace, una cuenta de servicio para proveer la carga de trabajo, un ConfigMap para almacenar los datos de configuración, un Secret para los datos confidenciales y un Service para exponer la aplicación. Esa aplicación, a su vez, puede ser administrada por un único manifiesto o por varios.</p>
+
+    <p>Este método puede derivar en errores, en particular si hay que correrla en distintos entornos. Cualquier cambio a un recurso de Kubernetes debe reflejarse en el manifiesto de cada entorno. Y si los entornos son varios, hay que modificar cada recurso de manera adecuada en cada manifiesto.</p>
+
+    <p>Verlo así hace que la estandarización de los recursos y el desarrollo de buenas prácticas se vean un poco vulnerados. Sin mencionar que no es flexible y que compromete, en algún punto, la productividad del equipo: la repetición de pasos implica no solo hacer cambios, sino hacerlos bien, sin errores. A eso se suma que las dependencias deben estar sincronizadas entre sí para que la aplicación funcione.</p>
+  </div>
+
+  <h2 class="article-h2">Helm al rescate</h2>
+
+  <div class="article-body">
+    <p>Por todo esto es que Helm es la herramienta que puede salvarnos las papas, si de gestión de paquetes se trata. Simplifica la instalación de recursos pertinentes con un solo comando, resuelve todas las dependencias a la vez, tiene un motor de plantillas que genera manifiestos automáticamente, y hace más fluido el ciclo de vida de las aplicaciones: el update, el rollback y la eliminación.</p>
+  </div>
+
+  <h2 class="article-h2">El Chart de Helm: <em>la unidad básica</em></h2>
+
+  <div class="article-body">
+    <p>El Chart de Helm se usa para empaquetar los recursos y las dependencias de la aplicación, de modo que se desplieguen como una única unidad. Representa todos los recursos de Kubernetes asociados a la aplicación, y nos permite manejar variables, nombres y valores: no solo los actuales, sino también los del pasado y los que vamos a implementar como cambios.</p>
+  </div>
+
+  <h2 class="article-h2">El Abismo de Helm</h2>
+
+  <div class="article-body">
+    <p>En los libros de Tolkien, el Abismo de Helm es una fortaleza estratégica: protegida por una montaña y un precipicio a cada lado, desde allí se puede observar todo el paso de Rohan. Fue el escenario de una batalla decisiva donde los atacantes lograron entrar por primera vez en la historia — hasta que llegó Gandalf al mando del ejército del Folde Oeste y salvó la fortaleza.</p>
+  </div>
+
+  <div class="analogy-block">
+    <div class="analogy-header">La fortaleza de los manifiestos</div>
+    <div class="analogy-row">
+      <div class="analogy-cell">
+        <div class="analogy-cell-label">En Tolkien</div>
+        Las murallas del Abismo
+      </div>
+      <div class="analogy-cell">
+        <div class="analogy-cell-label">En Kubernetes</div>
+        Tus configuraciones de seguridad: ServiceAccounts y NetworkPolicies
+      </div>
+    </div>
+    <div class="analogy-row">
+      <div class="analogy-cell">
+        <div class="analogy-cell-label">En Tolkien</div>
+        El Abismo como entorno aislado y estratégico
+      </div>
+      <div class="analogy-cell">
+        <div class="analogy-cell-label">En Kubernetes</div>
+        El entorno aislado donde corre tu carga de trabajo
+      </div>
+    </div>
+    <div class="analogy-row">
+      <div class="analogy-cell">
+        <div class="analogy-cell-label">En Tolkien</div>
+        Saruman y los Uruk-hai — la bomba en el muro del bajo
+      </div>
+      <div class="analogy-cell">
+        <div class="analogy-cell-label">En Kubernetes</div>
+        Un error en un puerto: una pequeña vulnerabilidad que hace colapsar todo el despliegue
+      </div>
+    </div>
+    <div class="analogy-row">
+      <div class="analogy-cell">
+        <div class="analogy-cell-label">En Tolkien</div>
+        El ejército de orcos que desgasta sin parar
+      </div>
+      <div class="analogy-cell">
+        <div class="analogy-cell-label">En Kubernetes</div>
+        La repetición de pasos y la falta de flexibilidad que desgastan la productividad del equipo
+      </div>
+    </div>
+  </div>
+
+  <h2 class="article-h2">El amanecer del quinto día</h2>
+
+  <div class="article-body">
+    <p>Helm es ese refuerzo estratégico. Cuando la gestión manual se vuelve insostenible, Helm llega para ordenar la batalla.</p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">El comando que lo cambia todo</div>
+    <div class="code-content">helm upgrade --install</div>
+  </div>
+
+  <div class="article-body">
+    <p>Con un solo movimiento, todas las piezas — dependencias, secretos, servicios — se alinean y se despliegan correctamente.</p>
+
+    <p>Y si la batalla va mal, Helm tiene el poder de retroceder el tiempo a una revisión anterior donde la fortaleza todavía era segura: el rollback.</p>
+  </div>
+
+  <div class="pullquote">
+    <p>En Kubernetes, un Chart bien estructurado te da la visibilidad del paso de Rohan. Al empaquetar todo como una unidad, podés monitorear el ciclo de vida de la aplicación completa — no solo piezas sueltas de infraestructura.</p>
+  </div>
+
+  <div class="share-block">
+    <span class="share-label">Compartir</span>
+    <button class="share-btn" onclick="compartir()">Compartir esta nota →</button>
+  </div>
+
+  <div class="author-block">
+    <div class="author-initial">P</div>
+    <div>
+      <div class="author-name">Pamela Gatto</div>
+      <div class="author-role">IT Project Coordinator · Networking & Infrastructure · AT&T</div>
+    </div>
+  </div>
+
+  <a href="notas.html" class="back-notes">← Ver todas las notas</a>
+
+</article>
+
+<footer>
+  <span class="footer-name">Pamela Gatto</span>
+  <span class="footer-note">IT Project Coordinator · Networking & Infrastructure · 2026</span>
+</footer>
+
+<script>
+function compartir() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Helm como gestor de paquetes de Kubernetes',
+      text: 'Por qué gestionar manifiestos a mano es una batalla perdida — y cómo Helm llega al amanecer del quinto día.',
+      url: window.location.href
+    });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('¡Link copiado al portapapeles!');
+  }
+}
+</script>
+
+</body>
+</html>
