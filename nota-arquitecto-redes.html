@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Quién piensa las redes que hacen funcionar el mundo? — Pamela Gatto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f4ee;
+    --warm: #eee8dc;
+    --accent: #e85d2f;
+    --blue: #2f7ae8;
+    --green: #2d6a4f;
+    --gray: #6b6560;
+    --border: #d4cdc2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem; background: var(--paper); border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .back { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back:hover { border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 60px; background: var(--ink); color: var(--paper);
+    padding: 5rem 3rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(247,244,238,0.018) 30px, rgba(247,244,238,0.018) 31px);
+    pointer-events: none;
+  }
+  .hero-meta { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; }
+  .hero-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.7rem; border: 1px solid rgba(232,93,47,0.4); color: var(--accent); border-radius: 2px; }
+  .hero-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: rgba(247,244,238,0.35); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4.5vw, 3.8rem); line-height: 1.1; font-weight: 400; margin-bottom: 1.2rem; max-width: 780px; }
+  .hero h1 em { font-style: italic; color: rgba(247,244,238,0.45); }
+  .hero-sub { font-size: 1rem; line-height: 1.75; color: rgba(247,244,238,0.55); max-width: 580px; }
+
+  /* ARTICLE */
+  article { max-width: 720px; margin: 0 auto; padding: 5rem 2rem 6rem; }
+
+  .article-body p {
+    font-size: 1rem; line-height: 1.95; color: #2a2520; margin-bottom: 1.6rem; max-width: 100%;
+  }
+  .article-body p:first-child::first-letter {
+    font-family: 'Playfair Display', serif; font-size: 3.8rem; line-height: 0.85;
+    float: left; margin-right: 0.12em; margin-top: 0.08em; color: var(--accent);
+  }
+
+  .article-h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 400; margin: 3rem 0 1.2rem; color: var(--ink); }
+  .article-h2 em { font-style: italic; color: var(--gray); }
+
+  /* SEGMENTS */
+  .segments-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin: 2rem 0; }
+  .segment-card { background: var(--paper); padding: 1.8rem 1.5rem; transition: background 0.2s; position: relative; }
+  .segment-card:hover { background: var(--warm); }
+  .segment-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); }
+  .segment-icon { font-size: 1.4rem; margin-bottom: 0.8rem; }
+  .segment-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; margin-bottom: 0.5rem; }
+  .segment-desc { font-size: 0.85rem; line-height: 1.55; color: var(--gray); }
+
+  /* FUNCTIONS LIST */
+  .functions-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin: 2rem 0; }
+  .function-item { background: var(--paper); padding: 1.4rem 2rem; display: flex; gap: 1.5rem; align-items: flex-start; transition: background 0.2s; }
+  .function-item:hover { background: var(--warm); }
+  .function-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--accent); flex-shrink: 0; margin-top: 0.15rem; }
+  .function-content { flex: 1; }
+  .function-title { font-size: 0.92rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
+  .function-desc { font-size: 0.88rem; line-height: 1.6; color: var(--gray); }
+
+  /* OUTCOMES GRID */
+  .outcomes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin: 2rem 0; }
+  .outcome-card { background: var(--paper); padding: 1.6rem 1.8rem; transition: background 0.2s; }
+  .outcome-card:hover { background: var(--warm); }
+  .outcome-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem; }
+  .outcome-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; margin-bottom: 0.4rem; }
+  .outcome-desc { font-size: 0.85rem; line-height: 1.55; color: var(--gray); }
+
+  /* PULLQUOTE */
+  .pullquote { margin: 2.5rem 0; padding: 2rem 2.5rem; border-left: 4px solid var(--accent); background: rgba(232,93,47,0.04); }
+  .pullquote p { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.6; font-style: italic; color: var(--ink); margin-bottom: 0 !important; }
+
+  /* SHARE */
+  .share-block { margin-top: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  .share-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+  .share-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 1.2rem; background: var(--ink); color: var(--paper); border: none; cursor: pointer; }
+
+  /* AUTHOR */
+  .author-block { margin-top: 2.5rem; padding: 1.8rem 2rem; border: 1px solid var(--border); border-radius: 4px; display: flex; gap: 1.5rem; align-items: center; background: var(--warm); }
+  .author-initial { width: 48px; height: 48px; border-radius: 50%; background: var(--ink); color: var(--paper); font-family: 'Playfair Display', serif; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .author-name { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
+  .author-role { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+
+  .back-notes { display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 2.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .back-notes:hover { border-color: var(--accent); }
+
+  footer { background: var(--ink); color: var(--paper); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; }
+  .footer-note { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(247,244,238,0.3); }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    article { padding: 3rem 1.5rem 4rem; }
+    .segments-grid { grid-template-columns: 1fr; }
+    .outcomes-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Pamela Gatto</span>
+  <a href="notas.html" class="back">← Volver a notas</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-meta">
+    <span class="hero-tag">Redes · Infraestructura</span>
+    <span class="hero-date">2026</span>
+  </div>
+  <h1>¿Quién piensa las redes <em>que hacen funcionar el mundo?</em></h1>
+  <p class="hero-sub">Detrás de cada red que funciona sin que te des cuenta hay alguien que la diseñó para que fuera así. Esa persona se llama Arquitecto de Redes.</p>
+</div>
+
+<article>
+
+  <div class="article-body">
+    <p>Más o menos todos sabemos que las redes de internet tienen tráfico, que entra y sale de los dispositivos de los usuarios y que llevan demanda y carga de información. Pero en grandes empresas, en centros de datos: ¿cómo se piensan? ¿Quién las piensa? Hay una figura que no siempre aparece en el radar, pero sin la que nada de esto funcionaría: el Arquitecto de Redes.</p>
+
+    <p>Los Arquitectos de Redes diseñan, planifican y supervisan la infraestructura completa de las comunicaciones de una organización. Su función es garantizar que las redes informáticas funcionen de manera eficiente, segura y escalable. No solo diseñan desde cero — también deben anticiparse a las necesidades futuras de la empresa.</p>
+  </div>
+
+  <h2 class="article-h2">Tres tipos de redes, <em>tres mundos distintos</em></h2>
+
+  <div class="segments-grid">
+    <div class="segment-card">
+      <div class="segment-icon">🏢</div>
+      <div class="segment-name">De acceso</div>
+      <div class="segment-desc">Diseñadas para integrar usuarios y dispositivos, como empleados dentro de una oficina.</div>
+    </div>
+    <div class="segment-card">
+      <div class="segment-icon">🗄️</div>
+      <div class="segment-name">Data Centers</div>
+      <div class="segment-desc">Conectan servidores que almacenan datos y aplicaciones, y las ponen a disposición de los usuarios.</div>
+    </div>
+    <div class="segment-card">
+      <div class="segment-icon">🌐</div>
+      <div class="segment-name">WAN</div>
+      <div class="segment-desc">Conectan usuarios y aplicaciones a través de grandes distancias.</div>
+    </div>
+  </div>
+
+  <div class="article-body">
+    <p>Cada uno de estos grupos tiene necesidades y requerimientos que deben cumplir, así como amenazas de seguridad específicas. Por eso, tienen arquitecturas únicas.</p>
+
+    <p>Los avances tecnológicos y las nuevas demandas de transformación digital complejizan las redes. Ya no solo deben reconocer, autenticar y autorizar los dispositivos de los usuarios — también deben conectar aplicaciones con los data centers y los servicios cloud, a la vez que minimizan costos y mejoran la experiencia de usuario.</p>
+
+    <p>Hasta hace no mucho tiempo las redes se administraban manualmente, pero eso ya no es sostenible. La automatización ha sido una gran aliada para crear redes dinámicas, ágiles y que estén en sintonía con lo que los usuarios necesitan, cuando lo necesitan.</p>
+  </div>
+
+  <h2 class="article-h2">Las funciones del <em>Arquitecto de Redes</em></h2>
+
+  <div class="functions-list">
+    <div class="function-item">
+      <span class="function-arrow">→</span>
+      <div class="function-content">
+        <div class="function-title">Diseñar la arquitectura de red</div>
+        <div class="function-desc">Topología física y lógica, estándares y protocolos de seguridad. Elige meticulosamente los componentes de software y hardware.</div>
+      </div>
+    </div>
+    <div class="function-item">
+      <span class="function-arrow">→</span>
+      <div class="function-content">
+        <div class="function-title">Planificar la capacidad y la escalabilidad</div>
+        <div class="function-desc">Proyecta redes capaces de escalar sin interrupciones en el servicio y sin tener que rediseñar la red.</div>
+      </div>
+    </div>
+    <div class="function-item">
+      <span class="function-arrow">→</span>
+      <div class="function-content">
+        <div class="function-title">Integrar nuevas tecnologías</div>
+        <div class="function-desc">Se adelanta a las tendencias y planifica estratégicamente cómo adoptarlas en el diseño actual.</div>
+      </div>
+    </div>
+    <div class="function-item">
+      <span class="function-arrow">→</span>
+      <div class="function-content">
+        <div class="function-title">Definir políticas de seguridad</div>
+        <div class="function-desc">Establece los parámetros de ciberseguridad: firewalls, segmentación de redes, cifrado de datos y niveles y políticas de acceso.</div>
+      </div>
+    </div>
+    <div class="function-item">
+      <span class="function-arrow">→</span>
+      <div class="function-content">
+        <div class="function-title">Coordinar con los equipos técnicos</div>
+        <div class="function-desc">Trabaja en conjunto con los departamentos de ciberseguridad, desarrollo de software y la dirección de IT para que su trabajo esté alineado con las políticas internas.</div>
+      </div>
+    </div>
+    <div class="function-item">
+      <span class="function-arrow">→</span>
+      <div class="function-content">
+        <div class="function-title">Elaborar la documentación técnica</div>
+        <div class="function-desc">Crea y mantiene actualizada la documentación: diagramas de topologías físicas y lógicas, especificaciones técnicas y planes de evolución.</div>
+      </div>
+    </div>
+    <div class="function-item">
+      <span class="function-arrow">→</span>
+      <div class="function-content">
+        <div class="function-title">Supervisión</div>
+        <div class="function-desc">Su rol también incluye supervisar el despliegue y la migración de redes.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="article-h2">¿Qué busca lograr?</h2>
+
+  <div class="article-body">
+    <p>El objetivo es generar redes que optimicen el funcionamiento de los sistemas informáticos, minimicen los riesgos y tengan la menor demora posible.</p>
+  </div>
+
+  <div class="outcomes-grid">
+    <div class="outcome-card">
+      <div class="outcome-label">Resultado</div>
+      <div class="outcome-title">Conexiones eficientes</div>
+      <div class="outcome-desc">Permite que los usuarios tanto locales como de redes amplias accedan a la misma red.</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-label">Resultado</div>
+      <div class="outcome-title">Mejor rendimiento</div>
+      <div class="outcome-desc">Las redes bien diseñadas tienen mayor eficiencia y estabilidad, menos latencia y un tiempo de respuesta óptimo.</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-label">Resultado</div>
+      <div class="outcome-title">Control centralizado</div>
+      <div class="outcome-desc">Seguridad, funcionamiento y rendimiento monitoreados en un solo lugar. Más fácil implementar acciones de optimización y mantenimiento.</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-label">Resultado</div>
+      <div class="outcome-title">Escalabilidad</div>
+      <div class="outcome-desc">Un buen diseño permite la integración de nuevos dispositivos y herramientas a medida que la organización lo requiera.</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-label">Resultado</div>
+      <div class="outcome-title">Mayor seguridad</div>
+      <div class="outcome-desc">Segmentación de redes, firewalls, políticas de acceso y controles definidos desde el diseño.</div>
+    </div>
+  </div>
+
+  <h2 class="article-h2">¿Cómo se piensa una red?</h2>
+
+  <div class="article-body">
+    <p>Primero hay que tener en cuenta el tipo de datos que opera, el tipo de usuarios, los dispositivos que utiliza y cuáles son sus objetivos. Una vez definidos estos ítems, el arquitecto de redes puede pensar el diseño, la segmentación y la clasificación de red más adecuada y segura según el caso. Posteriormente implementará acciones de seguridad.</p>
+  </div>
+
+  <div class="pullquote">
+    <p>Una red no se improvisa. Cada cable, cada política, cada protocolo responde a una decisión pensada por alguien que conoce el negocio tanto como la tecnología. La próxima vez que tu conexión funcione sin que te des cuenta — acordate de que alguien la diseñó para que fuera así.</p>
+  </div>
+
+  <div class="share-block">
+    <span class="share-label">Compartir</span>
+    <button class="share-btn" onclick="compartir()">Compartir esta nota →</button>
+  </div>
+
+  <div class="author-block">
+    <div class="author-initial">P</div>
+    <div>
+      <div class="author-name">Pamela Gatto</div>
+      <div class="author-role">IT Project Coordinator · Networking & Infrastructure · AT&T</div>
+    </div>
+  </div>
+
+  <a href="notas.html" class="back-notes">← Ver todas las notas</a>
+
+</article>
+
+<footer>
+  <span class="footer-name">Pamela Gatto</span>
+  <span class="footer-note">IT Project Coordinator · Networking & Infrastructure · 2026</span>
+</footer>
+
+<script>
+function compartir() {
+  if (navigator.share) {
+    navigator.share({
+      title: '¿Quién piensa las redes que hacen funcionar el mundo?',
+      text: 'Detrás de cada red que funciona sin que te des cuenta hay alguien que la diseñó para que fuera así.',
+      url: window.location.href
+    });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('¡Link copiado al portapapeles!');
+  }
+}
+</script>
+
+</body>
+</html>
